@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="CanvasView">
+        <attr name="strokeColor" format="color|reference" />
+        <attr name="pointColor" format="reference|color" />
+        <attr name="instructionMode" format="boolean" />
+        <attr name="anchorDrawable" format="reference" />
+    </declare-styleable>
+</resources>

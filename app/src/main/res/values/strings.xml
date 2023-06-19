@@ -1,0 +1,37 @@
+<resources>
+    <string name="app_name">Menulis Aksara Jawa</string>
+    <string name="aksara_jawa">
+        <p>Aksara Jawa merupakan salah satu aksara tradisional Nusantara yang berkembang di pulau Jawa. Bentuk modern dari Aksara Jawa yang kini dikenal sudah muncul berangsur-angsur dari Aksara Kaawi setidaknya dari 16M(Aditya Bayu Perdana, 2020).</p><br/>
+        <p>Sejarah dari Aksara Jawa yaitu berawal dari seorang laki-laki bernama Prabu Aji Saka yang saat ini dikenal luas sebagai pencipta Aksara Jawa. Aksara Jawa ini dibuat dengan tujuan untuk mengenang 2 abdi setianya, yaitu Abdi Sembada dan Abdi Dora(Feny Andiani,2018).</p>
+    </string>
+    <string name="aksara_angka">
+        <p>Aksara Angka adalah sebuah aksara yang digunakan untuk kebutuhan penulisan angka.</p>
+    </string>
+    <string name="aksara_carakan">
+        <p>Aksara Carakan adalah aksara asli yang belum diberi sandangan. Jumlah dari Aksara Carakan adalah 20 aksara.</p>
+    </string>
+    <string name="aksara_pasangan">
+        <p>Aksara Pasangan digunakan untuk merangkai Aksara Carakan menjadi aksara mati.</p>
+    </string>
+    <string name="aksara_swara">
+        <p>Aksara Swara bertujuan untuk menciptakan huruf vokal untuk memudahkan orang membaca buku yang ditulis dari kata serapan dalam bahasa asing.</p>
+    </string>
+    <string name="menu_materi">
+        <p>Menu Materi adalah menu yang di dalamnya terdapat materi-materi mengenai pengertian dan sejarah Aksara Jawa, pengertian dan contoh dari Aksara Carakan, Aksara Pasangan, Aksara Swara dan Aksara Angka.</p>
+    </string>
+    <string name="menu_belajar">
+        <p>Menu Belajar adalah menu yang di dalamnya terdapat daftar Aksara Jawa, kemudian dapat digunakan untuk belajar menulis Aksara Jawa dengan mengikuti panduan dari gambar animasi yang ditampilkan.</p>
+    </string>
+    <string name="menu_latihan">
+        <p>Menu Latihan adalah menu yang dapat digunakan untuk melakukan latihan menulis Aksara Jawa dan menghasilkan nilai yang dapat dilihat di Menu Nilai.</p>
+    </string>
+    <string name="menu_nilai">
+        <p>Menu Nilai adalah menu yang dapat digunakan untuk melihat nilai setelah mengerjakan latihan menulis Aksara Jawa.</p>
+    </string>
+    <string name="menu_info">
+        <p>Pada Menu Bantuan terdapat penjelasan singkat mengenai fungsi dari masing-masing menu yang ada pada halaman utama. Pada Menu Info terdapat informasi tentang Aplikasi Belajar Menulis Aksara Jawa.</p>
+    </string>
+    <string name="info_app">
+        <p>Aplikasi Belajar Menulis Aksara Jawa ini dibuat untuk siswa/siswi dapat mengetahui tata cara penulisan Aksara Jawa yang merupakan salah satu kebudayaan dari Indonesia. Aplikasi ini berisi mengenai materi dari Aksara Jawa.</p>
+    </string>
+</resources>
