@@ -283,6 +283,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     }
 
     private void CheckDraw() {
+//        prediction = gLibrary.recognize(gesture);
         AlertDialog.Builder ab = new AlertDialog.Builder(this);
         ab.setCancelable(false);
 //        if (type == "dakuon" || type == "handakuon" || type == "yoon") {

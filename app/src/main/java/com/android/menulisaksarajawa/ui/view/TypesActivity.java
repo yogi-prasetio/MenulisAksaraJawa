@@ -1,13 +1,11 @@
 package com.android.menulisaksarajawa.ui.view;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
-import com.android.menulisaksarajawa.R;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.menulisaksarajawa.databinding.ActivityTypesBinding;
 
 public class TypesActivity extends AppCompatActivity {
@@ -20,8 +18,6 @@ public class TypesActivity extends AppCompatActivity {
         setContentView(view);
 
         String type = getIntent().getStringExtra("type");
-
-//        Toast.makeText(getBaseContext(), type, Toast.LENGTH_SHORT).show();
         binding.btnAngka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

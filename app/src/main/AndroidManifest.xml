@@ -19,7 +19,7 @@
         <activity
             android:name=".ui.view.PracticeActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.menulisaksarajawa.ui.view.CharacterListActivity" />
@@ -27,10 +27,7 @@
         <activity
             android:name=".ui.view.LearnActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.menulisaksarajawa.ui.view.CharacterListActivity" />
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
         </activity>
         <activity
             android:name=".ui.view.ScoreActivity"
@@ -43,7 +40,7 @@
         <activity
             android:name=".ui.view.CharacterListActivity"
             android:exported="false"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.menulisaksarajawa.ui.view.TypesActivity" />
@@ -89,7 +86,7 @@
         <activity
             android:name=".ui.SplashActivity"
             android:exported="true"
-            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

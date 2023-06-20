@@ -2,8 +2,10 @@ package com.android.menulisaksarajawa.ui.view;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
@@ -56,15 +58,14 @@ public class LearnActivity extends AppCompatActivity {
         } else if(index == listSize){
             binding.btnNext.setVisibility(View.GONE);
         }
-
-
         setSupportActionBar(binding.mainToolbar);
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
 
         canvas = binding.letter;
         canvas.setLetterChar(romaji);
-        canvas.setPointColor(R.color.gray);
+        canvas.setPointColor(Color.RED);
         canvas.setTracingListener(new CanvasView.TracingListener() {
             @Override
             public void onFinish() {
@@ -111,6 +112,17 @@ public class LearnActivity extends AppCompatActivity {
                 overridePendingTransition(500, 500);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(LearnActivity.this, CharacterListActivity.class);
+            intent.putExtra("type", "learn");
+            intent.putExtra("jenis", type);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void setType(){

@@ -27,7 +27,6 @@ import com.android.menulisaksarajawa.ui.model.pip.PointInPolygon;
 import com.android.menulisaksarajawa.ui.utils.LetterFactory;
 import com.android.menulisaksarajawa.ui.utils.LetterStrokeBean;
 import com.android.menulisaksarajawa.ui.utils.LogUtils;
-import com.android.menulisaksarajawa.ui.utils.ScreenUtils;
 import com.google.gson.Gson;
 
 import java.io.IOException;
@@ -110,12 +109,12 @@ public class CanvasView extends View {
         this.processingPaint.setStyle(Paint.Style.STROKE);
         this.processingPaint.setStrokeCap(Paint.Cap.ROUND);
         this.processingPaint.setStrokeJoin(Paint.Join.ROUND);
-        this.processingPaint.setPathEffect(new CornerPathEffect(ScreenUtils.getInstance().dpToPx(getContext(), 60.0f)));
+        this.processingPaint.setPathEffect(new CornerPathEffect( 60.0f));
         this.processingPaint.setColor(typedArray.getColor(R.styleable.CanvasView_strokeColor, Color.parseColor("#000000")));
 
         //dim error
         this.validArea = 30.0f;
-        this.toleranceArea = 20.0f;
+        this.toleranceArea = 50.0f;
         this.processingPaint.setStrokeWidth(50f);
         Drawable drawable = typedArray.getDrawable(R.styleable.CanvasView_anchorDrawable);
         if (drawable != null) {
@@ -420,15 +419,12 @@ public class CanvasView extends View {
     /* Access modifiers changed, original: protected */
     public void onDetachedFromWindow() {
         super.onDetachedFromWindow();
-        Bitmap bitmap = this.traceBitmap;
-        bitmap = this.anchorBitmap;
-        if (bitmap != null) {
-            bitmap.recycle();
+        if (this.anchorBitmap != null && this.anchorBitmap.isRecycled()) {
+            this.anchorBitmap.recycle();
             this.anchorBitmap = null;
         }
-        bitmap = letterBitmap;
-        if (bitmap != null) {
-            bitmap.recycle();
+        if (this.letterBitmap != null && this.letterBitmap.isRecycled()) {
+            this.letterBitmap.recycle();
             this.letterBitmap = null;
         }
     }

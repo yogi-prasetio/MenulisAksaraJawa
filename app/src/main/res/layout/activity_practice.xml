@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:background="@color/orange"
         app:titleTextColor="@color/white"
+        app:theme="@style/ThemeOverlay.AppCompat"
         app:layout_constraintVertical_bias="0" />
 
     <androidx.cardview.widget.CardView

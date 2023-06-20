@@ -2,11 +2,13 @@ package com.android.menulisaksarajawa.ui.view;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityCharacterListBinding;
 import com.android.menulisaksarajawa.ui.model.Aksara;
 import com.android.menulisaksarajawa.ui.model.Characters;
@@ -30,12 +32,10 @@ public class CharacterListActivity extends AppCompatActivity {
 
         type = getIntent().getStringExtra("type");
         jenis = getIntent().getStringExtra("jenis");
-//        Toast.makeText(getBaseContext(), type, Toast.LENGTH_SHORT).show();
-//        Toast.makeText(getBaseContext(), jenis, Toast.LENGTH_SHORT).show();
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-//        getSupportActionBar().setHomeAsUpIndicator(Color.WHITE);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         if(type.equals("learn")) {
             binding.toolbar.setTitle("Belajar Menulis Aksara Jawa");
             binding.toolbar.setNavigationOnClickListener(new View.OnClickListener(){
@@ -55,6 +55,16 @@ public class CharacterListActivity extends AppCompatActivity {
         }
         setView();
         setRecycleView();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(CharacterListActivity.this, TypesActivity.class);
+            intent.putExtra("type", type);
+            finish();
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void setView() {
