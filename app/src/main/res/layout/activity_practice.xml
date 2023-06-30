@@ -6,7 +6,7 @@
     android:background="@color/gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ui.view.PracticeActivity">
+    tools:context=".ui.view.siswa.PracticeActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
@@ -112,7 +112,7 @@
             android:layout_height="match_parent"
             android:gestureColor="@color/purple_500"
             android:uncertainGestureColor="@color/purple_500"
-            android:fadeOffset="1000"
+            android:fadeOffset="2500"
             android:gestureStrokeType="multiple"
             android:layout_centerInParent="true">
 

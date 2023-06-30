@@ -1,10 +1,12 @@
-package com.android.menulisaksarajawa.ui.view;
+package com.android.menulisaksarajawa.ui.view.siswa;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
@@ -20,13 +22,14 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class LearnActivity extends AppCompatActivity {
     private ActivityLearnBinding binding;
     CanvasView canvas;
     ArrayList<Characters> listAksara = new ArrayList();
     private String romaji, type;
-    private Integer aksara, image, audio, index = 1;
+    private Integer aksara, image, audio, index = 0;
 
     @SuppressLint("ResourceAsColor")
     @Override
@@ -49,8 +52,8 @@ public class LearnActivity extends AppCompatActivity {
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.myanimation);
 
-        index = listAksara.indexOf(new Characters(aksara, romaji, image, audio));
-        Toast.makeText(getApplicationContext(), aksara.longValue() + " " + romaji + " " + image + " " +audio, Toast.LENGTH_SHORT).show();
+//        index = listAksara.indexOf(new Characters(aksara, romaji, image, audio));
+//        Toast.makeText(getApplicationContext(), index.toString(), Toast.LENGTH_SHORT).show();
         int listSize = listAksara.size()-1;
 
         if(index == 0){
@@ -81,8 +84,8 @@ public class LearnActivity extends AppCompatActivity {
         binding.btnBefore.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                index = index-1;
-                Characters data = listAksara.get(index);
+                int idx = index-1;
+                Characters data = listAksara.get(idx);
                 finish();
                 overridePendingTransition(500, 500);
                 Intent intent = new Intent(LearnActivity.this, LearnActivity.class);
@@ -98,8 +101,8 @@ public class LearnActivity extends AppCompatActivity {
         binding.btnNext.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                index = index+1;
-                Characters data = listAksara.get(index);
+                int idx = index+1;
+                Characters data = listAksara.get(idx);
                 finish();
                 overridePendingTransition(500, 500);
                 Intent intent = new Intent(LearnActivity.this, LearnActivity.class);
@@ -115,26 +118,49 @@ public class LearnActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.write_menu, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             Intent intent = new Intent(LearnActivity.this, CharacterListActivity.class);
-            intent.putExtra("type", "learn");
             intent.putExtra("jenis", type);
-            finish();
+            startActivity(intent);
+        } else if (item.getItemId() == R.id.btn_audio) {
+            Toast.makeText(this, "Audio played!", Toast.LENGTH_SHORT).show();
         }
         return super.onOptionsItemSelected(item);
     }
 
     public void setType(){
         Aksara aksara = new Aksara();
-        if(type.equals("angka")){
-            listAksara.addAll(aksara.getAksaraAngka());
-        } else if(type.equals("carakan")){
-            listAksara.addAll(aksara.getAksarCarakan());
-        } else if(type.equals("pasangan")){
-            listAksara.addAll(aksara.getAksarPasangan());
-        } else if(type.equals("swara")){
-            listAksara.addAll(aksara.getAksarSwara());
+        switch (type) {
+            case "angka":
+                listAksara.addAll(aksara.getAksaraAngka());
+                String[] angka = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                index = Arrays.asList(angka).indexOf(romaji);
+                break;
+            case "carakan":
+                listAksara.addAll(aksara.getAksarCarakan());
+                String[] carakan = {"ha","na","ca","ra","ka","da","ta","sa","wa","la",
+                        "pa","dha","ja","ya","nya","ma","ga","ba","tha","nga"};
+                index = Arrays.asList(carakan).indexOf(romaji);
+                break;
+            case "pasangan":
+                listAksara.addAll(aksara.getAksarPasangan());
+                String[] pasangan = {"h","n","c","r","k","d","t","s","w","l",
+                        "p","dh","j","y","ny","m","g","b","th","ng"};
+                index = Arrays.asList(pasangan).indexOf(romaji);
+                break;
+            case "swara":
+                listAksara.addAll(aksara.getAksarSwara());
+                String[] swara = {"a", "i", "u", "e", "o"};
+                index = Arrays.asList(swara).indexOf(romaji);
+                break;
         }
     }
 }

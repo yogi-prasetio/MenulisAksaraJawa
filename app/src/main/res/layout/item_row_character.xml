@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <ImageView
-            android:id="@+id/iv_charJapan"
+            android:id="@+id/iv_aksara"
             android:layout_width="72dp"
             android:layout_height="54dp"
             android:layout_centerHorizontal="true"
@@ -28,10 +28,19 @@
             android:id="@+id/tv_charRomaji"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/iv_charJapan"
+            android:layout_below="@id/iv_aksara"
             android:layout_centerHorizontal="true"
             android:hint="a"
             android:textSize="14sp"/>
+        <ImageView
+            android:id="@+id/iv_status"
+            android:layout_width="9dp"
+            android:layout_height="9dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="4dp"
+            android:layout_below="@id/iv_aksara"
+            android:src="@drawable/ic_pointer"
+            android:layout_alignParentEnd="true"/>
     </RelativeLayout>
 
 </androidx.cardview.widget.CardView>

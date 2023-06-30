@@ -1,13 +1,16 @@
-package com.android.menulisaksarajawa.ui.view;
+package com.android.menulisaksarajawa.ui.view.siswa;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.gesture.Gesture;
+import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
 import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -22,18 +25,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityPracticeBinding;
+import com.android.menulisaksarajawa.ui.database.Config;
+import com.android.menulisaksarajawa.ui.database.JSONParser;
 import com.android.menulisaksarajawa.ui.model.Aksara;
 import com.android.menulisaksarajawa.ui.model.Characters;
 import com.android.menulisaksarajawa.ui.model.Users;
 import com.android.menulisaksarajawa.ui.model.pip.PointInPolygon;
 import com.android.menulisaksarajawa.ui.utils.LetterFactory;
 import com.android.menulisaksarajawa.ui.utils.LetterStrokeBean;
+import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class PracticeActivity extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
@@ -50,24 +61,27 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     private GestureLibrary gLibrary;
     private GestureOverlayView gesture;
 
-    private String romaji, type, userId;
-    private int aksara, image, audio, index = 1;
+    private String romaji, type, userId, indikator;
+    private int aksara, image, audio, index = 1, listSize = 0;
     private  MenuItem indicatorMenu;
+    private  Menu menu;
 
+    PrefManager prefManager;
+    JSONParser jsonParser=new JSONParser();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPracticeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        prefManager = new PrefManager(this);
         binding.imgLetter.setImageBitmap(letterBitmap);
         type = getIntent().getStringExtra("type");
+
         aksara = getIntent().getIntExtra("aksara", 0);
         romaji = getIntent().getStringExtra("romaji");
         image = getIntent().getIntExtra("image", 0);
         audio = getIntent().getIntExtra("audio", 0);
-//        userId = getUserDetail();
-
 
         InputStream assets = null;
         try {
@@ -80,28 +94,42 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         binding.tvCharInfo.setText(romaji);
 
         setType();
-        index = listAksara.indexOf(new Characters(image, romaji, image, audio));
-        Integer listSize = listAksara.size()-1;
-        result = new ArrayList();
+        getNilai();
 
+        listSize = listAksara.size()-1;
+        result = new ArrayList<>();
+
+        binding.btnNext.setVisibility(View.GONE);
         if (index == 0) {
             binding.btnBefore.setVisibility(View.GONE);
         } else if (index == listSize) {
             binding.btnNext.setVisibility(View.GONE);
         }
+//        else if(idx.equals(indikator.charAt(0))) {
+//            binding.btnNext.setVisibility(View.GONE);
+//        }
+
         setSupportActionBar(binding.mainToolbar);
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        setLetterChar(romaji);
 
         gesture = binding.gestureOverlay;
         gesture.addOnGestureListener(this);
-        onGesturePerformed(gesture.getGesture());
+        gesture.addOnGesturePerformedListener(new GestureOverlayView.OnGesturePerformedListener() {
+
+            @Override
+            public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
+                PracticeActivity.this.onGesturePerformed(overlay, gesture);
+            }
+        });
 
 //        gesture.addOnGestureListener( { gesture ->
 //                this.onGesturePerformed(gesture)
 //        });
 
-//        gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_rya);
+        gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
         gLibrary.load();
 
         binding.btnBefore.setOnClickListener( new View.OnClickListener() {
@@ -123,7 +151,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         binding.btnNext.setOnClickListener (new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Characters data = listAksara.get(index - 1);
+                Characters data = listAksara.get(index + 1);
                 finish();
                 overridePendingTransition(500, 500);
                 Intent intent = new Intent(PracticeActivity.this, PracticeActivity.class);
@@ -137,40 +165,40 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             }
         });
     }
-//
-//    @Override
-//    public void onStart() {
-//        super.onStart()
-//        database!!.orderByChild("id").equalTo(userId).addValueEventListener(object : ValueEventListener {
-//            override fun onDataChange(dataSnapshot: DataSnapshot) {
-//                /**
-//                 * Saat ada data baru, masukkan datanya ke ArrayList
-//                 */
-//                userData = ArrayList()
-//                for (noteDataSnapshot in dataSnapshot.children) {
-//                    val user: Users? = noteDataSnapshot.getValue(Users::class.java)
-//                    userData!!.add(user!!)
-//                }
-//                if (userData!!.isEmpty()) {
-//                    Toast.makeText(this@TestActivity, "Data is Empty!", Toast.LENGTH_LONG).show()
-//                }
-//            }
-//
-//            override fun onCancelled(databaseError: DatabaseError) {
-//                println(databaseError.details + " " + databaseError.message)
-//            }
-//        })
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
+//        indikator =
+//        MenuItem item = menu.findItem(R.id.indikator_nilai);
+//        item.setTitle(indikator);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.test_menu, menu);
+        this.menu = menu;
+        this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
         return true;
     }
 
-    private void onGesturePerformed(Gesture gesture) {
+//    @Override
+//    public boolean onPrepareOptionsMenu(Menu menu){
+//        super.onPrepareOptionsMenu(menu);
+//        indicatorMenu = menu.findItem(R.id.indikator_nilai);
+////        menu.findItem(R.id.indikator_nilai).setTitle(indikator);
+//        return true;
+//    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(PracticeActivity.this, CharacterListActivity.class);
+            intent.putExtra("jenis", type);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    public void onGesturePerformed(GestureOverlayView overlay, Gesture gesture) {
         prediction = gLibrary.recognize(gesture);
+        CheckDraw();
     }
 
     @Override
@@ -216,7 +244,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 break;
         }
     }
-
     @Override
     public void onGestureEnded(GestureOverlayView p0, MotionEvent event) {
 
@@ -283,10 +310,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     }
 
     private void CheckDraw() {
-//        prediction = gLibrary.recognize(gesture);
         AlertDialog.Builder ab = new AlertDialog.Builder(this);
         ab.setCancelable(false);
-//        if (type == "dakuon" || type == "handakuon" || type == "yoon") {
+
         if (prediction.size() < 1 || prediction.get(0).score <= 3.0) {
             ab.setTitle("Salah");
             ab.setMessage("huruf yang Anda tulis tidak tepat.");
@@ -384,27 +410,99 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 //        }
     }
 
-    private void setType(){
+
+    public void setType(){
         Aksara aksara = new Aksara();
-//        switch(type){
-//            case "angka" :
-//                listAksara.addAll(aksara.getAksaraAngka());
-//                break;
-//            case "carakan" :
-//                listAksara.addAll(aksara.getAksarCarakan());
-//                break;
-//            case "pasangan" :
-//                listAksara.addAll(aksara.getAksarPasangan());
-//                break;
-//            case "swara" :
-//                listAksara.addAll(aksara.getAksarSwara());
-//                break;
-//        }
+        switch (type) {
+            case "angka":
+                listAksara.addAll(aksara.getAksaraAngka());
+                String[] angka = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                index = Arrays.asList(angka).indexOf(romaji);
+                break;
+            case "carakan":
+                listAksara.addAll(aksara.getAksarCarakan());
+                String[] carakan = {"ha","na","ca","ra","ka","da","ta","sa","wa","la",
+                        "pa","dha","ja","ya","nya","ma","ga","ba","tha","nga"};
+                index = Arrays.asList(carakan).indexOf(romaji);
+                break;
+            case "pasangan":
+                listAksara.addAll(aksara.getAksarPasangan());
+                String[] pasangan = {"h","n","c","r","k","d","t","s","w","l",
+                        "p","dh","j","y","ny","m","g","b","th","ng"};
+                index = Arrays.asList(pasangan).indexOf(romaji);
+                break;
+            case "swara":
+                listAksara.addAll(aksara.getAksarSwara());
+                String[] swara = {"a", "i", "u", "e", "o"};
+                index = Arrays.asList(swara).indexOf(romaji);
+                break;
+        }
     }
 
-    private String getUserDetail() {
-//        val mSharedPreferences = getSharedPreferences("CheckUser", MODE_PRIVATE)
-//        return mSharedPreferences.getString("user", "")
-        return null;
+    private void getNilai() {
+
+        class GetNilai extends AsyncTask<Void, Void, JSONObject> {
+
+            ProgressDialog loading;
+            String nilai;
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+//                loading = ProgressDialog.show(PrakticeActivity.this, "Fetching...", "Wait...", false, false);
+            }
+
+            @Override
+            protected void onPostExecute(JSONObject result) {
+                super.onPostExecute(result);
+                try {
+                    if (result.getInt("status") == 1) {
+                        JSONArray data = result.getJSONArray("data");
+                        switch (type) {
+                            case "angka":
+                                nilai = data.getJSONObject(0).getString("nilai").concat("/10");
+                                break;
+                            case "carakan":
+                                nilai = data.getJSONObject(1).getString("nilai").concat("/20");
+                                break;
+                            case "pasangan":
+                                nilai = data.getJSONObject(2).getString("nilai").concat("/20");
+                                break;
+                            case "swara":
+                                nilai = data.getJSONObject(3).getString("nilai").concat("/5");
+                                break;
+                        }
+                        indicatorMenu = menu.findItem(R.id.indikator_nilai);
+                        indicatorMenu.setTitle(nilai);
+                        indikator = this.nilai;
+                        int idx = index + 1;
+                        String nil = String.valueOf(nilai.charAt(0));
+                        Log.e("INDEXES", nil+" = "+idx);
+                        if(Integer.valueOf(nil) < idx) {
+                            Log.e("INDEX", nil+" = "+idx);
+                            binding.btnNext.setVisibility(View.GONE);
+                        } else {
+                            binding.btnNext.setVisibility(View.VISIBLE);
+                        }
+                    } else {
+                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            protected JSONObject doInBackground(Void... v) {
+                ArrayList params = new ArrayList();
+                params.add(prefManager.getSPId());
+
+                JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "GET", params);
+                return json;
+            }
+        }
+
+        GetNilai na = new GetNilai();
+        na.execute();
     }
+
 }

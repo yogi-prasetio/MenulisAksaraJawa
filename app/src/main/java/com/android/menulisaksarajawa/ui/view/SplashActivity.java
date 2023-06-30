@@ -1,13 +1,12 @@
-package com.android.menulisaksarajawa.ui;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.android.menulisaksarajawa.ui.view;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.menulisaksarajawa.R;
-import com.android.menulisaksarajawa.ui.view.MainActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -19,7 +18,7 @@ public class SplashActivity extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent home = new Intent(SplashActivity.this, MainActivity.class);
+                Intent home = new Intent(SplashActivity.this, LoginActivity.class);
                 startActivity(home);
                 finish();
             }

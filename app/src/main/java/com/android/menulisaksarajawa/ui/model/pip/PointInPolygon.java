@@ -5,51 +5,52 @@ import java.util.List;
 public class PointInPolygon {
     private Point point;
     private boolean pointOnVertex = true;
+    private String[] coordinates;
     private List<String> polygon;
     public Float x;
     public Float y;
 
     public PointInPolygon(float x, float y, List<String> path) {
-        this.x = Float.valueOf(x);
-        this.y = Float.valueOf(y);
+        this.x = x;
+        this.y = y;
         this.point = new Point(x, y);
         this.polygon = path;
     }
 
     private Point pointStringToCoordinates(String point) {
-        String[] coordinates = point.split(",");
+        coordinates = point.split(",");
 //        if (point.length() != 1) {
 //            return new Point(-1.0f, -1.0f);
 //        }
         return new Point(Float.parseFloat(coordinates[0]), Float.parseFloat(coordinates[1]));
     }
-
-    private boolean pointOnVertex(Point point, Point[] vertices) {
-        int i = 0;
-        while (i < vertices.length) {
-            if (point.x == vertices[i].x && point.y == vertices[i].y) {
-                return true;
-            }
-            i++;
-        }
-        return false;
-    }
+//
+//    private boolean pointOnVertex(Point point, Point[] vertices) {
+//        int i = 0;
+//        while (i < vertices.length) {
+//            if (point.x == vertices[i].x && point.y == vertices[i].y) {
+//                return true;
+//            }
+//            i++;
+//        }
+//        return false;
+//    }
 
     public String pointInPolygon() {
-        return pointInPolygon(this.polygon);
+        return pointInPolygon(polygon);
     }
+
+//    public String pointInPolygon(List<String> polygon) {
+//        return pointInPolygon(polygon, true);
+//    }
 
     public String pointInPolygon(List<String> polygon) {
-        return pointInPolygon(polygon, true);
-    }
-
-    public String pointInPolygon(List<String> polygon, boolean pointOnVertex) {
         int intersection = 0;
 //        this.pointOnVertex = pointOnVertex;
         Point[] vertices = new Point[polygon.size()];
         for (int i = 0; i < polygon.size(); i++) {
             vertices[i] = pointStringToCoordinates((String) polygon.get(i));
-            if (this.pointOnVertex && pointOnVertex(this.point, vertices)) {
+            if (point.x == vertices[i].x && point.y == vertices[i].y) {
                 return "Vertex";
             }
         }

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.guru.NilaiDetailActivity">
+
+    <RelativeLayout
+        android:id="@+id/header"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Sephirotul"
+            android:layout_margin="8dp"
+            android:text="Nama Siswa"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_angka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"            
+            android:layout_toStartOf="@+id/tv_carakan"
+            android:layout_margin="8dp"
+            android:layout_centerVertical="true"
+            android:text="Angka"
+            android:textStyle="bold"
+            android:textSize="8sp"/>
+
+        <TextView
+            android:id="@+id/tv_carakan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/tv_pasangan"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:text="Carakan"
+            android:textStyle="bold"
+            android:textSize="8sp"/>
+
+        <TextView
+            android:id="@+id/tv_pasangan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/tv_swara"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:text="Pasangan"
+            android:textStyle="bold"
+            android:textSize="8sp"/>
+
+        <TextView
+            android:id="@+id/tv_swara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toStartOf="@+id/tv_total"
+            android:layout_centerVertical="true"
+            android:layout_margin="8dp"
+            android:text="Swara"
+            android:textStyle="bold"
+            android:textSize="8sp"/>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="8dp"
+            android:text="Total Nilai"
+            android:textStyle="bold"
+            android:textSize="14sp"/>        
+    </RelativeLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rv_aksara"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:listitem="@layout/item_row_nilai"
+        app:layout_constraintTop_toBottomOf="@+id/header"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

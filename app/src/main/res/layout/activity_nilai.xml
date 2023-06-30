@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.guru.NilaiActivity">
+
+    <Button
+        android:id="@+id/btn_kelas_a"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/white"
+        android:text="Nilai Kelas VIII A"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <Button
+        android:id="@+id/btn_kelas_b"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/white"
+        android:text="Nilai Kelas VIII B"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kelas_a"/>
+
+    <Button
+        android:id="@+id/btn_kelas_c"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/white"
+        android:text="Nilai Kelas VIII C"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kelas_b"/>
+
+    <Button
+        android:id="@+id/btn_kelas_d"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/white"
+        android:text="Nilai Kelas VIII D"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kelas_c"/>
+
+    <Button
+        android:id="@+id/btn_kelas_e"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/white"
+        android:text="Nilai Kelas VIII E"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kelas_d"/>
+
+    <Button
+        android:id="@+id/btn_kelas_f"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:padding="8dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/white"
+        android:text="Nilai Kelas VIII F"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_kelas_e"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

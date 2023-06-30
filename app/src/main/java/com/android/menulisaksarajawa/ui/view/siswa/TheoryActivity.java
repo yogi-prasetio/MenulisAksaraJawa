@@ -1,4 +1,4 @@
-package com.android.menulisaksarajawa.ui.view;
+package com.android.menulisaksarajawa.ui.view.siswa;
 
 import androidx.appcompat.app.AppCompatActivity;
 

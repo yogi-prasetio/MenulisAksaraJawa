@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/indikator_nilai"
-        android:title="2/20"
+        android:title="0/0"
         app:showAsAction="ifRoom"
         android:orderInCategory="1"
         tools:ignore="MenuTitle" />

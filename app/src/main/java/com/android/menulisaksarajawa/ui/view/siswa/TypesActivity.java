@@ -1,4 +1,4 @@
-package com.android.menulisaksarajawa.ui.view;
+package com.android.menulisaksarajawa.ui.view.siswa;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +10,7 @@ import com.android.menulisaksarajawa.databinding.ActivityTypesBinding;
 
 public class TypesActivity extends AppCompatActivity {
     private ActivityTypesBinding binding;
+    private String type;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -17,12 +18,11 @@ public class TypesActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        String type = getIntent().getStringExtra("type");
+
         binding.btnAngka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("type", type);
                 move.putExtra("jenis", "angka");
                 startActivity(move);
             }
@@ -32,7 +32,6 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("type", type);
                 move.putExtra("jenis", "carakan");
                 startActivity(move);
             }
@@ -42,7 +41,6 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("type", type);
                 move.putExtra("jenis", "pasangan");
                 startActivity(move);
             }
@@ -52,7 +50,6 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("type", type);
                 move.putExtra("jenis", "swara");
                 startActivity(move);
             }

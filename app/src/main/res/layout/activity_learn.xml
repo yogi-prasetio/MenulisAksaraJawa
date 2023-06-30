@@ -6,7 +6,7 @@
     android:background="@color/gray"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.LearnActivity">
+    tools:context=".ui.view.siswa.LearnActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/main_toolbar"
@@ -20,26 +20,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
 
-    <androidx.cardview.widget.CardView
-        android:id="@+id/info"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_below="@id/main_toolbar"
-        app:cardBackgroundColor="@color/white"
-        app:cardCornerRadius="8dp"
-        app:cardElevation="8dp"
-        app:cardMaxElevation="8dp"
-        app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@id/main_toolbar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="8dp"
-            android:layout_below="@id/main_toolbar">
 
             <TextView
                 android:id="@+id/tv_text"
@@ -47,7 +27,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textSize="16sp"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/main_toolbar"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"/>
 
@@ -97,24 +77,21 @@
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/myanimation"
                 android:hint="A"/>
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_margin="8dp"
-        app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="8dp"
         app:cardElevation="8dp"
         app:cardMaxElevation="8dp"
         app:cardUseCompatPadding="true"
-        app:layout_constraintTop_toBottomOf="@id/info"
+        app:layout_constraintTop_toBottomOf="@id/tv_charInfo"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <com.android.menulisaksarajawa.ui.view.CanvasView
+        <com.android.menulisaksarajawa.ui.view.siswa.CanvasView
             android:id="@+id/letter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

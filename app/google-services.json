@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "837750309991",
+    "project_id": "menulis-aksara-jawa",
+    "storage_bucket": "menulis-aksara-jawa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:837750309991:android:3882a01f4390bd7fa2c0c2",
+        "android_client_info": {
+          "package_name": "com.android.menulisaksarajawa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "837750309991-vfrh6phc63pomles5gmo9p9j23l2l99f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAIPh-kUGm7YMGgreEOag4lNnNd6gvXDi0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "837750309991-vfrh6phc63pomles5gmo9p9j23l2l99f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

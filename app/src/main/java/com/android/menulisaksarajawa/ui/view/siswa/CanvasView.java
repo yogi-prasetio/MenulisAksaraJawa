@@ -1,4 +1,4 @@
-package com.android.menulisaksarajawa.ui.view;
+package com.android.menulisaksarajawa.ui.view.siswa;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -182,7 +182,7 @@ public class CanvasView extends View {
 //            this.processingPaint.setStrokeWidth(((float) this.viewHeight) / 9.0f);
             this.viewRect = new RectF();
             this.viewRect.set(0.0f, 0.0f, (float) this.viewWidth, (float) this.viewHeight);
-            this.anchorScale = ((float) this.viewHeight) / (((float) this.anchorBitmap.getHeight()) * 17f);
+            this.anchorScale = ((float) this.viewHeight) / (((float) this.anchorBitmap.getHeight()) * 12f);
             LetterStrokeBean letterStrokeBean = this.strokeBean;
             if (letterStrokeBean != null) {
                 String[] pointArray = ((String) ((LetterStrokeBean.Strokes) letterStrokeBean.strokes.get(0)).points.get(0)).split(",");
