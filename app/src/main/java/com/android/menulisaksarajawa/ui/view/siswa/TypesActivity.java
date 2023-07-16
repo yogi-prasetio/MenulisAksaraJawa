@@ -6,6 +6,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityTypesBinding;
 
 public class TypesActivity extends AppCompatActivity {
@@ -18,7 +19,9 @@ public class TypesActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         binding.btnAngka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

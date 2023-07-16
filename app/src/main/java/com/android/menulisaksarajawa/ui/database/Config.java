@@ -7,6 +7,7 @@ public class Config {
 
     public static final String URL_GET_NILAI_USER="https://undanganforyou.my.id/aksarajawa/nilai/user/";
     public static final String URL_GET_NILAI="https://undanganforyou.my.id/aksarajawa/nilai/index.php?kelas=";
+    public static final String URL_UPDATE_NILAI="https://undanganforyou.my.id/aksarajawa/nilai/update";
     public static final String URL_GET_AKSARA="https://undanganforyou.my.id/aksarajawa/aksara/";
 
 //    public static final String URL_GET_ALL = "http:// 192.168.0.196/Android/pegawai/tampilSemuaPgw.php";

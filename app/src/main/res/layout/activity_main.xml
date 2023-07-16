@@ -5,6 +5,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightorange"
     tools:context=".ui.view.siswa.MainActivity">
 
     <RelativeLayout
@@ -37,46 +38,41 @@
         android:gravity="center"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <Button
+        <ImageButton
             android:id="@+id/btn_materi"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_margin="8dp"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_materi"
+            android:scaleType="centerInside"
             android:padding="8dp"
-            android:background="@drawable/rounded_button"
-            android:textColor="@color/white"
-            android:text="Materi" />
+            android:background="?android:attr/selectableItemBackground" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_belajar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_belajar"
+            android:scaleType="centerInside"
             android:padding="8dp"
-            android:background="@drawable/rounded_button"
-            android:textColor="@color/white"
-            android:text="Belajar"/>
+            android:background="?android:attr/selectableItemBackground" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_latihan"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_latihan"
+            android:scaleType="centerInside"
             android:padding="8dp"
-            android:background="@drawable/rounded_button"
-            android:textColor="@color/white"
-            android:text="Latihan"/>
+            android:background="?android:attr/selectableItemBackground" />
 
-        <Button
+        <ImageButton
             android:id="@+id/btn_nilai"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_nilai"
+            android:scaleType="centerInside"
             android:padding="8dp"
-            android:background="@drawable/rounded_button"
-            android:textColor="@color/white"
-            android:text="Nilai"/>
+            android:background="?android:attr/selectableItemBackground" />
     </LinearLayout>
 
 </LinearLayout>

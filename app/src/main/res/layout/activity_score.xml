@@ -8,13 +8,30 @@
     android:layout_height="match_parent"
     tools:context=".ui.view.siswa.ScoreActivity">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        app:title="Daftar Nilai"
+        app:theme="@style/Theme.MaterialComponents.Light"
+        app:titleTextColor="@color/white" />
+
+    <ImageView
+        android:id="@+id/bg_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:scaleType="fitXY"
+        android:rotationY="180"
+        android:src="@drawable/bg_toolbar"/>
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/lightorange"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:cardMaxElevation="4dp"
@@ -43,8 +60,10 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="8/10"
-                android:textSize="24sp"
+                android:hint="0/20"
+                android:textSize="16sp"
+                android:textColor="@color/orange"
+                android:padding="8dp"
                 android:textStyle="bold"
                 android:layout_alignParentEnd="true"
                 android:textAlignment="textEnd"/>
@@ -57,7 +76,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/lightorange"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:cardMaxElevation="4dp"
@@ -86,9 +105,11 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="8/10"
-                android:textSize="24sp"
+                android:hint="0/20"
+                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/orange"
+                android:padding="8dp"
                 android:layout_alignParentEnd="true"
                 android:textAlignment="textEnd"/>
         </RelativeLayout>
@@ -100,7 +121,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/lightorange"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:cardMaxElevation="4dp"
@@ -129,9 +150,11 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="8/10"
-                android:textSize="24sp"
+                android:hint="0/5"
+                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/orange"
+                android:padding="8dp"
                 android:layout_alignParentEnd="true"
                 android:textAlignment="textEnd"/>
         </RelativeLayout>
@@ -143,7 +166,7 @@
         android:layout_marginTop="4dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
-        app:cardBackgroundColor="@color/white"
+        app:cardBackgroundColor="@color/lightorange"
         app:cardCornerRadius="16dp"
         app:cardElevation="4dp"
         app:cardMaxElevation="4dp"
@@ -172,9 +195,11 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:hint="8/10"
-                android:textSize="24sp"
+                android:hint="0/10"
+                android:textSize="16sp"
                 android:textStyle="bold"
+                android:textColor="@color/orange"
+                android:padding="8dp"
                 android:layout_alignParentEnd="true"
                 android:textAlignment="textEnd"/>
         </RelativeLayout>

@@ -8,6 +8,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityScoreBinding;
 import com.android.menulisaksarajawa.ui.database.Config;
 import com.android.menulisaksarajawa.ui.database.JSONParser;
@@ -32,6 +33,11 @@ public class ScoreActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityScoreBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+
         prefManager = new PrefManager(this);
         getNilai();
     }
@@ -44,7 +50,7 @@ public class ScoreActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(ScoreActivity.this,"Fetching...","Wait...",false,false);
+                loading = ProgressDialog.show(ScoreActivity.this,"Loading...","Tunggu sebentar...",false,false);
             }
 
             @Override

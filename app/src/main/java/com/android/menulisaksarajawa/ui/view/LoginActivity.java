@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.menulisaksarajawa.databinding.ActivityLoginBinding;
 import com.android.menulisaksarajawa.ui.database.Config;
 import com.android.menulisaksarajawa.ui.database.JSONParser;
-import com.android.menulisaksarajawa.ui.database.RequestHandler;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.android.menulisaksarajawa.ui.view.guru.NilaiActivity;
 import com.android.menulisaksarajawa.ui.view.siswa.MainActivity;
@@ -99,14 +98,10 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             protected JSONObject doInBackground(Void... v) {
-//                HashMap<String,String> params = new HashMap<>();
-//                params.put(Config.KEY_USERNAME,username);
-//                params.put(Config.KEY_PASSWORD,password);
                 ArrayList params = new ArrayList();
                 params.add(new BasicNameValuePair("username", username));
                 params.add(new BasicNameValuePair("password", password));
 
-                RequestHandler rh = new RequestHandler();
                 JSONObject json = jsonParser.makeHttpRequest(Config.URL_LOGIN, "POST", params);
                 return json;
             }

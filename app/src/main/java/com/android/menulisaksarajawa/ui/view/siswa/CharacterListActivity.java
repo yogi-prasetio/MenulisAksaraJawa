@@ -1,13 +1,22 @@
 package com.android.menulisaksarajawa.ui.view.siswa;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,6 +30,8 @@ import com.android.menulisaksarajawa.ui.model.Aksara;
 import com.android.menulisaksarajawa.ui.model.Characters;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.android.menulisaksarajawa.ui.view.adapter.ListAksaraAdapter;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,45 +44,41 @@ public class CharacterListActivity extends AppCompatActivity {
     private ActivityCharacterListBinding binding;
     private ListAksaraAdapter adapter;
     private ArrayList<Characters> list = new ArrayList();
-    private String type, jenis;
+    private String type, jenis, types;
     private String[] angka, carakan, pasangan, swara;
     private int index=0;
     PrefManager prefManager;
     JSONParser jsonParser=new JSONParser();
     private int[] nilai = new int[1];
 
+    private Dialog mDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCharacterListBinding.inflate(getLayoutInflater());
         View view = binding.getRoot();
         setContentView(view);
+
         prefManager = new PrefManager(this);
+        mDialog = new Dialog(this);
 
         SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("WriteTypes", Context.MODE_PRIVATE);
         type = sharedPref.getString("write", "");
         jenis = getIntent().getStringExtra("jenis");
+        types = getIntent().getStringExtra("type");
+
+        if(type.equals("learn")) {
+            binding.toolbar.setTitle("Belajar Menulis Aksara Jawa");
+        } else if(type.equals("test")) {
+            binding.toolbar.setTitle("Latihan Menulis Aksara Jawa");
+        } else {
+            binding.toolbar.setTitle("Daftar Aksara "+jenis.toUpperCase());
+        }
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
-        if(type.equals("learn")) {
-            binding.toolbar.setTitle("Belajar Menulis Aksara Jawa");
-            binding.toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(CharacterListActivity.this, TypesActivity.class));
-                }
-            });
-        } else if(type.equals("test")) {
-            binding.toolbar.setTitle("Latihan Menulis Aksara Jawa");
-            binding.toolbar.setNavigationOnClickListener(new View.OnClickListener(){
-                @Override
-                public void onClick(View v) {
-                    startActivity(new Intent(CharacterListActivity.this, TypesActivity.class));
-                }
-            });
-        }
+
         setRecycleView();
     }
 
@@ -79,8 +86,11 @@ public class CharacterListActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             list.clear();
-            Intent move = new Intent(CharacterListActivity.this, TypesActivity.class);
-            startActivity(move);
+            if (type.equals("learn") || type.equals("test")) {
+                startActivity(new Intent(CharacterListActivity.this, TypesActivity.class));
+            } else {
+                startActivity(new Intent(CharacterListActivity.this, TheoryActivity.class));
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -91,7 +101,7 @@ public class CharacterListActivity extends AppCompatActivity {
             case "angka":
                 binding.rvAksara.setLayoutManager(new GridLayoutManager(this, 5));
                 list.addAll(aksara.getAksaraAngka());
-                angka = new String[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                angka = new String[]{"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
                 break;
             case "carakan":
                 binding.rvAksara.setLayoutManager(new GridLayoutManager(this, 5));
@@ -115,14 +125,14 @@ public class CharacterListActivity extends AppCompatActivity {
     }
 
     private void setRecycleView(){
-        if(type.equals("learn")){
-            setView();
-        } else {
+        if(type.equals("test")){
             class GetNilai extends AsyncTask<Void, Void, JSONObject> {
 
+                ProgressBar loading;
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
+                    binding.progressBar.setVisibility(View.VISIBLE);
                 }
 
                 @Override
@@ -151,6 +161,7 @@ public class CharacterListActivity extends AppCompatActivity {
                         } else {
                             Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                         }
+                        binding.progressBar.setVisibility(View.GONE);
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
@@ -168,6 +179,8 @@ public class CharacterListActivity extends AppCompatActivity {
 
             GetNilai na = new GetNilai();
             na.execute();
+        } else {
+            setView();
         }
 
         adapter = new ListAksaraAdapter(list);
@@ -192,7 +205,6 @@ public class CharacterListActivity extends AppCompatActivity {
                 }
                 Log.e("INDEX", String.valueOf(index));
 
-//                Toast.makeText(CharacterListActivity.this, index, Toast.LENGTH_SHORT).show();
                 if(type.equals("learn")){
                     Intent move = new Intent(CharacterListActivity.this, LearnActivity.class);
                     move.putExtra("image", data.getImage());
@@ -215,6 +227,30 @@ public class CharacterListActivity extends AppCompatActivity {
                         move.putExtra("type", jenis);
                         startActivity(move);
                     }
+                } else {
+//                    MediaPlayer audio = MediaPlayer.create(CharacterListActivity.this, data.getAudio());
+
+                    mDialog.setContentView(R.layout.char_detail_dialog);
+                    mDialog.setCancelable(false);
+                    ImageView img = mDialog.findViewById(R.id.imgChar_detail);
+                    TextView aksara = mDialog.findViewById(R.id.aksara);
+                    aksara.setText(data.getRomaji());
+                    Glide.with(getApplicationContext())
+                            .load(data.getImage())
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                            .into(img);
+                    mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                    mDialog.show();
+
+                    ImageButton btnClose = mDialog.findViewById(R.id.btn_close);
+                    ImageButton btnAudio = mDialog.findViewById(R.id.btn_audio);
+                    btnClose.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            mDialog.dismiss();
+                        }
+                    });
+//                    btnAudio.setOnClickListener { audio.start() };
                 }
             }
         });

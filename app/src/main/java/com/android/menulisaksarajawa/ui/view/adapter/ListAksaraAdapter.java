@@ -49,10 +49,10 @@ public class ListAksaraAdapter extends RecyclerView.Adapter<ListAksaraAdapter.Li
         } else {
             holder.binding.ivStatus.setColorFilter(Color.argb(100, 8, 200, 16));
         }
-        if(type.equals("learn")){
-            holder.binding.ivStatus.setVisibility(View.GONE);
-        } else {
+        if(type.equals("test")){
             holder.binding.ivStatus.setVisibility(View.VISIBLE);
+        } else {
+            holder.binding.ivStatus.setVisibility(View.GONE);
         }
 
         holder.itemView.setOnClickListener(v -> onItemClickCallback.onItemClicked(listAksara.get(holder.getAdapterPosition())));

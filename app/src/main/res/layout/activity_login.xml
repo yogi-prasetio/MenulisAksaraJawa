@@ -2,17 +2,21 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/gradient_light"
+    android:background="@drawable/bg_login_trans"
+    android:gravity="bottom"
     tools:context=".ui.view.LoginActivity">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="bottom"
         android:padding="16dp"
-        android:layout_margin="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="42dp"
+        app:cardBackgroundColor="@color/lightorange"
         app:cardCornerRadius="16dp"
         app:cardElevation="16dp"
         app:cardMaxElevation="16dp"
@@ -68,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_below="@id/btn_login"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="16dp">
                 <TextView
                     android:id="@+id/tv_info_login"
                     android:layout_width="wrap_content"

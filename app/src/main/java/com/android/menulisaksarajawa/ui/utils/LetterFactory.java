@@ -12,6 +12,7 @@ public class LetterFactory {
     public String getLetterAssets() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("letters/");
+//        stringBuilder.append("background.png");
         stringBuilder.append(this.letter);
         stringBuilder.append(".png");
         return stringBuilder.toString();

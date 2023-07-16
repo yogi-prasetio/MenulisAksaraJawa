@@ -47,6 +47,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+
 public class PracticeActivity extends AppCompatActivity implements GestureOverlayView.OnGestureListener {
     private ActivityPracticeBinding binding;
     private ArrayList<Users> userData;
@@ -75,12 +77,12 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         setContentView(binding.getRoot());
 
         prefManager = new PrefManager(this);
-        binding.imgLetter.setImageBitmap(letterBitmap);
+//        binding.imgLetter.setImageBitmap(letterBitmap);
         type = getIntent().getStringExtra("type");
 
         aksara = getIntent().getIntExtra("aksara", 0);
         romaji = getIntent().getStringExtra("romaji");
-        image = getIntent().getIntExtra("image", 0);
+//        image = getIntent().getIntExtra("image", 0);
         audio = getIntent().getIntExtra("audio", 0);
 
         InputStream assets = null;
@@ -105,14 +107,10 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         } else if (index == listSize) {
             binding.btnNext.setVisibility(View.GONE);
         }
-//        else if(idx.equals(indikator.charAt(0))) {
-//            binding.btnNext.setVisibility(View.GONE);
-//        }
 
-        setSupportActionBar(binding.mainToolbar);
+        getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         setLetterChar(romaji);
 
         gesture = binding.gestureOverlay;
@@ -125,12 +123,8 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             }
         });
 
-//        gesture.addOnGestureListener( { gesture ->
-//                this.onGesturePerformed(gesture)
-//        });
-
-        gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures);
-        gLibrary.load();
+//        gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
+//        gLibrary.load();
 
         binding.btnBefore.setOnClickListener( new View.OnClickListener() {
             @Override
@@ -141,7 +135,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 Intent intent = new Intent(PracticeActivity.this, PracticeActivity.class);
                 intent.putExtra("aksara", data.getAksara());
                 intent.putExtra("romaji", data.getRomaji());
-                intent.putExtra("image", data.getImage());
+//                intent.putExtra("image", data.getImage());
                 intent.putExtra("audio", data.getAudio());
                 intent.putExtra("type", type);
                 startActivity(intent);
@@ -157,7 +151,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 Intent intent = new Intent(PracticeActivity.this, PracticeActivity.class);
                 intent.putExtra("aksara", data.getAksara());
                 intent.putExtra("romaji", data.getRomaji());
-                intent.putExtra("image", data.getImage());
+//                intent.putExtra("image", data.getImage());
                 intent.putExtra("audio", data.getAudio());
                 intent.putExtra("type", type);
                 startActivity(intent);
@@ -168,23 +162,12 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-//        indikator =
-//        MenuItem item = menu.findItem(R.id.indikator_nilai);
-//        item.setTitle(indikator);
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.test_menu, menu);
         this.menu = menu;
         this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
         return true;
     }
-
-//    @Override
-//    public boolean onPrepareOptionsMenu(Menu menu){
-//        super.onPrepareOptionsMenu(menu);
-//        indicatorMenu = menu.findItem(R.id.indikator_nilai);
-////        menu.findItem(R.id.indikator_nilai).setTitle(indikator);
-//        return true;
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -268,7 +251,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         InputStream stream = null;
         try {
             letterBitmap = getBitmapByAssetName(letterAssets);
-            binding.imgLetter.setImageBitmap(letterBitmap);
+//            binding.imgLetter.setImageBitmap(letterBitmap);
             stream = getAssets().open(strokeAssets);
             Gson gson = new Gson();
             strokeBean = gson.fromJson(new InputStreamReader(stream), LetterStrokeBean.class);
@@ -324,16 +307,48 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             ab.setPositiveButton("OK", null);
             ab.show();
 
-            if (userData == null){
-                Toast.makeText(this, "Data Gagal diperbarui! Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
-            } else {
-                //update data
-//                val dbUser: DatabaseReference = database!!.child(userId)
-//                val score: Int = userData!![0].score!! + 1
-//                val rows: Users = Users(userData!![0].id, userData!![0].nama, userData!![0].kelas, score)
-//                dbUser.setValue(rows)
+            //update nilai
+            class GetNilai extends AsyncTask<Void, Void, JSONObject> {
+
+                ProgressDialog loading;
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    binding.progressBar.setVisibility(View.VISIBLE);
+                    binding.canvas.setVisibility(View.GONE);
+//                loading = ProgressDialog.show(PrakticeActivity.this, "Fetching...", "Wait...", false, false);
+                }
+
+                @Override
+                protected void onPostExecute(JSONObject result) {
+                    super.onPostExecute(result);
+                    try {
+                        if (result.getInt("status") == 1) {
+                            Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                            binding.btnNext.setVisibility(View.VISIBLE);
+                            binding.progressBar.setVisibility(View.GONE);
+                            binding.canvas.setVisibility(View.VISIBLE);
+                        } else {
+                            Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                protected JSONObject doInBackground(Void... v) {
+                    ArrayList params = new ArrayList();
+                    params.add(new BasicNameValuePair("id_user", prefManager.getSPId()));
+                    params.add(new BasicNameValuePair("aksara", romaji));
+
+                    JSONObject json = jsonParser.makeHttpRequest(Config.URL_UPDATE_NILAI, "POST", params);
+                    return json;
+                }
             }
-//            menuCheck.isEnabled = false
+
+            GetNilai na = new GetNilai();
+            na.execute();
         } else {
             ab.setTitle("Salah");
             ab.setMessage("aksara yang Anda tulis tidak tepat");
@@ -416,25 +431,33 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         switch (type) {
             case "angka":
                 listAksara.addAll(aksara.getAksaraAngka());
-                String[] angka = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                String[] angka = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
                 index = Arrays.asList(angka).indexOf(romaji);
+                gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
+                gLibrary.load();
                 break;
             case "carakan":
                 listAksara.addAll(aksara.getAksarCarakan());
                 String[] carakan = {"ha","na","ca","ra","ka","da","ta","sa","wa","la",
                         "pa","dha","ja","ya","nya","ma","ga","ba","tha","nga"};
                 index = Arrays.asList(carakan).indexOf(romaji);
+                gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_carakan);
+                gLibrary.load();
                 break;
             case "pasangan":
                 listAksara.addAll(aksara.getAksarPasangan());
                 String[] pasangan = {"h","n","c","r","k","d","t","s","w","l",
                         "p","dh","j","y","ny","m","g","b","th","ng"};
                 index = Arrays.asList(pasangan).indexOf(romaji);
+                gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_pasangan);
+                gLibrary.load();
                 break;
             case "swara":
                 listAksara.addAll(aksara.getAksarSwara());
                 String[] swara = {"a", "i", "u", "e", "o"};
                 index = Arrays.asList(swara).indexOf(romaji);
+                gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_swara);
+                gLibrary.load();
                 break;
         }
     }
@@ -448,7 +471,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-//                loading = ProgressDialog.show(PrakticeActivity.this, "Fetching...", "Wait...", false, false);
+                binding.progressBar.setVisibility(View.VISIBLE);
+                binding.canvas.setVisibility(View.GONE);
+//                loading = ProgressDialog.show(PracticeActivity.this,"Loading...","Tunggu sebentar...",false,false);
             }
 
             @Override
@@ -483,6 +508,8 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         } else {
                             binding.btnNext.setVisibility(View.VISIBLE);
                         }
+                        binding.progressBar.setVisibility(View.GONE);
+                        binding.canvas.setVisibility(View.VISIBLE);
                     } else {
                         Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                     }
@@ -504,5 +531,4 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         GetNilai na = new GetNilai();
         na.execute();
     }
-
 }

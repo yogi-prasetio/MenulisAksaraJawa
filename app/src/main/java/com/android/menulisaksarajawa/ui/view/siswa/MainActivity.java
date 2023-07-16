@@ -9,7 +9,6 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.menulisaksarajawa.databinding.ActivityMainBinding;
-import com.android.menulisaksarajawa.ui.view.LoginActivity;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.android.menulisaksarajawa.ui.view.GuideActivity;
 
@@ -77,10 +76,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
     private void loginCheck(){
-        if(!prefManager.loginStatus()){
-            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-        }
+//        if(!prefManager.loginStatus()){
+//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+//        }
     }
 }

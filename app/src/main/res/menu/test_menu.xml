@@ -6,6 +6,7 @@
         android:id="@+id/indikator_nilai"
         android:title="0/0"
         app:showAsAction="ifRoom"
+        android:iconTint="@color/white"
         android:orderInCategory="1"
         tools:ignore="MenuTitle" />
 </menu>

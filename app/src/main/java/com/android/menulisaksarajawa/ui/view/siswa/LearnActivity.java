@@ -48,12 +48,10 @@ public class LearnActivity extends AppCompatActivity {
 
         binding.tvCharInfo.setText(romaji.toUpperCase());
         Glide.with(LearnActivity.this)
-                .load(aksara)
+                .load(image)
                 .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                 .into(binding.myanimation);
 
-//        index = listAksara.indexOf(new Characters(aksara, romaji, image, audio));
-//        Toast.makeText(getApplicationContext(), index.toString(), Toast.LENGTH_SHORT).show();
         int listSize = listAksara.size()-1;
 
         if(index == 0){
@@ -61,7 +59,8 @@ public class LearnActivity extends AppCompatActivity {
         } else if(index == listSize){
             binding.btnNext.setVisibility(View.GONE);
         }
-        setSupportActionBar(binding.mainToolbar);
+
+        getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
@@ -72,7 +71,7 @@ public class LearnActivity extends AppCompatActivity {
         canvas.setTracingListener(new CanvasView.TracingListener() {
             @Override
             public void onFinish() {
-                Toast.makeText(LearnActivity.this, "Selesai!", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LearnActivity.this, "Finished!", Toast.LENGTH_SHORT).show();
             }
 
             @Override
@@ -141,7 +140,7 @@ public class LearnActivity extends AppCompatActivity {
         switch (type) {
             case "angka":
                 listAksara.addAll(aksara.getAksaraAngka());
-                String[] angka = {"1", "2", "3", "4", "5", "6", "7", "8", "9", "0"};
+                String[] angka = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
                 index = Arrays.asList(angka).indexOf(romaji);
                 break;
             case "carakan":

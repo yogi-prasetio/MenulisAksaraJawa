@@ -9,6 +9,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 
+import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityNilaiDetailBinding;
 import com.android.menulisaksarajawa.ui.database.Config;
 import com.android.menulisaksarajawa.ui.database.JSONParser;
@@ -34,7 +35,12 @@ public class NilaiDetailActivity extends AppCompatActivity {
         binding = ActivityNilaiDetailBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         kelas = getIntent().getStringExtra("kelas");
+        String title = getIntent().getStringExtra("title");
 
+        getSupportActionBar().setTitle("Nilai Kelas "+ title);
+        getSupportActionBar().setElevation(0F);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         class GetNilai extends AsyncTask<Void,Void, JSONObject> {
 
             ProgressDialog loading;
@@ -42,7 +48,7 @@ public class NilaiDetailActivity extends AppCompatActivity {
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();
-                loading = ProgressDialog.show(NilaiDetailActivity.this,"Fetching...","Wait...",false,false);
+                loading = ProgressDialog.show(NilaiDetailActivity.this,"Loading...","Tunggu sebentar...",false,false);
             }
 
             @Override

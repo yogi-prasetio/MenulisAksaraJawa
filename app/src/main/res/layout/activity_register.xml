@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/gradient_light"
-    android:gravity="center"
+    android:background="@drawable/bg_register_trans"
     tools:context=".ui.view.RegisterActivity">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:layout_margin="16dp"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginTop="54dp"
+        app:cardBackgroundColor="@color/lightorange"
         app:cardCornerRadius="16dp"
         app:cardElevation="16dp"
         app:cardMaxElevation="16dp"
@@ -33,6 +36,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/orange"
                 android:hint="Nama Lengkap"/>
 
             <EditText
@@ -42,6 +46,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/orange"
                 android:hint="Kelas"/>
 
             <EditText
@@ -51,6 +56,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
+                android:backgroundTint="@color/orange"
                 android:hint="Username"/>
 
             <EditText
@@ -61,7 +67,8 @@
                 android:layout_marginEnd="24dp"
                 android:layout_marginBottom="8dp"
                 android:inputType="textPassword"
-                android:hint="********"/>
+                android:backgroundTint="@color/orange"
+                android:hint="Password"/>
 
             <Button
                 android:id="@+id/btn_register"
@@ -79,7 +86,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:layout_below="@id/btn_register"
-                android:layout_marginTop="8dp">
+                android:layout_marginTop="16dp">
                 <TextView
                     android:id="@+id/tv_info_login"
                     android:layout_width="wrap_content"
@@ -101,4 +108,11 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-</LinearLayout>
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        android:src="@drawable/bg_oval"
+        android:baselineAlignBottom="true"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

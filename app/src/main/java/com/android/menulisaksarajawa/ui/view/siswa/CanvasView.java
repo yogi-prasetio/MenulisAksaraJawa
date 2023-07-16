@@ -97,8 +97,15 @@ public class CanvasView extends View {
 
         this.pointPaint = new Paint();
         this.pointPaint.setAntiAlias(true);
-        this.pointPaint.setStrokeWidth(15.0f);
-        this.pointPaint.setColor(typedArray.getColor(R.styleable.CanvasView_pointColor, Color.RED));
+
+        Float pointWidth = Float.valueOf(typedArray.getString(R.styleable.CanvasView_pointWidth));
+        if (pointWidth != null){
+            this.pointPaint.setStrokeWidth(pointWidth);
+        } else {
+            this.pointPaint.setStrokeWidth(15.0f);
+        }
+
+//        this.pointPaint.setColor(typedArray.getColor(R.styleable.CanvasView_pointColor, Color.RED));
         this.pointPaint.setStyle(Paint.Style.STROKE);
         this.pointPaint.setStrokeCap(Paint.Cap.ROUND);
         this.pointPaint.setStrokeJoin(Paint.Join.ROUND);
@@ -115,7 +122,13 @@ public class CanvasView extends View {
         //dim error
         this.validArea = 30.0f;
         this.toleranceArea = 50.0f;
-        this.processingPaint.setStrokeWidth(50f);
+
+        Float strokeWidth = typedArray.getFloat(R.styleable.CanvasView_paintWidth, 0);
+        if (strokeWidth != null){
+            this.processingPaint.setStrokeWidth(strokeWidth);
+        } else {
+            this.processingPaint.setStrokeWidth(50f);
+        }
         Drawable drawable = typedArray.getDrawable(R.styleable.CanvasView_anchorDrawable);
         if (drawable != null) {
             this.anchorBitmap = ((BitmapDrawable) drawable).getBitmap();
@@ -232,6 +245,19 @@ public class CanvasView extends View {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
 
+//    public void setStrokeWidth(@ColorInt int strokeColor) {
+//        Paint paint = processingPaint;
+//        if (paint != null) {
+//            paint.setColor(strokeColor);
+//        }
+//    }
+//
+//    public void setPointWidth(@ColorInt int strokeColor) {
+//        Paint paint = processingPaint;
+//        if (paint != null) {
+//            paint.setColor(strokeColor);
+//        }
+//    }
     public void setStrokeColor(@ColorInt int strokeColor) {
         Paint paint = processingPaint;
         if (paint != null) {

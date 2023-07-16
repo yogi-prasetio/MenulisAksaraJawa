@@ -5,7 +5,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_margin="4dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="@color/lightorange"
     app:cardCornerRadius="4dp"
     app:cardElevation="4dp"
     app:cardMaxElevation="4dp"
@@ -31,7 +31,9 @@
             android:layout_below="@id/iv_aksara"
             android:layout_centerHorizontal="true"
             android:hint="a"
-            android:textSize="14sp"/>
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="@color/orange"/>
         <ImageView
             android:id="@+id/iv_status"
             android:layout_width="9dp"
