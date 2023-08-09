@@ -1,7 +1,9 @@
 package com.android.menulisaksarajawa.ui.view;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -41,7 +43,12 @@ public class LoginActivity extends AppCompatActivity {
         binding.btnLogin.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                validation();
+
+                if (!checkNetwork()){
+                    Toast.makeText(LoginActivity.this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
+                } else {
+                    validation();
+                }
             }
         });
         binding.tvRegister.setOnClickListener(new View.OnClickListener(){
@@ -68,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 super.onPostExecute(result);
                 try {
                     if (result.getInt("status") == 1) {
-                        Toast.makeText(getApplicationContext(),result.getString("message"),Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "Login berhasil!",Toast.LENGTH_LONG).show();
                         JSONArray data = result.getJSONArray("data");
                         JSONObject user = data.getJSONObject(0);
                         String id = user.getString("id_user");
@@ -132,5 +139,10 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(new Intent(LoginActivity.this, NilaiActivity.class));
             }
         }
+    }
+
+    private boolean checkNetwork() {
+        ConnectivityManager network = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return network.getActiveNetworkInfo() != null;
     }
 }

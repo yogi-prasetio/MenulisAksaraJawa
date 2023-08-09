@@ -2,6 +2,8 @@ package com.android.menulisaksarajawa.ui.view.siswa;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.Toast;
@@ -43,209 +45,58 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     private void getNilai(){
-        class GetNilai extends AsyncTask<Void,Void, JSONObject> {
+        if (!checkNetwork()){
+            Toast.makeText(this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
+        } else {
+            class GetNilai extends AsyncTask<Void, Void, JSONObject> {
+                ProgressDialog loading;
 
-            ProgressDialog loading;
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    loading = ProgressDialog.show(ScoreActivity.this, "Loading...", "Tunggu sebentar...", false, false);
+                }
 
-            @Override
-            protected void onPreExecute() {
-                super.onPreExecute();
-                loading = ProgressDialog.show(ScoreActivity.this,"Loading...","Tunggu sebentar...",false,false);
-            }
+                @Override
+                protected void onPostExecute(JSONObject result) {
+                    super.onPostExecute(result);
+                    try {
+                        if (result.getInt("status") == 1) {
+                            JSONArray data = result.getJSONArray("data");
+                            angka = data.getJSONObject(0).getString("nilai");
+                            carakan = data.getJSONObject(1).getString("nilai");
+                            pasangan = data.getJSONObject(2).getString("nilai");
+                            swara = data.getJSONObject(3).getString("nilai");
 
-            @Override
-            protected void onPostExecute(JSONObject result) {
-                super.onPostExecute(result);
-                try {
-                    if (result.getInt("status") == 1) {
-                        JSONArray data = result.getJSONArray("data");
-                        angka = data.getJSONObject(0).getString("nilai");
-                        carakan = data.getJSONObject(1).getString("nilai");
-                        pasangan = data.getJSONObject(2).getString("nilai");
-                        swara = data.getJSONObject(3).getString("nilai");
-
-                        binding.tvScoreAngka.setText(angka+"/10");
-                        binding.tvScoreCarakan.setText(carakan+"/20");
-                        binding.tvScorePasangan.setText(pasangan+"/20");
-                        binding.tvScoreSwara.setText(swara+"/5");
-                    } else {
-                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                            binding.tvScoreAngka.setText(angka + "/10");
+                            binding.tvScoreCarakan.setText(carakan + "/20");
+                            binding.tvScorePasangan.setText(pasangan + "/20");
+                            binding.tvScoreSwara.setText(swara + "/5");
+                        } else {
+                            Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+                        loading.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
                     }
-                    loading.dismiss();
-                } catch (JSONException e) {
-                    e.printStackTrace();
+                }
+
+                @Override
+                protected JSONObject doInBackground(Void... v) {
+                    ArrayList params = new ArrayList();
+                    params.add(prefManager.getSPId());
+
+                    JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "GET", params);
+                    return json;
                 }
             }
 
-            @Override
-            protected JSONObject doInBackground(Void... v) {
-                ArrayList params = new ArrayList();
-                params.add(prefManager.getSPId());
-//                params.add(new BasicNameValuePair("id_jenis", "CAR"));
-
-                JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "GET", params);
-                return json;
-            }
+            GetNilai na = new GetNilai();
+            na.execute();
         }
-
-        GetNilai na = new GetNilai();
-        na.execute();
-
-//        class GetNilaiCarakan extends AsyncTask<Void,Void, JSONObject> {
-//
-//            ProgressDialog loading;
-//
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//                loading = ProgressDialog.show(ScoreActivity.this,"Fetching...","Wait...",false,false);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(JSONObject result) {
-//                super.onPostExecute(result);
-//                try {
-//                    if (result.getInt("status") == 1) {
-//                        carakan = result.getString("data");
-//                        binding.tvScoreCarakan.setText(carakan+"/20");
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
-//                    }
-//                    loading.dismiss();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            protected JSONObject doInBackground(Void... v) {
-//                ArrayList params = new ArrayList();
-//                params.add(new BasicNameValuePair("id_user", prefManager.getSPId()));
-//                params.add(new BasicNameValuePair("id_jenis", "CAR"));
-//
-//                JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "POST", params);
-//                return json;
-//            }
-//        }
-//
-//        class GetNilaiPasangan extends AsyncTask<Void,Void, JSONObject> {
-//
-//            ProgressDialog loading;
-//
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//                loading = ProgressDialog.show(ScoreActivity.this,"Fetching...","Wait...",false,false);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(JSONObject result) {
-//                super.onPostExecute(result);
-//                try {
-//                    if (result.getInt("status") == 1) {
-//                        pasangan = result.getString("data");
-//                        binding.tvScorePasangan.setText(pasangan+"/20");
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
-//                    }
-//                    loading.dismiss();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            protected JSONObject doInBackground(Void... v) {
-//                ArrayList params = new ArrayList();
-//                params.add(new BasicNameValuePair("id_user", prefManager.getSPId()));
-//                params.add(new BasicNameValuePair("id_jenis", "PAS"));
-//
-//                JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "POST", params);
-//                return json;
-//            }
-//        }
-//
-//        class GetNilaiSwara extends AsyncTask<Void,Void, JSONObject> {
-//
-//            ProgressDialog loading;
-//
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//                loading = ProgressDialog.show(ScoreActivity.this,"Fetching...","Wait...",false,false);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(JSONObject result) {
-//                super.onPostExecute(result);
-//                try {
-//                    if (result.getInt("status") == 1) {
-//                        swara = result.getString("data");
-//                        binding.tvScoreSwara.setText(swara+"/5");
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
-//                    }
-//                    loading.dismiss();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            protected JSONObject doInBackground(Void... v) {
-//                ArrayList params = new ArrayList();
-//                params.add(new BasicNameValuePair("id_user", prefManager.getSPId()));
-//                params.add(new BasicNameValuePair("id_jenis", "SWA"));
-//
-//                JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "POST", params);
-//                return json;
-//            }
-//        }
-//
-//        class GetNilaiAngka extends AsyncTask<Void,Void, JSONObject> {
-//
-//            ProgressDialog loading;
-//
-//            @Override
-//            protected void onPreExecute() {
-//                super.onPreExecute();
-//                loading = ProgressDialog.show(ScoreActivity.this,"Fetching...","Wait...",false,false);
-//            }
-//
-//            @Override
-//            protected void onPostExecute(JSONObject result) {
-//                super.onPostExecute(result);
-//                try {
-//                    if (result.getInt("status") == 1) {
-//                        angka = result.getString("data");
-//                        binding.tvScoreAngka.setText(angka+"/10");
-//                    } else {
-//                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
-//                    }
-//                    loading.dismiss();
-//                } catch (JSONException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            @Override
-//            protected JSONObject doInBackground(Void... v) {
-//                ArrayList params = new ArrayList();
-//                params.add(new BasicNameValuePair("id_user", prefManager.getSPId()));
-//                params.add(new BasicNameValuePair("id_jenis", "ANG"));
-//
-//                JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "POST", params);
-//                return json;
-//            }
-//        }
-//
-//        GetNilaiCarakan nc = new GetNilaiCarakan();
-//        nc.execute();
-//        GetNilaiPasangan np = new GetNilaiPasangan();
-//        np.execute();
-//        GetNilaiSwara ns = new GetNilaiSwara();
-//        ns.execute();
-//        GetNilaiAngka na = new GetNilaiAngka();
-//        na.execute();
+    }
+    private boolean checkNetwork() {
+        ConnectivityManager network = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        return network.getActiveNetworkInfo() != null;
     }
 }

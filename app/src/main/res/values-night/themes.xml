@@ -2,34 +2,41 @@
     <!-- Base application theme. -->
     <style name="Theme.MenulisAksaraJawa" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryVariant">@color/orange</item>
-        <item name="colorOnPrimary">@color/orange</item>
-        <item name="colorPrimaryDark">@color/orange</item>
+        <item name="colorPrimary">@color/mega_mendung</item>
+        <item name="colorPrimaryVariant">@color/mega_mendung</item>
+        <item name="colorOnPrimary">@color/mega_mendung</item>
+        <item name="colorPrimaryDark">@color/mega_mendung</item>
         <item name="android:textColorPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/orange</item>
+        <item name="colorOnSecondary">@color/mega_mendung</item>
         <!-- Status bar color. -->
-        <item name="colorOnBackground">@color/orange</item>
+        <item name="colorOnBackground">@color/mega_mendung</item>
         <item name="toolbarStyle">@style/ToolBarStyle</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/orange</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/mega_mendung</item>
         <!-- Customize your theme here. -->
     </style>
 
     <style name="Theme.MenulisAksaraJawa.NoActionBar" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/orange</item>
-        <item name="colorPrimaryVariant">@color/orange</item>
-        <item name="colorOnBackground">@color/orange</item>
-        <item name="colorPrimaryDark">@color/orange</item>
-        <item name="colorOnSecondary">@color/orange</item>
-        <item name="colorOnPrimary">@color/orange</item>
-        <item name="android:statusBarColor" tools:targetApi="l">@color/orange</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+        <item name="colorPrimary">@color/mega_mendung</item>
+        <item name="colorPrimaryVariant">@color/mega_mendung</item>
+        <item name="colorOnBackground">@color/mega_mendung</item>
+        <item name="colorPrimaryDark">@color/mega_mendung</item>
+        <item name="colorOnSecondary">@color/mega_mendung</item>
+        <item name="colorOnPrimary">@color/mega_mendung</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@color/mega_mendung</item>
         <item name="toolbarStyle">@style/ToolBarStyle</item>
     </style>
 
     <style name="ToolBarStyle" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">@color/orange</item>
+        <item name="android:background">@color/mega_mendung</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+    <!-- Base application theme. -->
+    <style name="Base.Theme.MenulisAksaraJawa" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
     </style>
 </resources>

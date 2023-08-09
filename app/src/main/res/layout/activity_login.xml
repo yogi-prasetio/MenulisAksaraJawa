@@ -4,19 +4,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/bg_login_trans"
-    android:gravity="bottom"
+    android:background="@drawable/bg_login"
+    android:gravity="center"
     tools:context=".ui.view.LoginActivity">
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Selamat Datang!"
+        android:textAlignment="center"
+        android:textStyle="bold"
+        android:textSize="42sp"/>
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="bottom"
+        android:layout_below="@id/title"
         android:padding="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginBottom="42dp"
-        app:cardBackgroundColor="@color/lightorange"
+        app:cardBackgroundColor="@color/lightmega"
         app:cardCornerRadius="16dp"
         app:cardElevation="16dp"
         app:cardMaxElevation="16dp"
@@ -32,7 +40,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Username"
-                android:backgroundTint="@color/orange"
+                android:backgroundTint="@color/mega_mendung"
                 android:importantForAutofill="no"
                 android:layout_marginTop="16dp"
                 android:layout_marginStart="24dp"
@@ -48,7 +56,7 @@
                 android:layout_marginStart="24dp"
                 android:layout_marginEnd="24dp"
                 android:importantForAutofill="no"
-                android:backgroundTint="@color/orange"
+                android:backgroundTint="@color/mega_mendung"
                 android:hint="Password"
                 android:inputType="textPassword"/>
 

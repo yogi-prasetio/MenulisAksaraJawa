@@ -264,7 +264,6 @@ public class CanvasView extends View {
             paint.setColor(strokeColor);
         }
     }
-
     public void setPointColor(@ColorInt int pointColor) {
         Paint paint = pointPaint;
         if (paint != null) {

@@ -12,7 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityNilaiBinding;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
-import com.android.menulisaksarajawa.ui.view.GuideActivity;
 
 public class NilaiActivity extends AppCompatActivity {
     private ActivityNilaiBinding binding;
@@ -95,7 +94,7 @@ public class NilaiActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.btn_info_app) {
-            Intent intent = new Intent(NilaiActivity.this, GuideActivity.class);
+            Intent intent = new Intent(NilaiActivity.this, InfoActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

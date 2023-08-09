@@ -1,7 +1,10 @@
 package com.android.menulisaksarajawa.ui.view.siswa;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.AssetFileDescriptor;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
@@ -10,6 +13,9 @@ import android.gesture.GestureOverlayView;
 import android.gesture.Prediction;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.Typeface;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,6 +24,9 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -34,6 +43,8 @@ import com.android.menulisaksarajawa.ui.model.pip.PointInPolygon;
 import com.android.menulisaksarajawa.ui.utils.LetterFactory;
 import com.android.menulisaksarajawa.ui.utils.LetterStrokeBean;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
+import com.getkeepsafe.taptargetview.TapTarget;
+import com.getkeepsafe.taptargetview.TapTargetSequence;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -69,15 +80,28 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     private  Menu menu;
 
     PrefManager prefManager;
+    private SharedPreferences sharedPref;
+    private SharedPreferences.Editor spEditor;
     JSONParser jsonParser=new JSONParser();
+    private Dialog mDialog;
+    private boolean guide;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityPracticeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        sharedPref = getApplicationContext().getSharedPreferences("Guide", Context.MODE_PRIVATE);
+        spEditor = sharedPref.edit();
         prefManager = new PrefManager(this);
-//        binding.imgLetter.setImageBitmap(letterBitmap);
+
+        guide = sharedPref.getBoolean("guide", true);
+
+        mDialog = new Dialog(this);
+        mDialog.setContentView(R.layout.warning_dialog);
+        mDialog.setCancelable(false);
+
+        binding.imgLetter.setImageBitmap(letterBitmap);
         type = getIntent().getStringExtra("type");
 
         aksara = getIntent().getIntExtra("aksara", 0);
@@ -108,9 +132,11 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             binding.btnNext.setVisibility(View.GONE);
         }
 
+        setSupportActionBar(binding.toolbar);
         getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
         setLetterChar(romaji);
 
         gesture = binding.gestureOverlay;
@@ -251,7 +277,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         InputStream stream = null;
         try {
             letterBitmap = getBitmapByAssetName(letterAssets);
-//            binding.imgLetter.setImageBitmap(letterBitmap);
+            binding.imgLetter.setImageBitmap(letterBitmap);
             stream = getAssets().open(strokeAssets);
             Gson gson = new Gson();
             strokeBean = gson.fromJson(new InputStreamReader(stream), LetterStrokeBean.class);
@@ -323,8 +349,13 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 protected void onPostExecute(JSONObject result) {
                     super.onPostExecute(result);
                     try {
-                        if (result.getInt("status") == 1) {
-                            Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                        if (result.getInt("status") == 1){
+                            int nilai = Integer.parseInt(indikator);
+                            if((index+1) > nilai) {
+                                Toast.makeText(getApplicationContext(), "Nilai berhasil diperbarui!", Toast.LENGTH_LONG).show();
+                                indicatorMenu = menu.findItem(R.id.indikator_nilai);
+                                indicatorMenu.setTitle((nilai+1)+"/"+listAksara.size());
+                            } else { }
                             binding.btnNext.setVisibility(View.VISIBLE);
                             binding.progressBar.setVisibility(View.GONE);
                             binding.canvas.setVisibility(View.VISIBLE);
@@ -429,14 +460,14 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     public void setType(){
         Aksara aksara = new Aksara();
         switch (type) {
-            case "angka":
+            case "Angka":
                 listAksara.addAll(aksara.getAksaraAngka());
                 String[] angka = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
                 index = Arrays.asList(angka).indexOf(romaji);
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
                 gLibrary.load();
                 break;
-            case "carakan":
+            case "Carakan":
                 listAksara.addAll(aksara.getAksarCarakan());
                 String[] carakan = {"ha","na","ca","ra","ka","da","ta","sa","wa","la",
                         "pa","dha","ja","ya","nya","ma","ga","ba","tha","nga"};
@@ -444,7 +475,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_carakan);
                 gLibrary.load();
                 break;
-            case "pasangan":
+            case "Pasangan":
                 listAksara.addAll(aksara.getAksarPasangan());
                 String[] pasangan = {"h","n","c","r","k","d","t","s","w","l",
                         "p","dh","j","y","ny","m","g","b","th","ng"};
@@ -452,7 +483,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_pasangan);
                 gLibrary.load();
                 break;
-            case "swara":
+            case "Swara":
                 listAksara.addAll(aksara.getAksarSwara());
                 String[] swara = {"a", "i", "u", "e", "o"};
                 index = Arrays.asList(swara).indexOf(romaji);
@@ -482,22 +513,25 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 try {
                     if (result.getInt("status") == 1) {
                         JSONArray data = result.getJSONArray("data");
+                        indicatorMenu = menu.findItem(R.id.indikator_nilai);
                         switch (type) {
-                            case "angka":
-                                nilai = data.getJSONObject(0).getString("nilai").concat("/10");
+                            case "Angka":
+                                nilai = data.getJSONObject(0).getString("nilai");
+                                indicatorMenu.setTitle(nilai+"/10");
                                 break;
-                            case "carakan":
-                                nilai = data.getJSONObject(1).getString("nilai").concat("/20");
+                            case "Carakan":
+                                nilai = data.getJSONObject(1).getString("nilai");
+                                indicatorMenu.setTitle(nilai+"/20");
                                 break;
-                            case "pasangan":
-                                nilai = data.getJSONObject(2).getString("nilai").concat("/20");
+                            case "Pasangan":
+                                nilai = data.getJSONObject(2).getString("nilai");
+                                indicatorMenu.setTitle(nilai+"/20");
                                 break;
-                            case "swara":
-                                nilai = data.getJSONObject(3).getString("nilai").concat("/5");
+                            case "Swara":
+                                nilai = data.getJSONObject(3).getString("nilai");
+                                indicatorMenu.setTitle(nilai+"/5");
                                 break;
                         }
-                        indicatorMenu = menu.findItem(R.id.indikator_nilai);
-                        indicatorMenu.setTitle(nilai);
                         indikator = this.nilai;
                         int idx = index + 1;
                         String nil = String.valueOf(nilai.charAt(0));
@@ -510,6 +544,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         }
                         binding.progressBar.setVisibility(View.GONE);
                         binding.canvas.setVisibility(View.VISIBLE);
+                        if(guide == true){
+                            infoStart();
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                     }
@@ -530,5 +567,65 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 
         GetNilai na = new GetNilai();
         na.execute();
+    }
+
+    private void infoStart() {
+        new TapTargetSequence(PracticeActivity.this)
+                .targets(
+                        TapTarget.forView(
+                                        binding.canvas,
+                                        "Canvas",
+                                        "Coret huruf pada canvas dan tunggu coretan sampai menghilang. Kemudian akan muncul dialog hasil penilaian coretan.\n"
+                                )
+                                .outerCircleColor(R.color.mega_mendung).outerCircleAlpha(0.96f)
+                                .targetCircleColor(R.color.white).titleTextSize(20)
+                                .titleTextColor(R.color.white).descriptionTextSize(18)
+                                .descriptionTextColor(R.color.white)
+                                .textColor(R.color.white).textTypeface(Typeface.SANS_SERIF)
+                                .dimColor(R.color.white).drawShadow(true).cancelable(false)
+                                .tintTarget(true).transparentTarget(true).targetRadius(250),
+                        TapTarget.forToolbarMenuItem(
+                                        binding.toolbar,
+                                        R.id.indikator_nilai,
+                                        "Indikator Nilai",
+                                        "Indikator Nilai untuk melihat berapa banyak yang telah anda kerjakan."
+                                )
+                                .outerCircleColor(R.color.mega_mendung).outerCircleAlpha(0.96f)
+                                .targetCircleColor(R.color.white).titleTextSize(20)
+                                .titleTextColor(R.color.white).descriptionTextSize(18)
+                                .descriptionTextColor(R.color.white)
+                                .textColor(R.color.white).textTypeface(Typeface.SANS_SERIF)
+                                .dimColor(R.color.black).drawShadow(true).cancelable(false)
+                                .tintTarget(true).transparentTarget(true).targetRadius(50)
+                ).listener(new TapTargetSequence.Listener() {
+                    @Override
+                    public void onSequenceFinish() {
+                        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        mDialog.show();
+                        TextView btnOke = mDialog.findViewById(R.id.btn_oke);
+                        CheckBox mCheckBox = mDialog.findViewById(R.id.checkBox);
+                        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                if(buttonView.isChecked()) {
+                                    spEditor.putBoolean("guide", false);
+                                    spEditor.commit();
+                                }
+                            }
+                        });
+                        btnOke.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mDialog.dismiss();
+                            }
+                        });
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) { }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) { }
+                }).start();
     }
 }

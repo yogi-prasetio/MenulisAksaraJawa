@@ -13,4 +13,7 @@
     <color name="gray">#EDEDED</color>
     <color name="green">#08C810</color>
     <color name="red">#E84235</color>
+    <color name="lightmega">#E9F4FB</color>
+    <color name="mega_mendung">#1A79D5</color>
+    <color name="darkmega">#0D5CB7</color>
 </resources>

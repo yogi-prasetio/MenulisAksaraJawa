@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.menulisaksarajawa.databinding.ActivityMainBinding;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.android.menulisaksarajawa.ui.view.GuideActivity;
+import com.android.menulisaksarajawa.ui.view.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        Toast.makeText(getApplicationContext(),"Welcome "+prefManager.getSPNama(),Toast.LENGTH_LONG).show();
         binding.tvName.setText(prefManager.getSPNama());
+        binding.tvClass.setText(prefManager.getSPKelas());
         binding.btnInfo.setOnClickListener( new View.OnClickListener(){
 
             @Override
@@ -77,8 +79,8 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void loginCheck(){
-//        if(!prefManager.loginStatus()){
-//            startActivity(new Intent(MainActivity.this, LoginActivity.class));
-//        }
+        if(!prefManager.loginStatus()){
+            startActivity(new Intent(MainActivity.this, LoginActivity.class));
+        }
     }
 }

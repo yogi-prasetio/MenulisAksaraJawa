@@ -2,6 +2,7 @@ package com.android.menulisaksarajawa.ui.view.siswa;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -26,7 +27,7 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("jenis", "angka");
+                move.putExtra("jenis", "Angka");
                 startActivity(move);
             }
         });
@@ -35,7 +36,7 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("jenis", "carakan");
+                move.putExtra("jenis", "Carakan");
                 startActivity(move);
             }
         });
@@ -44,7 +45,7 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("jenis", "pasangan");
+                move.putExtra("jenis", "Pasangan");
                 startActivity(move);
             }
         });
@@ -53,9 +54,17 @@ public class TypesActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
-                move.putExtra("jenis", "swara");
+                move.putExtra("jenis", "Swara");
                 startActivity(move);
             }
         });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(TypesActivity.this, MainActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

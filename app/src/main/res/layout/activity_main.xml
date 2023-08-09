@@ -5,13 +5,13 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/lightorange"
+    android:background="@color/lightmega"
     tools:context=".ui.view.siswa.MainActivity">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="120dp"
-        android:background="@drawable/bg_main">
+        android:background="@drawable/bg_home">
         <TextView
             android:id="@+id/tv_name"
             android:layout_width="wrap_content"
@@ -23,6 +23,17 @@
             android:textColor="@color/white"
             android:shadowColor="@color/black"
             android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/tv_name"
+            android:text="VIII "
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"/>
         <ImageView
             android:id="@+id/btn_info"
             android:layout_width="wrap_content"

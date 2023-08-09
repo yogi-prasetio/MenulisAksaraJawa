@@ -8,12 +8,12 @@
 
     <application
         android:allowBackup="true"
-        android:hardwareAccelerated="false"
-        android:largeHeap="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:largeHeap="true"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MenulisAksaraJawa"
@@ -27,19 +27,21 @@
         </activity>
         <activity
             android:name=".ui.view.guru.NilaiActivity"
-            android:label=" "
-            android:exported="false" />
+            android:exported="false"
+            android:label=" " />
         <activity
             android:name=".ui.view.siswa.PracticeActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar"/>
         <activity
             android:name=".ui.view.siswa.LearnActivity"
-            android:exported="false"/>
+            android:exported="false"
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar"/>
         <activity
             android:name=".ui.view.siswa.ScoreActivity"
             android:exported="false"
             android:label="Daftar Nilai"
-            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar" >
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.menulisaksarajawa.ui.view.siswa.MainActivity" />
@@ -51,17 +53,12 @@
         <activity
             android:name=".ui.view.siswa.TypesActivity"
             android:exported="false"
-            android:label="Jenis Aksara Jawa"
-            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.menulisaksarajawa.ui.view.siswa.MainActivity" />
-        </activity>
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar" />
         <activity
             android:name=".ui.view.siswa.TheoryActivity"
             android:exported="false"
             android:label="Materi Aksara Jawa"
-            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar" >
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.android.menulisaksarajawa.ui.view.siswa.MainActivity" />
@@ -76,12 +73,13 @@
                 android:value="com.android.menulisaksarajawa.ui.view.siswa.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.view.ProfileActivity"
+            android:name=".ui.view.guru.InfoActivity"
             android:exported="false"
-            android:label="Profile">
+            android:label="Informasi Aplikasi"
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.android.menulisaksarajawa.ui.view.siswa.MainActivity" />
+                android:value="com.android.menulisaksarajawa.ui.view.guru.NilaiActivity" />
         </activity>
         <activity
             android:name=".ui.view.RegisterActivity"

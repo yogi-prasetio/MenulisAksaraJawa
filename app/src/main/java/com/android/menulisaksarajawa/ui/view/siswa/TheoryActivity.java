@@ -27,7 +27,7 @@ public class TheoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent move = new Intent(TheoryActivity.this, CharacterListActivity.class);
                 move.putExtra("type", "theory");
-                move.putExtra("jenis", "angka");
+                move.putExtra("jenis", "Angka");
                 startActivity(move);;
             }
         });
@@ -38,7 +38,7 @@ public class TheoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent move = new Intent(TheoryActivity.this, CharacterListActivity.class);
                 move.putExtra("type", "theory");
-                move.putExtra("jenis", "carakan");
+                move.putExtra("jenis", "Carakan");
                 startActivity(move);;
             }
         });
@@ -49,7 +49,7 @@ public class TheoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent move = new Intent(TheoryActivity.this, CharacterListActivity.class);
                 move.putExtra("type", "theory");
-                move.putExtra("jenis", "pasangan");
+                move.putExtra("jenis", "Pasangan");
                 startActivity(move);;
             }
         });
@@ -60,7 +60,7 @@ public class TheoryActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent move = new Intent(TheoryActivity.this, CharacterListActivity.class);
                 move.putExtra("type", "theory");
-                move.putExtra("jenis", "swara");
+                move.putExtra("jenis", "Swara");
                 startActivity(move);;
             }
         });
