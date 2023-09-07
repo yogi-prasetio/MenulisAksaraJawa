@@ -49,6 +49,7 @@
                 android:layout_marginBottom="8dp"
                 android:padding="8dp"
                 android:text="Nilai Aksara Carakan"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"/>
@@ -94,6 +95,7 @@
                 android:layout_marginBottom="8dp"
                 android:padding="8dp"
                 android:text="Nilai Aksara Pasangan"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"/>
@@ -139,6 +141,7 @@
                 android:layout_marginBottom="8dp"
                 android:padding="8dp"
                 android:text="Nilai Aksara Swara"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"/>
@@ -184,6 +187,7 @@
                 android:layout_marginBottom="8dp"
                 android:padding="8dp"
                 android:text="Nilai Aksara Angka"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="16sp"
                 android:layout_centerVertical="true"/>

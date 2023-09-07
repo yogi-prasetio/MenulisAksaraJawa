@@ -57,11 +57,11 @@ public class RegisterActivity extends AppCompatActivity {
 
                     //data validation
                     if (name.isEmpty()) {
-                        binding.etName.setError("Email tidak boleh kosong!");
+                        binding.etName.setError("Nama tidak boleh kosong!");
                     } else if (kelas.isEmpty()) {
-                        binding.etKelas.setError("Email tidak boleh kosong!");
+                        binding.etKelas.setError("Kelas tidak boleh kosong!");
                     } else if (username.isEmpty()) {
-                        binding.etUsername.setError("Email tidak boleh kosong!");
+                        binding.etUsername.setError("Username tidak boleh kosong!");
                     } else if (password.isEmpty()) {
                         binding.etPassword.setError("Password tidak boleh kosong!");
                     } else if (password.length() < 6) {
@@ -85,7 +85,7 @@ public class RegisterActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Register failed!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Register gagal!", Toast.LENGTH_LONG).show();
                                     }
                                     loading.dismiss();
                                 } catch (JSONException e) {

@@ -103,7 +103,7 @@
             android:gestureColor="@color/mega_mendung"
             android:uncertainGestureColor="@color/mega_mendung"
             android:fadeOffset="2500"
-            android:gestureStrokeWidth="15.0"
+            android:gestureStrokeWidth="20.0"
             android:gestureStrokeType="multiple"
             android:layout_centerInParent="true">
 

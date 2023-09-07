@@ -106,7 +106,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 
         aksara = getIntent().getIntExtra("aksara", 0);
         romaji = getIntent().getStringExtra("romaji");
-//        image = getIntent().getIntExtra("image", 0);
         audio = getIntent().getIntExtra("audio", 0);
 
         InputStream assets = null;
@@ -149,9 +148,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             }
         });
 
-//        gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
-//        gLibrary.load();
-
         binding.btnBefore.setOnClickListener( new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -161,7 +157,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 Intent intent = new Intent(PracticeActivity.this, PracticeActivity.class);
                 intent.putExtra("aksara", data.getAksara());
                 intent.putExtra("romaji", data.getRomaji());
-//                intent.putExtra("image", data.getImage());
                 intent.putExtra("audio", data.getAudio());
                 intent.putExtra("type", type);
                 startActivity(intent);
@@ -177,7 +172,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 Intent intent = new Intent(PracticeActivity.this, PracticeActivity.class);
                 intent.putExtra("aksara", data.getAksara());
                 intent.putExtra("romaji", data.getRomaji());
-//                intent.putExtra("image", data.getImage());
                 intent.putExtra("audio", data.getAudio());
                 intent.putExtra("type", type);
                 startActivity(intent);
@@ -201,6 +195,8 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             Intent intent = new Intent(PracticeActivity.this, CharacterListActivity.class);
             intent.putExtra("jenis", type);
             startActivity(intent);
+        } else if (item.getItemId() == R.id.btn_info) {
+            infoStart();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -544,7 +540,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         }
                         binding.progressBar.setVisibility(View.GONE);
                         binding.canvas.setVisibility(View.VISIBLE);
-                        if(guide == true){
+                        if(guide){
                             infoStart();
                         }
                     } else {
@@ -575,7 +571,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         TapTarget.forView(
                                         binding.canvas,
                                         "Canvas",
-                                        "Coret huruf pada canvas dan tunggu coretan sampai menghilang. Kemudian akan muncul dialog hasil penilaian coretan.\n"
+                                        "Coret huruf pada canvas dan tunggu coretan sampai menghilang. Kemudian akan muncul dialog hasil penilaian coretan.\n\n\n"
                                 )
                                 .outerCircleColor(R.color.mega_mendung).outerCircleAlpha(0.96f)
                                 .targetCircleColor(R.color.white).titleTextSize(20)
@@ -600,25 +596,27 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 ).listener(new TapTargetSequence.Listener() {
                     @Override
                     public void onSequenceFinish() {
-                        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                        mDialog.show();
-                        TextView btnOke = mDialog.findViewById(R.id.btn_oke);
-                        CheckBox mCheckBox = mDialog.findViewById(R.id.checkBox);
-                        mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                            @Override
-                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                if(buttonView.isChecked()) {
-                                    spEditor.putBoolean("guide", false);
-                                    spEditor.commit();
+                        if(guide) {
+                            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            mDialog.show();
+                            TextView btnOke = mDialog.findViewById(R.id.btn_oke);
+                            CheckBox mCheckBox = mDialog.findViewById(R.id.checkBox);
+                            mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if (buttonView.isChecked()) {
+                                        spEditor.putBoolean("guide", false);
+                                        spEditor.commit();
+                                    }
                                 }
-                            }
-                        });
-                        btnOke.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                mDialog.dismiss();
-                            }
-                        });
+                            });
+                            btnOke.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mDialog.dismiss();
+                                }
+                            });
+                        }
                     }
 
                     @Override

@@ -20,14 +20,15 @@ public class NilaiActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityNilaiBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
+        View view = binding.getRoot();
+        setContentView(view);
         prefManager = new PrefManager(this);
         
         binding.btnKelasA.setOnClickListener(new View.OnClickListener(){
 
             @Override
             public void onClick(View v) {
-                Intent move = new Intent(NilaiActivity.this, NilaiDetailActivity.class);
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
                 move.putExtra("kelas", "VIII%20A");
                 move.putExtra("title", "VIII A");
                 startActivity(move);
@@ -37,7 +38,7 @@ public class NilaiActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent move = new Intent(NilaiActivity.this, NilaiDetailActivity.class);
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
                 move.putExtra("kelas", "VIII%20B");
                 move.putExtra("title", "VIII B");
                 startActivity(move);
@@ -47,7 +48,7 @@ public class NilaiActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent move = new Intent(NilaiActivity.this, NilaiDetailActivity.class);
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
                 move.putExtra("kelas", "VIII%20C");
                 move.putExtra("title", "VIII C");
                 startActivity(move);
@@ -57,7 +58,7 @@ public class NilaiActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent move = new Intent(NilaiActivity.this, NilaiDetailActivity.class);
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
                 move.putExtra("kelas", "VIII%20D");
                 move.putExtra("title", "VIII D");
                 startActivity(move);
@@ -67,7 +68,7 @@ public class NilaiActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent move = new Intent(NilaiActivity.this, NilaiDetailActivity.class);
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
                 move.putExtra("kelas", "VIII%20E");
                 move.putExtra("title", "VIII E");
                 startActivity(move);
@@ -77,7 +78,7 @@ public class NilaiActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View v) {
-                Intent move = new Intent(NilaiActivity.this, NilaiDetailActivity.class);
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
                 move.putExtra("kelas", "VIII%20F");
                 move.putExtra("title", "VIII F");
                 startActivity(move);

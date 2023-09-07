@@ -3,7 +3,6 @@ package com.android.menulisaksarajawa.ui.model;
 public class Nilai {
     private String name;
     private String angka;
-
     private String carakan;
     private String pasangan;
     private String swara;

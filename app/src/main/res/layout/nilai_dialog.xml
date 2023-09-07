@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_gravity="center"
+    app:cardBackgroundColor="@color/lightmega"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    app:cardMaxElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_carakan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:text="Nilai Carakan"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/carakan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:hint="0"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/mega_mendung"/>
+
+        <TextView
+            android:id="@+id/tv_pasangan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/tv_carakan"
+            android:text="Nilai Pasangan"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/pasangan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/carakan"
+            android:hint="0"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/mega_mendung"/>
+
+        <TextView
+            android:id="@+id/tv_swara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/tv_pasangan"
+            android:text="Nilai Swara"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/swara"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/pasangan"
+            android:hint="0"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/mega_mendung"/>
+
+        <TextView
+            android:id="@+id/tv_angka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_below="@+id/tv_swara"
+            android:text="Nilai Angka"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/angka"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@+id/swara"
+            android:hint="0"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/mega_mendung"/>
+
+        <TextView
+            android:id="@+id/line"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_below="@+id/tv_angka"
+            android:text="------------------------------------"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tv_total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/line"
+            android:text="Total Nilai"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/mega_mendung"/>
+
+        <TextView
+            android:id="@+id/total"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:layout_below="@+id/line"
+            android:hint="0"
+            android:layout_alignParentEnd="true"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/mega_mendung"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

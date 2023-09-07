@@ -5,14 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.siswa.PracticeActivity">
+    tools:context=".ui.view.siswa.LearnActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/mega_mendung"
-        app:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+        app:theme="@style/Theme.MaterialComponents.Light"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -32,10 +32,10 @@
         android:id="@+id/btn_before"
         android:layout_width="85dp"
         android:layout_height="85dp"
-        android:src="@drawable/bg_before"
+        android:src="@drawable/bg_next_mega"
+        android:rotation="180"
         android:scaleType="fitCenter"
         android:background="?android:attr/selectableItemBackground"
-        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_text"
         app:layout_constraintBottom_toTopOf="@id/tv_charInfo"
@@ -46,11 +46,11 @@
         android:layout_width="120dp"
         android:layout_height="120dp"
         android:layout_toEndOf="@id/btn_before"
-        android:layout_margin="4dp"
+        android:layout_margin="8dp"
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/tv_text"
-        android:src="@drawable/background"
         android:tint="@color/black"
+        android:src="@drawable/background"
         app:layout_constraintTop_toBottomOf="@id/tv_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -96,33 +96,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <android.gesture.GestureOverlayView
-            android:id="@+id/gestureOverlay"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gestureColor="@color/mega_mendung"
-            android:uncertainGestureColor="@color/mega_mendung"
-            android:fadeOffset="2500"
-            android:gestureStrokeWidth="15.0"
-            android:gestureStrokeType="multiple"
-            android:layout_centerInParent="true">
-
-            <ImageView
-                android:id="@+id/img_letter"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="24dp"/>
-        </android.gesture.GestureOverlayView>
+        <com.android.menulisaksarajawa.ui.view.siswa.CanvasView
+            android:id="@+id/letter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="128dp"
+            android:padding="24dp"
+            app:pointWidth="15.0"
+            app:paintWidth="50.0"
+            app:pointColor="@color/darkmega"
+            app:anchorDrawable="@drawable/pointer"
+            app:strokeColor="@color/mega_mendung"/>
     </androidx.cardview.widget.CardView>
-
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:progressBackgroundTint="@color/lightmega"
-        android:indeterminateTint="@color/mega_mendung"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -19,6 +19,13 @@
         android:theme="@style/Theme.MenulisAksaraJawa"
         tools:targetApi="31">
         <activity
+            android:name=".ui.view.guru.NilaiDetail"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.android.menulisaksarajawa.ui.view.guru.NilaiActivity" />
+        </activity>
+        <activity
             android:name=".ui.view.guru.NilaiDetailActivity"
             android:exported="false">
             <meta-data
@@ -32,11 +39,11 @@
         <activity
             android:name=".ui.view.siswa.PracticeActivity"
             android:exported="false"
-            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar"/>
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar" />
         <activity
             android:name=".ui.view.siswa.LearnActivity"
             android:exported="false"
-            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar"/>
+            android:theme="@style/Theme.MenulisAksaraJawa.NoActionBar" />
         <activity
             android:name=".ui.view.siswa.ScoreActivity"
             android:exported="false"
