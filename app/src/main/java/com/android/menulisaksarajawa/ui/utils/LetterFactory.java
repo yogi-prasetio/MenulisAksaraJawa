@@ -25,6 +25,14 @@ public class LetterFactory {
         return stringBuilder.toString();
     }
 
+    public String getPolygonAssets() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("polygon/");
+        stringBuilder.append(this.letter);
+        stringBuilder.append(".json");
+        return stringBuilder.toString();
+    }
+
     public void setLetter(String letterChar) {
         this.letter = letterChar;
     }

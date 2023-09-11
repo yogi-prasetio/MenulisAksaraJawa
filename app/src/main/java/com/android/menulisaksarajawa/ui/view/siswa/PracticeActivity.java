@@ -261,20 +261,24 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         LetterFactory letterFactory = new LetterFactory();
         letterFactory.setLetter(letterChar);
         initializeLetterAssets(
-                letterFactory.getLetterAssets(),
-                letterFactory.getStrokeAssets()
+                letterFactory.getPolygonAssets()
         );
     }
 
     private void initializeLetterAssets(
-            String letterAssets,
-            String strokeAssets
+            String polygonAssets
     ) {
         InputStream stream = null;
         try {
-            letterBitmap = getBitmapByAssetName(letterAssets);
-            binding.imgLetter.setImageBitmap(letterBitmap);
-            stream = getAssets().open(strokeAssets);
+            InputStream assets = null;
+            try {
+                assets = getAssets().open("aksara/"+romaji+"_bg.png");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Bitmap img = BitmapFactory.decodeStream(assets);
+            binding.imgLetter.setImageBitmap(img);
+            stream = getAssets().open(polygonAssets);
             Gson gson = new Gson();
             strokeBean = gson.fromJson(new InputStreamReader(stream), LetterStrokeBean.class);
         } catch (Exception e) {
@@ -323,22 +327,14 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             ab.setMessage("huruf yang Anda tulis tidak tepat.");
             ab.setPositiveButton("Coba lagi", null);
             ab.show();
+            result.clear();
         } else if (prediction.get(0).name.equals(romaji)) {
-            ab.setTitle("Benar");
-            ab.setMessage("huruf yang Anda tulis sudah tepat.");
-            ab.setPositiveButton("OK", null);
-            ab.show();
-
-            //update nilai
-            class GetNilai extends AsyncTask<Void, Void, JSONObject> {
-
-                ProgressDialog loading;
+            class UpdateNilai extends AsyncTask<Void, Void, JSONObject> {
                 @Override
                 protected void onPreExecute() {
                     super.onPreExecute();
                     binding.progressBar.setVisibility(View.VISIBLE);
                     binding.canvas.setVisibility(View.GONE);
-//                loading = ProgressDialog.show(PrakticeActivity.this, "Fetching...", "Wait...", false, false);
                 }
 
                 @Override
@@ -373,14 +369,35 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     return json;
                 }
             }
+//
+//            if (result.contains("Outside")) {
+//                ab.setTitle("Salah");
+//                ab.setMessage("huruf yang Anda tulis tidak tepat.");
+//                ab.setPositiveButton("Coba lagi", null);
+//                ab.show();
+//                result.clear();
+//            } else if(result.isEmpty()){
+//                ab.setTitle("Salah");
+//                ab.setMessage("huruf yang Anda tulis tidak tepat.");
+//                ab.setPositiveButton("Coba lagi", null);
+//                ab.show();
+//                result.clear();
+//            } else {
+                ab.setTitle("Benar");
+                ab.setMessage("huruf yang Anda tulis sudah tepat.");
+                ab.setPositiveButton("OK", null);
+                ab.show();
 
-            GetNilai na = new GetNilai();
-            na.execute();
+                UpdateNilai na = new UpdateNilai();
+                na.execute();
+//            }
+
         } else {
             ab.setTitle("Salah");
             ab.setMessage("aksara yang Anda tulis tidak tepat");
             ab.setPositiveButton("Coba lagi", null);
             ab.show();
+            result.clear();
         }
 //            menuCheck.isEnabled = false
 //        }
@@ -500,7 +517,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 super.onPreExecute();
                 binding.progressBar.setVisibility(View.VISIBLE);
                 binding.canvas.setVisibility(View.GONE);
-//                loading = ProgressDialog.show(PracticeActivity.this,"Loading...","Tunggu sebentar...",false,false);
             }
 
             @Override
