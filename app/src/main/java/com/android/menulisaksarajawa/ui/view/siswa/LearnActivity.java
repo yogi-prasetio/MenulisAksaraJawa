@@ -160,6 +160,9 @@ public class LearnActivity extends AppCompatActivity {
         if(type.equals("Pasangan")){
             menu.removeItem(R.id.btn_sound);
         }
+        if (index > 0) {
+            menu.removeItem(R.id.btn_info);
+        }
         return true;
     }
 

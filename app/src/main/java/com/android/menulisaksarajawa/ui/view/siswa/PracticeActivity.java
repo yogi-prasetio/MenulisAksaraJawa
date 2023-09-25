@@ -186,6 +186,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         inflater.inflate(R.menu.test_menu, menu);
         this.menu = menu;
         this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
+        if (index > 0) {
+            menu.removeItem(R.id.btn_info);
+        }
         return true;
     }
 
@@ -370,19 +373,19 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 }
             }
 //
-//            if (result.contains("Outside")) {
-//                ab.setTitle("Salah");
-//                ab.setMessage("huruf yang Anda tulis tidak tepat.");
-//                ab.setPositiveButton("Coba lagi", null);
-//                ab.show();
-//                result.clear();
-//            } else if(result.isEmpty()){
-//                ab.setTitle("Salah");
-//                ab.setMessage("huruf yang Anda tulis tidak tepat.");
-//                ab.setPositiveButton("Coba lagi", null);
-//                ab.show();
-//                result.clear();
-//            } else {
+            if (result.contains("Outside")) {
+                ab.setTitle("Salah");
+                ab.setMessage("huruf yang Anda tulis tidak tepat.");
+                ab.setPositiveButton("Coba lagi", null);
+                ab.show();
+                result.clear();
+            } else if(result.isEmpty()){
+                ab.setTitle("Salah");
+                ab.setMessage("huruf yang Anda tulis tidak tepat.");
+                ab.setPositiveButton("Coba lagi", null);
+                ab.show();
+                result.clear();
+            } else {
                 ab.setTitle("Benar");
                 ab.setMessage("huruf yang Anda tulis sudah tepat.");
                 ab.setPositiveButton("OK", null);
@@ -390,7 +393,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 
                 UpdateNilai na = new UpdateNilai();
                 na.execute();
-//            }
+            }
 
         } else {
             ab.setTitle("Salah");
@@ -456,6 +459,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     private void onTracing(PointInPolygon pointLoc){
         Log.i("X :", pointLoc.x.toString());
         Log.i("Y :", pointLoc.y.toString());
+//        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
         Log.i("RESULT :", pointLoc.pointInPolygon());
         result.add(pointLoc.pointInPolygon());
     }
