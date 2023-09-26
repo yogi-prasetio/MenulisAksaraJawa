@@ -186,9 +186,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         inflater.inflate(R.menu.test_menu, menu);
         this.menu = menu;
         this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
-        if (index > 0) {
-            menu.removeItem(R.id.btn_info);
-        }
         return true;
     }
 
@@ -372,7 +369,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     return json;
                 }
             }
-//
+
             if (result.contains("Outside")) {
                 ab.setTitle("Salah");
                 ab.setMessage("huruf yang Anda tulis tidak tepat.");
@@ -402,58 +399,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             ab.show();
             result.clear();
         }
-//            menuCheck.isEnabled = false
-//        }
-//        else {
-//            when {
-//                result!!.contains("Outside") -> {
-//                    ab.setTitle("Salah")
-//                    ab.setMessage("huruf yang Anda tulis tidak tepat.")
-//                    ab.setPositiveButton("Coba lagi", null)
-//                    ab.show()
-//                    result!!.clear()
-//                    menuCheck.isEnabled = false
-//                }
-//                result!!.isEmpty() -> {
-//                    ab.setTitle("Salah")
-//                    ab.setMessage("huruf yang Anda tulis tidak tepat.")
-//                    ab.setPositiveButton("Coba lagi", null)
-//                    ab.show()
-//                    result!!.clear()
-//                    menuCheck.isEnabled = false
-//                }
-//                else -> {
-//                    if (predictions.size < 1 || predictions[0].score <= 3.0) {
-//                        ab.setTitle("Salah")
-//                        ab.setMessage("huruf yang Anda tulis tidak tepat.")
-//                        ab.setPositiveButton("Coba lagi", null)
-//                        ab.show()
-//                    } else if (predictions[0].name.equals(romaji)) {
-//                        ab.setTitle("Benar")
-//                        ab.setMessage("huruf yang Anda tulis sudah tepat.")
-//                        ab.setPositiveButton("OK", null)
-//                        ab.show()
-//
-//                        if (userData == null){
-//                            Toast.makeText(this, "Data Gagal diperbarui! Tidak ada koneksi internet!", Toast.LENGTH_LONG).show()
-//                        } else {
-//                            //update data
-//                            val dbRef: DatabaseReference = database!!.child(userId)
-//                            val score: Int = userData!![0].score!! + 1
-//                            val rows: Users = Users(userData!![0].id, userData!![0].nama, userData!![0].kelas, score)
-//                            dbRef.setValue(rows)
-//                        }
-//                    } else {
-//                        ab.setTitle("Salah")
-//                        ab.setMessage("huruf yang Anda tulis tidak tepat")
-//                        ab.setPositiveButton("Coba lagi", null)
-//                        ab.show()
-//                    }
-//                    menuCheck.isEnabled = false
-//                    result!!.clear()
-//                }
-//            }
-//        }
     }
 
     private void onTracing(PointInPolygon pointLoc){
@@ -561,7 +506,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         binding.progressBar.setVisibility(View.GONE);
                         binding.canvas.setVisibility(View.VISIBLE);
                         if(guide){
-                            infoStart();
+                            if(index == 0) {
+                                infoStart();
+                            }
                         }
                     } else {
                         Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();

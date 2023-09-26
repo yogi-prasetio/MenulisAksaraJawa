@@ -149,7 +149,9 @@ public class LearnActivity extends AppCompatActivity {
         });
 
         if(guide){
-            infoStart();
+            if(index == 0) {
+                infoStart();
+            }
         }
     }
 
@@ -159,9 +161,6 @@ public class LearnActivity extends AppCompatActivity {
         inflater.inflate(R.menu.write_menu, menu);
         if(type.equals("Pasangan")){
             menu.removeItem(R.id.btn_sound);
-        }
-        if (index > 0) {
-            menu.removeItem(R.id.btn_info);
         }
         return true;
     }

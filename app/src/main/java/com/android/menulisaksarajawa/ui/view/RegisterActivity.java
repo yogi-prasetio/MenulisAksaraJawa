@@ -3,10 +3,14 @@ package com.android.menulisaksarajawa.ui.view;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +29,8 @@ import cz.msebera.android.httpclient.message.BasicNameValuePair;
 public class RegisterActivity extends AppCompatActivity {
     private ActivityRegisterBinding binding;
     JSONParser jsonParser=new JSONParser();
+    private ArrayAdapter<String> adapter = null;
+    private String kelas;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,10 @@ public class RegisterActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        String[] ClassItem = {"VIII A", "VIII B", "VIII C", "VIII D", "VIII E", "VIII F"};
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ClassItem);
+        binding.spClass.setAdapter(adapter);
         registerUser();
 
         binding.tvLogin.setOnClickListener(new View.OnClickListener(){
@@ -51,15 +61,27 @@ public class RegisterActivity extends AppCompatActivity {
                 } else {
                     //initialize data
                     String name = binding.etName.getText().toString().trim();
-                    String kelas = binding.etKelas.getText().toString().trim();
+                    binding.spClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            kelas = adapter.getItem(position).trim();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+                            TextView errorText = (TextView) binding.spClass.getSelectedItem();
+                            errorText.setError("");
+                            errorText.setTextColor(Color.RED);
+                            errorText.setText("Kelas belum dipilih!");
+                        }
+                    });
+
                     String username = binding.etUsername.getText().toString().trim();
                     String password = binding.etPassword.getText().toString().trim();
 
                     //data validation
                     if (name.isEmpty()) {
                         binding.etName.setError("Nama tidak boleh kosong!");
-                    } else if (kelas.isEmpty()) {
-                        binding.etKelas.setError("Kelas tidak boleh kosong!");
                     } else if (username.isEmpty()) {
                         binding.etUsername.setError("Username tidak boleh kosong!");
                     } else if (password.isEmpty()) {

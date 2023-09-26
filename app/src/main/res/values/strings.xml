@@ -77,4 +77,13 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+
+    <string-array name="daftar_kelas">
+        <item>VII A</item>
+        <item>VII B</item>
+        <item>VII C</item>
+        <item>VII D</item>
+        <item>VII E</item>
+        <item>VII F</item>
+    </string-array>
 </resources>
