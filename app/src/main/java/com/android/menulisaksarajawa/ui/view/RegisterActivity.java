@@ -68,13 +68,7 @@ public class RegisterActivity extends AppCompatActivity {
                         }
 
                         @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-                            ((TextView) parent.getSelectedView()).setError("Kelas belum dipilih!");
-//                            TextView errorText = (TextView) binding.spClass.getSelectedItem();
-//                            errorText.setError("");
-//                            errorText.setTextColor(Color.RED);
-//                            errorText.setText("Kelas belum dipilih!");
-                        }
+                        public void onNothingSelected(AdapterView<?> parent) { }
                     });
 
                     String username = binding.etUsername.getText().toString().trim();
@@ -85,10 +79,6 @@ public class RegisterActivity extends AppCompatActivity {
                         binding.etName.setError("Nama tidak boleh kosong!");
                     }
                     else if(binding.spClass.getSelectedItemPosition() == 0) {
-//                        ((TextView) binding.spClass.getSelectedView()).setError("Kelas belum dipilih!");
-//                        ArrayAdapter<String> adapt = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{""});
-//                        binding.spClass.setAdapter(adapt);
-//
                         TextView errorText = (TextView) binding.spClass.getSelectedView();
                         errorText.setError("");
                         errorText.setTextColor(Color.RED);
