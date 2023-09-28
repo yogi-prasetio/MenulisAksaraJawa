@@ -38,7 +38,7 @@ public class GuideActivity extends AppCompatActivity {
             public void onClick(View v) {
                 sharedPrefLogin.edit().clear().apply();
                 startActivity(new Intent(GuideActivity.this, LoginActivity.class));
-                Toast.makeText(getApplicationContext(),"Logout Berhasil!",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"Logout berhasil!",Toast.LENGTH_LONG).show();
             }
         });
     }

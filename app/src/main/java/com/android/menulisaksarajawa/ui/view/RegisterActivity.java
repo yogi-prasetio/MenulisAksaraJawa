@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        String[] ClassItem = {"VIII A", "VIII B", "VIII C", "VIII D", "VIII E", "VIII F"};
+        String[] ClassItem = {"Pilih Kelas", "VIII A", "VIII B", "VIII C", "VIII D", "VIII E", "VIII F"};
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ClassItem);
         binding.spClass.setAdapter(adapter);
@@ -64,15 +64,16 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.spClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            kelas = adapter.getItem(position).trim();
+                            kelas = adapter.getItem(position);
                         }
 
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
-                            TextView errorText = (TextView) binding.spClass.getSelectedItem();
-                            errorText.setError("");
-                            errorText.setTextColor(Color.RED);
-                            errorText.setText("Kelas belum dipilih!");
+                            ((TextView) parent.getSelectedView()).setError("Kelas belum dipilih!");
+//                            TextView errorText = (TextView) binding.spClass.getSelectedItem();
+//                            errorText.setError("");
+//                            errorText.setTextColor(Color.RED);
+//                            errorText.setText("Kelas belum dipilih!");
                         }
                     });
 
@@ -82,7 +83,18 @@ public class RegisterActivity extends AppCompatActivity {
                     //data validation
                     if (name.isEmpty()) {
                         binding.etName.setError("Nama tidak boleh kosong!");
-                    } else if (username.isEmpty()) {
+                    }
+                    else if(binding.spClass.getSelectedItemPosition() == 0) {
+//                        ((TextView) binding.spClass.getSelectedView()).setError("Kelas belum dipilih!");
+//                        ArrayAdapter<String> adapt = new ArrayAdapter<>(getApplicationContext(), android.R.layout.simple_spinner_item, new String[]{""});
+//                        binding.spClass.setAdapter(adapt);
+//
+                        TextView errorText = (TextView) binding.spClass.getSelectedView();
+                        errorText.setError("");
+                        errorText.setTextColor(Color.RED);
+                        errorText.setText("Kelas belum dipilih!");
+                    }
+                    else if (username.isEmpty()) {
                         binding.etUsername.setError("Username tidak boleh kosong!");
                     } else if (password.isEmpty()) {
                         binding.etPassword.setError("Password tidak boleh kosong!");
@@ -104,10 +116,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 super.onPostExecute(result);
                                 try {
                                     if (result.getInt("status") == 1) {
-                                        Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Daftar berhasil!", Toast.LENGTH_LONG).show();
                                         startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                                     } else {
-                                        Toast.makeText(getApplicationContext(), "Register gagal!", Toast.LENGTH_LONG).show();
+                                        Toast.makeText(getApplicationContext(), "Daftar gagal!", Toast.LENGTH_LONG).show();
                                     }
                                     loading.dismiss();
                                 } catch (JSONException e) {
