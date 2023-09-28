@@ -369,20 +369,37 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     return json;
                 }
             }
+            ArrayList<String> algo = new ArrayList<String>();
+            //Huruf yang dicek dengan algoritma
+            String[] huruf =  {"HA", "NA", "H", "N", "A", "0", "1"};
+            algo.addAll(Arrays.asList(huruf));
 
-            if (result.contains("Outside")) {
-                ab.setTitle("Salah");
-                ab.setMessage("huruf yang Anda tulis tidak tepat.");
-                ab.setPositiveButton("Coba lagi", null);
-                ab.show();
-                result.clear();
-            } else if(result.isEmpty()){
-                ab.setTitle("Salah");
-                ab.setMessage("huruf yang Anda tulis tidak tepat.");
-                ab.setPositiveButton("Coba lagi", null);
-                ab.show();
-                result.clear();
-            } else {
+            //Check Tulisan dengan Algo
+            if(algo.contains(romaji)) {
+//                Toast.makeText(getApplicationContext(), "with algorithm", Toast.LENGTH_SHORT).show();
+                if (result.contains("Outside")) {
+                    ab.setTitle("Salah");
+                    ab.setMessage("huruf yang Anda tulis tidak tepat.");
+                    ab.setPositiveButton("Coba lagi", null);
+                    ab.show();
+                    result.clear();
+                } else if (result.isEmpty()) {
+                    ab.setTitle("Salah");
+                    ab.setMessage("huruf yang Anda tulis tidak tepat.");
+                    ab.setPositiveButton("Coba lagi", null);
+                    ab.show();
+                    result.clear();
+                } else {
+                    ab.setTitle("Benar");
+                    ab.setMessage("huruf yang Anda tulis sudah tepat.");
+                    ab.setPositiveButton("OK", null);
+                    ab.show();
+
+                    UpdateNilai na = new UpdateNilai();
+                    na.execute();
+                }
+            } else { //Check tulisan tanpa Algo
+//                Toast.makeText(getApplicationContext(), "no algorithm", Toast.LENGTH_SHORT).show();
                 ab.setTitle("Benar");
                 ab.setMessage("huruf yang Anda tulis sudah tepat.");
                 ab.setPositiveButton("OK", null);
@@ -404,7 +421,10 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     private void onTracing(PointInPolygon pointLoc){
         Log.i("X :", pointLoc.x.toString());
         Log.i("Y :", pointLoc.y.toString());
-//        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
+
+        //Tampilkan Toast posisi X dan Y
+        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
+
         Log.i("RESULT :", pointLoc.pointInPolygon());
         result.add(pointLoc.pointInPolygon());
     }
