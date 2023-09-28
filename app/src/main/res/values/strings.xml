@@ -79,6 +79,7 @@
     </string>
 
     <string-array name="daftar_kelas">
+        <item>Pilih Kelas</item>
         <item>VII A</item>
         <item>VII B</item>
         <item>VII C</item>
