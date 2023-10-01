@@ -70,6 +70,7 @@ public class RegisterActivity extends AppCompatActivity {
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) { }
                     });
+                    kelas = binding.spClass.getSelectedItem().toString().trim();
 
                     String username = binding.etUsername.getText().toString().trim();
                     String password = binding.etPassword.getText().toString().trim();
@@ -78,7 +79,7 @@ public class RegisterActivity extends AppCompatActivity {
                     if (name.isEmpty()) {
                         binding.etName.setError("Nama tidak boleh kosong!");
                     }
-                    else if(binding.spClass.getSelectedItemPosition() == 0) {
+                    else if(binding.spClass.getSelectedItemPosition() == 0 || kelas.equals("") || kelas.equals("null")) {
                         TextView errorText = (TextView) binding.spClass.getSelectedView();
                         errorText.setError("");
                         errorText.setTextColor(Color.RED);
