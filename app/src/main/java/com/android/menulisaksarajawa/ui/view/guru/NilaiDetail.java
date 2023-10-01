@@ -61,7 +61,7 @@ public class NilaiDetail extends AppCompatActivity {
         getSupportActionBar().setTitle("Nilai Kelas " + title);
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
 
         if (!checkNetwork()) {
             Toast.makeText(this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();

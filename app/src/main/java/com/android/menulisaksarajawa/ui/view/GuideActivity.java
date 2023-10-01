@@ -31,7 +31,7 @@ public class GuideActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
         binding.btnLogout.setOnClickListener( new View.OnClickListener(){
 
             @Override

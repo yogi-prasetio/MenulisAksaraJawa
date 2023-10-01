@@ -97,7 +97,7 @@ public class LearnActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
 
         canvas = binding.letter;
         canvas.setLetterChar(romaji);

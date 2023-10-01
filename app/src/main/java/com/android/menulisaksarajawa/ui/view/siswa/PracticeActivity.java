@@ -136,7 +136,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
         setLetterChar(romaji);
 
         gesture = binding.gestureOverlay;

@@ -22,7 +22,7 @@ public class TypesActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
         binding.btnAngka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

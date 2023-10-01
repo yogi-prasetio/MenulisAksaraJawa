@@ -1,7 +1,5 @@
 package com.android.menulisaksarajawa.ui.view.guru;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -9,11 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.android.menulisaksarajawa.R;
-import com.android.menulisaksarajawa.ui.utils.PrefManager;
-import com.android.menulisaksarajawa.ui.view.GuideActivity;
-import com.android.menulisaksarajawa.ui.view.LoginActivity;
 import com.android.menulisaksarajawa.databinding.ActivityInfoBinding;
+import com.android.menulisaksarajawa.ui.utils.PrefManager;
+import com.android.menulisaksarajawa.ui.view.LoginActivity;
 
 public class InfoActivity extends AppCompatActivity {
     private ActivityInfoBinding binding;
@@ -30,7 +29,7 @@ public class InfoActivity extends AppCompatActivity {
 
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
         binding.btnLogout.setOnClickListener( new View.OnClickListener(){
 
             @Override
