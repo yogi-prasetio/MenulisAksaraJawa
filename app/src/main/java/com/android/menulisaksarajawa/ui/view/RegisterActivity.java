@@ -64,7 +64,7 @@ public class RegisterActivity extends AppCompatActivity {
                     binding.spClass.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            kelas = adapter.getItem(position);
+                            kelas = adapter.getItem(position).trim();
                         }
 
                         @Override

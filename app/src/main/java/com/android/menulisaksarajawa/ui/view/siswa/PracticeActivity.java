@@ -85,6 +85,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     JSONParser jsonParser=new JSONParser();
     private Dialog mDialog;
     private boolean guide;
+    private String id_jenis;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -364,6 +365,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     ArrayList params = new ArrayList();
                     params.add(new BasicNameValuePair("id_user", prefManager.getSPId()));
                     params.add(new BasicNameValuePair("aksara", romaji));
+                    params.add(new BasicNameValuePair("id_jenis", id_jenis));
 
                     JSONObject json = jsonParser.makeHttpRequest(Config.URL_UPDATE_NILAI, "POST", params);
                     return json;
@@ -423,7 +425,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         Log.i("Y :", pointLoc.y.toString());
 
         //Tampilkan Toast posisi X dan Y
-        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
 
         Log.i("RESULT :", pointLoc.pointInPolygon());
         result.add(pointLoc.pointInPolygon());
@@ -448,6 +450,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 index = Arrays.asList(angka).indexOf(romaji);
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
                 gLibrary.load();
+                id_jenis = "ANG";
                 break;
             case "Carakan":
                 listAksara.addAll(aksara.getAksarCarakan());
@@ -456,6 +459,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 index = Arrays.asList(carakan).indexOf(romaji);
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_carakan);
                 gLibrary.load();
+                id_jenis = "CAR";
                 break;
             case "Pasangan":
                 listAksara.addAll(aksara.getAksarPasangan());
@@ -464,6 +468,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 index = Arrays.asList(pasangan).indexOf(romaji);
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_pasangan);
                 gLibrary.load();
+                id_jenis = "PAS";
                 break;
             case "Swara":
                 listAksara.addAll(aksara.getAksarSwara());
@@ -471,6 +476,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 index = Arrays.asList(swara).indexOf(romaji);
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_swara);
                 gLibrary.load();
+                id_jenis = "SWA";
                 break;
         }
     }

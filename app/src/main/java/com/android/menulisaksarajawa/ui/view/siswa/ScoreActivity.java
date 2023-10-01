@@ -68,10 +68,31 @@ public class ScoreActivity extends AppCompatActivity {
                             pasangan = data.getJSONObject(2).getString("nilai");
                             swara = data.getJSONObject(3).getString("nilai");
 
+                            String start_angka = data.getJSONObject(0).getString("createdAt");
+                            String start_carakan = data.getJSONObject(1).getString("createdAt");
+                            String start_pasangan = data.getJSONObject(2).getString("createdAt");
+                            String start_swara = data.getJSONObject(3).getString("createdAt");
+
+                            String last_angka = data.getJSONObject(0).getString("modifiedAt");
+                            String last_carakan = data.getJSONObject(1).getString("modifiedAt");
+                            String last_pasangan = data.getJSONObject(2).getString("modifiedAt");
+                            String last_swara = data.getJSONObject(3).getString("modifiedAt");
+
                             binding.tvScoreAngka.setText(angka + "/10");
                             binding.tvScoreCarakan.setText(carakan + "/20");
                             binding.tvScorePasangan.setText(pasangan + "/20");
                             binding.tvScoreSwara.setText(swara + "/5");
+
+                            binding.startAngka.setText(start_angka.equals("null") ? "Mulai : -" : "Mulai : " + start_angka);
+                            binding.startCarakan.setText(start_carakan.equals("null") ? "Mulai : -" : "Mulai : " + start_carakan);
+                            binding.startPasangan.setText(!start_pasangan.equals("null") ? "Mulai : " + start_pasangan : "Mulai : -");
+                            binding.startSwara.setText(!start_swara.equals("null") ? "Mulai : " + start_swara : "Mulai : -");
+
+                            binding.lastAngka.setText(!last_angka.equals("null") ? "Akhir : " + last_angka : "Akhir : -");
+                            binding.lastCarakan.setText(!last_carakan.equals("null") ? "Akhir : " + last_carakan : "Akhir : -");
+                            binding.lastPasangan.setText(!last_pasangan.equals("null") ? "Akhir : " + last_pasangan : "Akhir : -");
+                            binding.lastSwara.setText(!last_swara.equals("null") ? "Akhir : " + last_swara : "Akhir : -");
+
                         } else {
                             Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                         }

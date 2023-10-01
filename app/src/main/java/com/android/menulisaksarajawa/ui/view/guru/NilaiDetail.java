@@ -43,6 +43,8 @@ public class NilaiDetail extends AppCompatActivity {
     private List<Nilai> list = new ArrayList<>();
     private JSONParser jsonParser = new JSONParser();
     private String kelas;
+    private String start_angka, start_carakan, start_pasangan, start_swara;
+    private String last_angka, last_carakan, last_pasangan, last_swara;
     private Dialog mDialog;
 
     @Override
@@ -131,20 +133,28 @@ public class NilaiDetail extends AppCompatActivity {
                                 switch (jenis) {
                                     case "Angka":
                                         angka = dataNilai.getJSONObject(j).getString("nilai");
+                                        start_angka = dataNilai.getJSONObject(j).getString("createdAt");
+                                        last_angka = dataNilai.getJSONObject(j).getString("modifiedAt");
                                         break;
                                     case "Carakan":
                                         carakan = dataNilai.getJSONObject(j).getString("nilai");
+                                        start_carakan = dataNilai.getJSONObject(j).getString("createdAt");
+                                        last_carakan = dataNilai.getJSONObject(j).getString("modifiedAt");
                                         break;
                                     case "Pasangan":
                                         pasangan = dataNilai.getJSONObject(j).getString("nilai");
+                                        start_pasangan = dataNilai.getJSONObject(j).getString("createdAt");
+                                        last_pasangan = dataNilai.getJSONObject(j).getString("modifiedAt");
                                         break;
                                     case "Swara":
                                         swara = dataNilai.getJSONObject(j).getString("nilai");
+                                        start_swara = dataNilai.getJSONObject(j).getString("createdAt");
+                                        last_swara = dataNilai.getJSONObject(j).getString("modifiedAt");
                                         break;
                                 }
                                 total = (Integer.parseInt(angka)) + (Integer.parseInt(carakan)) + (Integer.parseInt(pasangan)) + (Integer.parseInt(swara));
                             }
-                            list.add(new Nilai(name, angka, carakan, pasangan, swara, String.valueOf(total)));
+                            list.add(new Nilai(name, angka, carakan, pasangan, swara, String.valueOf(total), start_angka, start_carakan, start_pasangan, start_swara, last_angka, last_carakan, last_pasangan, last_swara));
                             Log.i("NILAI USER", angka + " : " + carakan + " : " + total);
                         }
                         binding.rvNilai.setLayoutManager(new GridLayoutManager(NilaiDetail.this, 1));
@@ -169,11 +179,31 @@ public class NilaiDetail extends AppCompatActivity {
                                 TextView angka = mDialog.findViewById(R.id.angka);
                                 TextView total = mDialog.findViewById(R.id.total);
 
+                                TextView st_carakan = mDialog.findViewById(R.id.st_carakan);
+                                TextView st_pasangan = mDialog.findViewById(R.id.st_pasangan);
+                                TextView st_swara = mDialog.findViewById(R.id.st_swara);
+                                TextView st_angka = mDialog.findViewById(R.id.st_angka);
+
+                                TextView ls_carakan = mDialog.findViewById(R.id.lt_carakan);
+                                TextView ls_pasangan = mDialog.findViewById(R.id.lt_pasangan);
+                                TextView ls_swara = mDialog.findViewById(R.id.lt_swara);
+                                TextView ls_angka = mDialog.findViewById(R.id.lt_angka);
+
                                 carakan.setText(data.getCarakan());
                                 pasangan.setText(data.getPasangan());
                                 swara.setText(data.getSwara());
                                 angka.setText(data.getAngka());
                                 total.setText(data.getTotal());
+
+                                st_angka.setText(!data.getStart_angka().equals("null") ? "Mulai : " + data.getStart_angka() : "Mulai : -");
+                                st_carakan.setText(!data.getStart_carakan().equals("null") ? "Mulai : " + data.getStart_carakan() : "Mulai : -");
+                                st_pasangan.setText(!data.getStart_pasangan().equals("null") ? "Mulai : " + data.getStart_pasangan() : "Mulai : -");
+                                st_swara.setText(!data.getStart_swara().equals("null") ? "Mulai : " + data.getStart_swara() : "Mulai : -");
+
+                                ls_angka.setText(!data.getLast_angka().equals("null") ? "Akhir : " + data.getLast_angka() : "Akhir : -");
+                                ls_carakan.setText(!data.getLast_carakan().equals("null") ? "Akhir : " + data.getLast_carakan() : "Akhir : -");
+                                ls_pasangan.setText(!data.getLast_pasangan().equals("null") ? "Akhir : " + data.getLast_pasangan() : "Akhir : -");
+                                ls_swara.setText(!data.getLast_swara().equals("null") ? "Akhir : " + data.getLast_swara() : "Akhir : -");
 
                                 mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
                                 mDialog.show();
