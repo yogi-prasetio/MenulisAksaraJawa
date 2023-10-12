@@ -373,12 +373,12 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             }
             ArrayList<String> algo = new ArrayList<String>();
             //Huruf yang dicek dengan algoritma
-            String[] huruf =  {"HA", "NA", "H", "N", "A", "0", "1"};
+            String[] huruf =  {"ha", "na", "ca", "ra", "h", "n", "c", "a", "0", "1"};
             algo.addAll(Arrays.asList(huruf));
 
             //Check Tulisan dengan Algo
             if(algo.contains(romaji)) {
-//                Toast.makeText(getApplicationContext(), "with algorithm", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "with algorithm", Toast.LENGTH_SHORT).show();
                 if (result.contains("Outside")) {
                     ab.setTitle("Salah");
                     ab.setMessage("huruf yang Anda tulis tidak tepat.");
@@ -400,8 +400,8 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     UpdateNilai na = new UpdateNilai();
                     na.execute();
                 }
-            } else { //Check tulisan tanpa Algo
-//                Toast.makeText(getApplicationContext(), "no algorithm", Toast.LENGTH_SHORT).show();
+            }else {//Check tulisan tanpa Algo
+                //Toast.makeText(getApplicationContext(), "no algorithm", Toast.LENGTH_SHORT).show();
                 ab.setTitle("Benar");
                 ab.setMessage("huruf yang Anda tulis sudah tepat.");
                 ab.setPositiveButton("OK", null);
@@ -425,7 +425,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         Log.i("Y :", pointLoc.y.toString());
 
         //Tampilkan Toast posisi X dan Y
-//        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
 
         Log.i("RESULT :", pointLoc.pointInPolygon());
         result.add(pointLoc.pointInPolygon());
