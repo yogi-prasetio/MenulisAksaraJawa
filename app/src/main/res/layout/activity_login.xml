@@ -8,10 +8,32 @@
     android:gravity="center"
     tools:context=".ui.view.LoginActivity">
 
+    <LinearLayout
+        android:id="@+id/logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_centerHorizontal="true">
+        <ImageView
+            android:id="@+id/iv_univ"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/logo_uniku"/>
+
+        <ImageView
+            android:id="@+id/iv_sekolah"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_margin="8dp"
+            android:src="@drawable/logo_school"/>
+    </LinearLayout>
+
     <TextView
         android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/logo"
         android:text="Selamat Datang!"
         android:textColor="@color/black"
         android:textAlignment="center"

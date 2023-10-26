@@ -15,8 +15,6 @@ import com.android.menulisaksarajawa.databinding.ActivityLoginBinding;
 import com.android.menulisaksarajawa.ui.database.Config;
 import com.android.menulisaksarajawa.ui.database.JSONParser;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
-import com.android.menulisaksarajawa.ui.view.guru.NilaiActivity;
-import com.android.menulisaksarajawa.ui.view.siswa.MainActivity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -89,11 +87,8 @@ public class LoginActivity extends AppCompatActivity {
                         prefManager.saveSPString(PrefManager.SES_KELAS, kelas);
                         prefManager.saveSPString(PrefManager.SES_USERNAME, username);
                         prefManager.saveSPString(PrefManager.SES_ROLE, role);
-                        if(role.equals("Guru")){
-                            startActivity(new Intent(LoginActivity.this, NilaiActivity.class));
-                        } else {
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                        }
+
+                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
                     } else {
                         Toast.makeText(getApplicationContext(), "Login gagal!", Toast.LENGTH_LONG).show();
                     }
@@ -133,11 +128,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void loginCheck(){
         if(prefManager.loginStatus()){
-            if(prefManager.getSPRole().equals("Siswa")){
-                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            } else {
-                startActivity(new Intent(LoginActivity.this, NilaiActivity.class));
-            }
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
     }
 

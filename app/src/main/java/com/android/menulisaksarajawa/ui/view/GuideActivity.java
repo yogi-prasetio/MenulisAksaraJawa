@@ -13,8 +13,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityGuideBinding;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
-import com.android.menulisaksarajawa.ui.view.guru.NilaiActivity;
-import com.android.menulisaksarajawa.ui.view.siswa.MainActivity;
 
 public class GuideActivity extends AppCompatActivity {
     private ActivityGuideBinding binding;
@@ -46,12 +44,7 @@ public class GuideActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            String role = prefManager.getSPRole();
-            if (role.equals("siswa")) {
-                startActivity(new Intent(GuideActivity.this, MainActivity.class));
-            } else if (role.equals("guru")){
-                startActivity(new Intent(GuideActivity.this, NilaiActivity.class));
-            }
+            startActivity(new Intent(GuideActivity.this, MainActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }

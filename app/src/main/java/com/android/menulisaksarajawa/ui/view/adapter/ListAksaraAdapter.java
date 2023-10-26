@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.menulisaksarajawa.databinding.ItemRowCharacterBinding;
 import com.android.menulisaksarajawa.ui.model.Characters;
+import com.android.menulisaksarajawa.ui.utils.PrefManager;
 
 import java.util.ArrayList;
 
@@ -19,7 +20,8 @@ public class ListAksaraAdapter extends RecyclerView.Adapter<ListAksaraAdapter.Li
     private ArrayList<Characters> listAksara;
     private OnItemClickCallback onItemClickCallback;
     private int nilai;
-    private String type;
+    private String type, role;
+    private PrefManager prefManager;
 
     public ListAksaraAdapter(ArrayList<Characters> list) {
         this.listAksara = list;
@@ -33,6 +35,9 @@ public class ListAksaraAdapter extends RecyclerView.Adapter<ListAksaraAdapter.Li
     @Override
     public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         ItemRowCharacterBinding binding = ItemRowCharacterBinding.inflate(LayoutInflater.from(parent.getContext()), parent, false);
+
+        prefManager = new PrefManager(parent.getContext());
+        role = prefManager.getSPRole();
 
         return new ListViewHolder(binding);
     }
@@ -50,7 +55,11 @@ public class ListAksaraAdapter extends RecyclerView.Adapter<ListAksaraAdapter.Li
             holder.binding.ivStatus.setColorFilter(Color.argb(100, 8, 200, 16));
         }
         if(type.equals("test")){
-            holder.binding.ivStatus.setVisibility(View.VISIBLE);
+            if(role.equals("Guru")){
+                holder.binding.ivStatus.setVisibility(View.GONE);
+            } else {
+                holder.binding.ivStatus.setVisibility(View.VISIBLE);
+            }
         } else {
             holder.binding.ivStatus.setVisibility(View.GONE);
         }

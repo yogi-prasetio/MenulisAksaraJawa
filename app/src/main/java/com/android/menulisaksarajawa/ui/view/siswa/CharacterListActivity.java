@@ -44,7 +44,7 @@ public class CharacterListActivity extends AppCompatActivity {
     private ActivityCharacterListBinding binding;
     private ListAksaraAdapter adapter;
     private ArrayList<Characters> list = new ArrayList();
-    private String type, jenis, types;
+    private String type, jenis, types, role;
     private String[] angka, carakan, pasangan, swara;
     private int index=0;
     PrefManager prefManager;
@@ -66,6 +66,7 @@ public class CharacterListActivity extends AppCompatActivity {
         type = sharedPref.getString("write", "");
         jenis = getIntent().getStringExtra("jenis");
         types = getIntent().getStringExtra("type");
+        role = prefManager.getSPRole();
 
         if(type.equals("learn")) {
             binding.toolbar.setTitle("Belajar Menulis Aksara Jawa");
@@ -126,64 +127,69 @@ public class CharacterListActivity extends AppCompatActivity {
 
     private void setRecycleView(){
         if(type.equals("test")){
-            if (!checkNetwork()){
-                Toast.makeText(this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
+            if(role.equals("Guru")) {
                 binding.progressBar.setVisibility(View.GONE);
+                setView();
             } else {
-                class GetNilai extends AsyncTask<Void, Void, JSONObject> {
+                if (!checkNetwork()) {
+                    Toast.makeText(this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
+                    binding.progressBar.setVisibility(View.GONE);
+                } else {
+                    class GetNilai extends AsyncTask<Void, Void, JSONObject> {
 
-                    ProgressBar loading;
+                        ProgressBar loading;
 
-                    @Override
-                    protected void onPreExecute() {
-                        super.onPreExecute();
-                        binding.progressBar.setVisibility(View.VISIBLE);
-                    }
+                        @Override
+                        protected void onPreExecute() {
+                            super.onPreExecute();
+                            binding.progressBar.setVisibility(View.VISIBLE);
+                        }
 
-                    @Override
-                    protected void onPostExecute(JSONObject result) {
-                        super.onPostExecute(result);
-                        try {
-                            if (result.getInt("status") == 1) {
-                                JSONArray data = result.getJSONArray("data");
-                                switch (jenis) {
-                                    case "Angka":
-                                        nilai[0] = Integer.parseInt(data.getJSONObject(0).getString("nilai"));
-                                        break;
-                                    case "Carakan":
-                                        nilai[0] = Integer.parseInt(data.getJSONObject(1).getString("nilai"));
-                                        break;
-                                    case "Pasangan":
-                                        nilai[0] = Integer.parseInt(data.getJSONObject(2).getString("nilai"));
-                                        break;
-                                    case "Swara":
-                                        nilai[0] = Integer.parseInt(data.getJSONObject(3).getString("nilai"));
-                                        break;
+                        @Override
+                        protected void onPostExecute(JSONObject result) {
+                            super.onPostExecute(result);
+                            try {
+                                if (result.getInt("status") == 1) {
+                                    JSONArray data = result.getJSONArray("data");
+                                    switch (jenis) {
+                                        case "Angka":
+                                            nilai[0] = Integer.parseInt(data.getJSONObject(0).getString("nilai"));
+                                            break;
+                                        case "Carakan":
+                                            nilai[0] = Integer.parseInt(data.getJSONObject(1).getString("nilai"));
+                                            break;
+                                        case "Pasangan":
+                                            nilai[0] = Integer.parseInt(data.getJSONObject(2).getString("nilai"));
+                                            break;
+                                        case "Swara":
+                                            nilai[0] = Integer.parseInt(data.getJSONObject(3).getString("nilai"));
+                                            break;
+                                    }
+                                    Log.e("NILAI", String.valueOf(nilai[0]));
+                                    adapter.setNilai(nilai[0], type);
+                                    setView();
+                                } else {
+                                    Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                                 }
-                                Log.e("NILAI", String.valueOf(nilai[0]));
-                                adapter.setNilai(nilai[0], type);
-                                setView();
-                            } else {
-                                Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                                binding.progressBar.setVisibility(View.GONE);
+                            } catch (JSONException e) {
+                                e.printStackTrace();
                             }
-                            binding.progressBar.setVisibility(View.GONE);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
+                        }
+
+                        @Override
+                        protected JSONObject doInBackground(Void... v) {
+                            ArrayList params = new ArrayList();
+                            params.add(prefManager.getSPId());
+
+                            JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "GET", params);
+                            return json;
                         }
                     }
 
-                    @Override
-                    protected JSONObject doInBackground(Void... v) {
-                        ArrayList params = new ArrayList();
-                        params.add(prefManager.getSPId());
-
-                        JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NILAI_USER, "GET", params);
-                        return json;
-                    }
+                    GetNilai na = new GetNilai();
+                    na.execute();
                 }
-
-                GetNilai na = new GetNilai();
-                na.execute();
             }
         } else {
             binding.progressBar.setVisibility(View.GONE);
@@ -223,9 +229,7 @@ public class CharacterListActivity extends AppCompatActivity {
                     startActivity(move);
                 } else if(type.equals("test")){
                     Log.e("CEK NILAI", String.valueOf(nilai[0]));
-                    if(nilai[0]< index){
-                        Toast.makeText(CharacterListActivity.this, "Maaf, Anda belum menyelesaikan huruf yang sebelumnya!", Toast.LENGTH_SHORT).show();
-                    } else {
+                    if(role.equals("Guru")) {
                         Intent move = new Intent(CharacterListActivity.this, PracticeActivity.class);
                         move.putExtra("image", data.getImage());
                         move.putExtra("aksara", data.getAksara());
@@ -233,6 +237,18 @@ public class CharacterListActivity extends AppCompatActivity {
                         move.putExtra("audio", data.getAudio());
                         move.putExtra("type", jenis);
                         startActivity(move);
+                    } else {
+                        if (nilai[0] < index) {
+                            Toast.makeText(CharacterListActivity.this, "Maaf, Anda belum menyelesaikan huruf yang sebelumnya!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Intent move = new Intent(CharacterListActivity.this, PracticeActivity.class);
+                            move.putExtra("image", data.getImage());
+                            move.putExtra("aksara", data.getAksara());
+                            move.putExtra("romaji", data.getRomaji());
+                            move.putExtra("audio", data.getAudio());
+                            move.putExtra("type", jenis);
+                            startActivity(move);
+                        }
                     }
                 } else {
                     MediaPlayer audio = MediaPlayer.create(CharacterListActivity.this, data.getAudio());

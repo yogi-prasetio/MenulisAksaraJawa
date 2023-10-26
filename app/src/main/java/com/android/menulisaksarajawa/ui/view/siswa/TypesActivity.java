@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityTypesBinding;
+import com.android.menulisaksarajawa.ui.view.MainActivity;
 
 public class TypesActivity extends AppCompatActivity {
     private ActivityTypesBinding binding;

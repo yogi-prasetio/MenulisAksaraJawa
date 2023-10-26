@@ -1,4 +1,4 @@
-package com.android.menulisaksarajawa.ui.view.siswa;
+package com.android.menulisaksarajawa.ui.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,14 +10,17 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.menulisaksarajawa.databinding.ActivityMainBinding;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
-import com.android.menulisaksarajawa.ui.view.GuideActivity;
-import com.android.menulisaksarajawa.ui.view.LoginActivity;
+import com.android.menulisaksarajawa.ui.view.guru.NilaiActivity;
+import com.android.menulisaksarajawa.ui.view.siswa.ScoreActivity;
+import com.android.menulisaksarajawa.ui.view.siswa.TheoryActivity;
+import com.android.menulisaksarajawa.ui.view.siswa.TypesActivity;
 
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     PrefManager prefManager;
     private SharedPreferences sharedPref;
     private SharedPreferences.Editor spEditor;
+    private String role;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
         spEditor = sharedPref.edit();
         loginCheck();
 
+        role = prefManager.getSPRole();
+
 //        Toast.makeText(getApplicationContext(),"Welcome "+prefManager.getSPNama(),Toast.LENGTH_LONG).show();
         binding.tvName.setText(prefManager.getSPNama());
         binding.tvClass.setText(prefManager.getSPKelas());
         binding.btnInfo.setOnClickListener( new View.OnClickListener(){
-
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(MainActivity.this, GuideActivity.class));
@@ -74,7 +78,11 @@ public class MainActivity extends AppCompatActivity {
         binding.btnNilai.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(MainActivity.this, ScoreActivity.class));
+                if(role.equals("Siswa")) {
+                    startActivity(new Intent(MainActivity.this, ScoreActivity.class));
+                } else if(role.equals("Guru")) {
+                    startActivity(new Intent(MainActivity.this, NilaiActivity.class));
+                }
             }
         });
     }

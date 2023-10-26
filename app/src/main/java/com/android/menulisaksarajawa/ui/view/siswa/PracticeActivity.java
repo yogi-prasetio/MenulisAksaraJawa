@@ -85,7 +85,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     JSONParser jsonParser=new JSONParser();
     private Dialog mDialog;
     private boolean guide;
-    private String id_jenis;
+    private String id_jenis, role;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +97,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         prefManager = new PrefManager(this);
 
         guide = sharedPref.getBoolean("guide", true);
+        role = prefManager.getSPRole();
 
         mDialog = new Dialog(this);
         mDialog.setContentView(R.layout.warning_dialog);
@@ -120,16 +121,25 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         binding.tvCharInfo.setText(romaji);
 
         setType();
-        getNilai();
+        if(role.equals("Siswa")) {
+            getNilai();
+        }
 
         listSize = listAksara.size()-1;
         result = new ArrayList<>();
 
-        binding.btnNext.setVisibility(View.GONE);
-        if (index == 0) {
-            binding.btnBefore.setVisibility(View.GONE);
-        } else if (index == listSize) {
+        if(role.equals("Siswa")) {
             binding.btnNext.setVisibility(View.GONE);
+        } else if(role.equals("Guru")) {
+            if (index == 0) {
+                binding.btnBefore.setVisibility(View.GONE);
+            } else if (index == listSize) {
+                binding.btnBefore.setVisibility(View.VISIBLE);
+                binding.btnNext.setVisibility(View.GONE);
+            } else {
+                binding.btnNext.setVisibility(View.VISIBLE);
+                binding.btnBefore.setVisibility(View.VISIBLE);
+            }
         }
 
         setSupportActionBar(binding.toolbar);
@@ -186,7 +196,11 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.test_menu, menu);
         this.menu = menu;
-        this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
+        if(role.equals("Guru")) {
+            menu.removeItem(R.id.indikator_nilai);
+        } else {
+            this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
+        }
         return true;
     }
 
@@ -197,7 +211,11 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             intent.putExtra("jenis", type);
             startActivity(intent);
         } else if (item.getItemId() == R.id.btn_info) {
-            infoStart();
+            if(role.equals("Siswa")) {
+                infoStart();
+            } else {
+                info();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
@@ -348,7 +366,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                                 Toast.makeText(getApplicationContext(), "Nilai berhasil diperbarui!", Toast.LENGTH_LONG).show();
                                 indicatorMenu = menu.findItem(R.id.indikator_nilai);
                                 indicatorMenu.setTitle((nilai+1)+"/"+listAksara.size());
-                            } else { }
+                            }
                             binding.btnNext.setVisibility(View.VISIBLE);
                             binding.progressBar.setVisibility(View.GONE);
                             binding.canvas.setVisibility(View.VISIBLE);
@@ -425,7 +443,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         Log.i("Y :", pointLoc.y.toString());
 
         //Tampilkan Toast posisi X dan Y
-        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getBaseContext(), "X: "+pointLoc.x.toString()+ "    Y: "+pointLoc.y.toString()+ "\n", Toast.LENGTH_SHORT).show();
 
         Log.i("RESULT :", pointLoc.pointInPolygon());
         result.add(pointLoc.pointInPolygon());
@@ -523,7 +541,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         int idx = index + 1;
                         String nil = String.valueOf(nilai.charAt(0));
                         Log.e("INDEXES", nil+" = "+idx);
-                        if(Integer.valueOf(nil) < idx) {
+                        if(Integer.parseInt(nil) < idx) {
                             Log.e("INDEX", nil+" = "+idx);
                             binding.btnNext.setVisibility(View.GONE);
                         } else {
@@ -533,7 +551,11 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         binding.canvas.setVisibility(View.VISIBLE);
                         if(guide){
                             if(index == 0) {
-                                infoStart();
+                                if(role.equals("Siswa")){
+                                    infoStart();
+                                } else {
+                                    info();
+                                }
                             }
                         }
                     } else {
@@ -586,6 +608,55 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                                 .textColor(R.color.white).textTypeface(Typeface.SANS_SERIF)
                                 .dimColor(R.color.black).drawShadow(true).cancelable(false)
                                 .tintTarget(true).transparentTarget(true).targetRadius(50)
+                ).listener(new TapTargetSequence.Listener() {
+                    @Override
+                    public void onSequenceFinish() {
+                        if(guide) {
+                            mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                            mDialog.show();
+                            TextView btnOke = mDialog.findViewById(R.id.btn_oke);
+                            CheckBox mCheckBox = mDialog.findViewById(R.id.checkBox);
+                            mCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                @Override
+                                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                    if (buttonView.isChecked()) {
+                                        spEditor.putBoolean("guide", false);
+                                        spEditor.commit();
+                                    }
+                                }
+                            });
+                            btnOke.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mDialog.dismiss();
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onSequenceStep(TapTarget lastTarget, boolean targetClicked) { }
+
+                    @Override
+                    public void onSequenceCanceled(TapTarget lastTarget) { }
+                }).start();
+    }
+
+    private void info() {
+        new TapTargetSequence(PracticeActivity.this)
+                .targets(
+                        TapTarget.forView(
+                                        binding.canvas,
+                                        "Canvas",
+                                        "Coret huruf pada canvas dan tunggu coretan sampai menghilang. Kemudian akan muncul dialog hasil penilaian coretan.\n\n\n"
+                                )
+                                .outerCircleColor(R.color.mega_mendung).outerCircleAlpha(0.96f)
+                                .targetCircleColor(R.color.white).titleTextSize(20)
+                                .titleTextColor(R.color.white).descriptionTextSize(18)
+                                .descriptionTextColor(R.color.white)
+                                .textColor(R.color.white).textTypeface(Typeface.SANS_SERIF)
+                                .dimColor(R.color.white).drawShadow(true).cancelable(false)
+                                .tintTarget(true).transparentTarget(true).targetRadius(250)
                 ).listener(new TapTargetSequence.Listener() {
                     @Override
                     public void onSequenceFinish() {

@@ -2,8 +2,6 @@ package com.android.menulisaksarajawa.ui.view.guru;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -12,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityNilaiBinding;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
+import com.android.menulisaksarajawa.ui.view.MainActivity;
 
 public class NilaiActivity extends AppCompatActivity {
     private ActivityNilaiBinding binding;
@@ -23,6 +22,10 @@ public class NilaiActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
         prefManager = new PrefManager(this);
+
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
         
         binding.btnKelasA.setOnClickListener(new View.OnClickListener(){
 
@@ -87,16 +90,9 @@ public class NilaiActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
-        return true;
-    }
-    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.btn_info_app) {
-            Intent intent = new Intent(NilaiActivity.this, InfoActivity.class);
-            startActivity(intent);
+        if (item.getItemId() == android.R.id.home) {
+            startActivity(new Intent(NilaiActivity.this, MainActivity.class));
         }
         return super.onOptionsItemSelected(item);
     }
