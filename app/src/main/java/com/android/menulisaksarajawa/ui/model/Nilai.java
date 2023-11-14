@@ -1,6 +1,8 @@
 package com.android.menulisaksarajawa.ui.model;
 
 public class Nilai {
+
+    private String id_user;
     private String name;
     private String angka;
     private String carakan;
@@ -18,7 +20,8 @@ public class Nilai {
 
     private String total;
     
-    public Nilai(String name, String angka, String carakan, String pasangan, String swara, String total, String last_angka, String start_carakan, String start_pasangan, String start_swara, String start_angka, String last_carakan, String last_pasangan, String last_swara){
+    public Nilai(String id_user, String name, String angka, String carakan, String pasangan, String swara, String total, String last_angka, String start_carakan, String start_pasangan, String start_swara, String start_angka, String last_carakan, String last_pasangan, String last_swara){
+        this.id_user = id_user;
         this.name = name;
         this.angka = angka;
         this.carakan = carakan;
@@ -34,6 +37,14 @@ public class Nilai {
         this.last_carakan = last_carakan;
         this.last_pasangan = last_pasangan;
         this.last_swara = last_swara;
+    }
+
+    public String getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(String id_user) {
+        this.id_user = id_user;
     }
 
     public String getName() {

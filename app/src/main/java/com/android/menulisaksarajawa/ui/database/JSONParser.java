@@ -14,14 +14,18 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.List;
 
 import cz.msebera.android.httpclient.HttpEntity;
 import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.entity.StringEntity;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
 
 public class JSONParser {
     static InputStream is = null;
@@ -49,21 +53,51 @@ public class JSONParser {
                 // defaultHttpClient
                 HttpClient httpClient = new DefaultHttpClient();
                 HttpPost httpPost = new HttpPost(url);
-                httpPost.setEntity(new UrlEncodedFormEntity(params));
+
+//                httpPost.setEntity(new UrlEncodedFormEntity(params));
+//                try {
+//                    Log.e("API123", " " +convertStreamToString(httpPost.getEntity().getContent()));
+//                    Log.e("API123",httpPost.getURI().toString());
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//
+//                HttpResponse httpResponse = httpClient.execute(httpPost);
+//                Log.e("API123",""+httpResponse.getStatusLine().getStatusCode());
+//                error= String.valueOf(httpResponse.getStatusLine().getStatusCode());
+//                HttpEntity httpEntity = httpResponse.getEntity();
+//                is = httpEntity.getContent();
+
+                StringBuilder requestBody = new StringBuilder();
+
+
+                List<BasicNameValuePair> paramList = new ArrayList<>(params);
+                for (BasicNameValuePair param : paramList) {
+                    if (requestBody.length() != 0) {
+                        requestBody.append("&");
+                    }
+                    requestBody.append(param.getName()).append("=").append(param.getValue());
+                }
+
+                // Menentukan entitas langsung tanpa URL encoding
+                StringEntity stringEntity = new StringEntity(requestBody.toString(), "UTF-8");
+                stringEntity.setContentType("application/x-www-form-urlencoded");
+                httpPost.setEntity(stringEntity);
+
                 try {
-                    Log.e("API123", " " +convertStreamToString(httpPost.getEntity().getContent()));
-                    Log.e("API123",httpPost.getURI().toString());
+                    Log.e("API123", " " + convertStreamToString(httpPost.getEntity().getContent()));
+                    Log.e("API123", httpPost.getURI().toString());
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
 
                 HttpResponse httpResponse = httpClient.execute(httpPost);
-                Log.e("API123",""+httpResponse.getStatusLine().getStatusCode());
-                error= String.valueOf(httpResponse.getStatusLine().getStatusCode());
+                Log.e("API123", "" + httpResponse.getStatusLine().getStatusCode());
+                error = String.valueOf(httpResponse.getStatusLine().getStatusCode());
                 HttpEntity httpEntity = httpResponse.getEntity();
                 is = httpEntity.getContent();
 
-            }else if(method.equals("GET")){
+            } else if(method.equals("GET")){
                 // request method is GET
                 DefaultHttpClient httpClient = new DefaultHttpClient();
 //                String paramString = URLEncodedUtils.format(params, "utf-8");

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
@@ -13,6 +14,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +28,8 @@ import com.android.menulisaksarajawa.ui.database.Config;
 import com.android.menulisaksarajawa.ui.database.JSONParser;
 import com.android.menulisaksarajawa.ui.model.Nilai;
 import com.android.menulisaksarajawa.ui.view.adapter.ListNilaiAdapter;
+import com.android.menulisaksarajawa.ui.view.siswa.NilaiHistoryActivity;
+import com.android.menulisaksarajawa.ui.view.siswa.ScoreActivity;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -44,7 +48,7 @@ public class NilaiDetail extends AppCompatActivity {
     private JSONParser jsonParser = new JSONParser();
     private String kelas;
     private String start_angka, start_carakan, start_pasangan, start_swara;
-    private String last_angka, last_carakan, last_pasangan, last_swara;
+    private String last_angka, last_carakan, last_pasangan, last_swara, title;
     private Dialog mDialog;
 
     @Override
@@ -56,9 +60,10 @@ public class NilaiDetail extends AppCompatActivity {
         mDialog = new Dialog(this);
 
         kelas = getIntent().getStringExtra("kelas");
-        String title = getIntent().getStringExtra("title");
+        title = getIntent().getStringExtra("title");
 
-        getSupportActionBar().setTitle("Nilai Kelas " + title);
+        setSupportActionBar(binding.toolbar);
+        getSupportActionBar().setTitle("Nilai Kelas "+title);
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
@@ -119,15 +124,16 @@ public class NilaiDetail extends AppCompatActivity {
             protected void onPostExecute(JSONObject result) {
                 super.onPostExecute(result);
                 try {
-                    if (result.getInt("status") == 1) {
+                    if (result.getString("status").equals("1")) {
                         JSONArray data = result.getJSONArray("data");
                         JSONArray dataNilai = null;
 
-                        String name = "", angka = "0", carakan = "0", pasangan = "0", swara = "0", jenis;
+                        String id_user = "", name = "", angka = "0", carakan = "0", pasangan = "0", swara = "0", jenis;
                         int total = 0;
                         for (int i = 0; i < data.length(); i++) {
                             dataNilai = data.getJSONArray(i);
                             for (int j = 0; j < dataNilai.length(); j++) {
+                                id_user = dataNilai.getJSONObject(j).getString("id_user");
                                 name = dataNilai.getJSONObject(j).getString("nama_user");
                                 jenis = dataNilai.getJSONObject(j).getString("jenis");
                                 switch (jenis) {
@@ -154,9 +160,10 @@ public class NilaiDetail extends AppCompatActivity {
                                 }
                                 total = (Integer.parseInt(angka)) + (Integer.parseInt(carakan)) + (Integer.parseInt(pasangan)) + (Integer.parseInt(swara));
                             }
-                            list.add(new Nilai(name, angka, carakan, pasangan, swara, String.valueOf(total), start_angka, start_carakan, start_pasangan, start_swara, last_angka, last_carakan, last_pasangan, last_swara));
+                            list.add(new Nilai(id_user, name, angka, carakan, pasangan, swara, String.valueOf(total), start_angka, start_carakan, start_pasangan, start_swara, last_angka, last_carakan, last_pasangan, last_swara));
                             Log.i("NILAI USER", angka + " : " + carakan + " : " + total);
                         }
+
                         binding.rvNilai.setLayoutManager(new GridLayoutManager(NilaiDetail.this, 1));
                         binding.rvNilai.setHasFixedSize(true);
                         Collections.sort(list, new NilaiComparator());
@@ -170,45 +177,58 @@ public class NilaiDetail extends AppCompatActivity {
                         adapter.setOnItemClickCallback(new ListNilaiAdapter.OnItemClickCallback() {
                             @Override
                             public void onItemClicked(Nilai data) {
-                                mDialog.setContentView(R.layout.nilai_dialog);
-                                mDialog.setCancelable(true);
+                                Intent move = new Intent(NilaiDetail.this, ScoreActivity.class);
+                                move.putExtra("id_user", data.getId_user());
+                                move.putExtra("nama", data.getName());
+                                move.putExtra("title", getIntent().getStringExtra("title"));
+                                move.putExtra("kelas", kelas);
+                                startActivity(move);
 
-                                TextView carakan = mDialog.findViewById(R.id.carakan);
-                                TextView pasangan = mDialog.findViewById(R.id.pasangan);
-                                TextView swara = mDialog.findViewById(R.id.swara);
-                                TextView angka = mDialog.findViewById(R.id.angka);
-                                TextView total = mDialog.findViewById(R.id.total);
-
-                                TextView st_carakan = mDialog.findViewById(R.id.st_carakan);
-                                TextView st_pasangan = mDialog.findViewById(R.id.st_pasangan);
-                                TextView st_swara = mDialog.findViewById(R.id.st_swara);
-                                TextView st_angka = mDialog.findViewById(R.id.st_angka);
-
-                                TextView ls_carakan = mDialog.findViewById(R.id.lt_carakan);
-                                TextView ls_pasangan = mDialog.findViewById(R.id.lt_pasangan);
-                                TextView ls_swara = mDialog.findViewById(R.id.lt_swara);
-                                TextView ls_angka = mDialog.findViewById(R.id.lt_angka);
-
-                                carakan.setText(data.getCarakan());
-                                pasangan.setText(data.getPasangan());
-                                swara.setText(data.getSwara());
-                                angka.setText(data.getAngka());
-                                total.setText(data.getTotal());
-
-                                st_angka.setText(!data.getStart_angka().equals("null") ? "Mulai : " + data.getStart_angka() : "Mulai : -");
-                                st_carakan.setText(!data.getStart_carakan().equals("null") ? "Mulai : " + data.getStart_carakan() : "Mulai : -");
-                                st_pasangan.setText(!data.getStart_pasangan().equals("null") ? "Mulai : " + data.getStart_pasangan() : "Mulai : -");
-                                st_swara.setText(!data.getStart_swara().equals("null") ? "Mulai : " + data.getStart_swara() : "Mulai : -");
-
-                                ls_angka.setText(!data.getLast_angka().equals("null") ? "Akhir : " + data.getLast_angka() : "Akhir : -");
-                                ls_carakan.setText(!data.getLast_carakan().equals("null") ? "Akhir : " + data.getLast_carakan() : "Akhir : -");
-                                ls_pasangan.setText(!data.getLast_pasangan().equals("null") ? "Akhir : " + data.getLast_pasangan() : "Akhir : -");
-                                ls_swara.setText(!data.getLast_swara().equals("null") ? "Akhir : " + data.getLast_swara() : "Akhir : -");
-
-                                mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                                mDialog.show();
+//                                mDialog.setContentView(R.layout.nilai_dialog);
+//                                mDialog.setCancelable(true);
+//
+//                                TextView carakan = mDialog.findViewById(R.id.carakan);
+//                                TextView pasangan = mDialog.findViewById(R.id.pasangan);
+//                                TextView swara = mDialog.findViewById(R.id.swara);
+//                                TextView angka = mDialog.findViewById(R.id.angka);
+//                                TextView total = mDialog.findViewById(R.id.total);
+//
+//                                TextView st_carakan = mDialog.findViewById(R.id.st_carakan);
+//                                TextView st_pasangan = mDialog.findViewById(R.id.st_pasangan);
+//                                TextView st_swara = mDialog.findViewById(R.id.st_swara);
+//                                TextView st_angka = mDialog.findViewById(R.id.st_angka);
+//
+//                                TextView ls_carakan = mDialog.findViewById(R.id.lt_carakan);
+//                                TextView ls_pasangan = mDialog.findViewById(R.id.lt_pasangan);
+//                                TextView ls_swara = mDialog.findViewById(R.id.lt_swara);
+//                                TextView ls_angka = mDialog.findViewById(R.id.lt_angka);
+//
+//                                carakan.setText(data.getCarakan());
+//                                pasangan.setText(data.getPasangan());
+//                                swara.setText(data.getSwara());
+//                                angka.setText(data.getAngka());
+//                                total.setText(data.getTotal());
+//
+//                                st_angka.setText(!data.getStart_angka().equals("null") ? "Mulai : " + data.getStart_angka() : "Mulai : -");
+//                                st_carakan.setText(!data.getStart_carakan().equals("null") ? "Mulai : " + data.getStart_carakan() : "Mulai : -");
+//                                st_pasangan.setText(!data.getStart_pasangan().equals("null") ? "Mulai : " + data.getStart_pasangan() : "Mulai : -");
+//                                st_swara.setText(!data.getStart_swara().equals("null") ? "Mulai : " + data.getStart_swara() : "Mulai : -");
+//
+//                                ls_angka.setText(!data.getLast_angka().equals("null") ? "Akhir : " + data.getLast_angka() : "Akhir : -");
+//                                ls_carakan.setText(!data.getLast_carakan().equals("null") ? "Akhir : " + data.getLast_carakan() : "Akhir : -");
+//                                ls_pasangan.setText(!data.getLast_pasangan().equals("null") ? "Akhir : " + data.getLast_pasangan() : "Akhir : -");
+//                                ls_swara.setText(!data.getLast_swara().equals("null") ? "Akhir : " + data.getLast_swara() : "Akhir : -");
+//
+//                                mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+//                                mDialog.show();
                             }
                         });
+
+                        if(list.size() == 0){
+                            binding.rvNilai.setVisibility(View.GONE);
+                            binding.ivEmpty.setVisibility(View.VISIBLE);
+                            binding.textEmpty.setVisibility(View.VISIBLE);
+                        }
                     } else {
                         Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                     }
@@ -246,7 +266,7 @@ public class NilaiDetail extends AppCompatActivity {
             protected void onPostExecute(JSONObject result) {
                 super.onPostExecute(result);
                 try {
-                    if (result.getInt("status") == 1) {
+                    if (result.getString("status").equals("1")) {
                         Toast.makeText(getApplicationContext(), "Reset Nilai Berhasil!", Toast.LENGTH_LONG).show();
                         list.clear();
                         GetNilai();

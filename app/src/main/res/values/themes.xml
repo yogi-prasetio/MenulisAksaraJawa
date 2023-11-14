@@ -25,4 +25,9 @@
         <item name="colorOnPrimary">@color/mega_mendung</item>
         <item name="android:statusBarColor" tools:targetApi="l">@color/mega_mendung</item>
     </style>
+  <!-- Base application theme. -->
+    <style name="Base.Theme.MenulisAksaraJawa" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
 </resources>

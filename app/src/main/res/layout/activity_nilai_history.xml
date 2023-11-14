@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.view.guru.NilaiDetail">
+    tools:context=".ui.view.siswa.NilaiHistoryActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -30,10 +30,10 @@
         app:layout_constraintTop_toBottomOf="@id/toolbar"/>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rv_nilai"
+        android:id="@+id/rv_nilai_history"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        tools:listitem="@layout/item_nilai"
+        tools:listitem="@layout/item_nilai_history"
         app:layout_constraintTop_toBottomOf="@id/bg_toolbar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>

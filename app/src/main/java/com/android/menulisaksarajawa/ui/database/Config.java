@@ -10,13 +10,10 @@ public class Config {
     public static final String URL_UPDATE_NILAI="https://undanganforyou.my.id/aksarajawa/nilai/update";
     public static final String URL_DELETE_NILAI="https://undanganforyou.my.id/aksarajawa/nilai/deleteNilai.php?kelas=";
     public static final String URL_RESET_NILAI="https://undanganforyou.my.id/aksarajawa/nilai/reset";
+    public static final String URL_ADD_NILAI_HISTORY="https://undanganforyou.my.id/aksarajawa/nilai/addHistory";
+    public static final String URL_GET_NILAI_HISTORY="https://undanganforyou.my.id/aksarajawa/nilai/history/";
 
     public static final String URL_GET_AKSARA="https://undanganforyou.my.id/aksarajawa/aksara/";
-
-//    public static final String URL_GET_ALL = "http:// 192.168.0.196/Android/pegawai/tampilSemuaPgw.php";
-//    public static final String URL_GET_EMP = "http:// 192.168.0.196/Android/pegawai/tampilPgw.php?id=";
-//    public static final String URL_UPDATE_EMP = "http:// 192.168.0.196/Android/pegawai/updatePgw.php";
-//    public static final String URL_DELETE_EMP = "http:// 192.168.0.196/Android/pegawai/hapusPgw.php?id=";
 
     //Dibawah ini merupakan Kunci yang akan digunakan untuk mengirim permintaan ke Skrip PHP
     public static final String KEY_USER_ID = "id";

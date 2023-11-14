@@ -51,11 +51,11 @@
         android:layout_gravity="center_horizontal"
         android:layout_below="@id/tv_text"
         android:src="@drawable/background"
-        android:tint="@color/black"
         app:layout_constraintTop_toBottomOf="@id/tv_text"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:contentDescription=" " />
+        android:contentDescription=" "
+        app:tint="@color/black" />
     <ImageButton
         android:id="@+id/btn_next"
         android:layout_width="85dp"
@@ -113,6 +113,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"/>
         </android.gesture.GestureOverlayView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mega_mendung"
+            android:src="@drawable/ic_save"
+            android:tint="@color/white"
+            android:tintMode="add"
+            android:translationZ="90dp"
+            android:layout_margin="24dp"
+            android:layout_gravity="end|bottom"/>
     </androidx.cardview.widget.CardView>
 
     <ProgressBar

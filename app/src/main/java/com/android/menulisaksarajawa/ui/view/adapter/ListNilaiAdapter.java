@@ -41,12 +41,6 @@ public class ListNilaiAdapter extends RecyclerView.Adapter<ListNilaiAdapter.List
         holder.binding.tvName.setText(nilai.getName());
         holder.binding.tvScore.setText(nilai.getTotal());
 
-//        holder.binding.tvNilaiAngka.setText(nilai.getAngka());
-//        holder.binding.tvNilaiCarakan.setText(nilai.getCarakan());
-//        holder.binding.tvNilaiPasangan.setText(nilai.getPasangan());
-//        holder.binding.tvNilaiSwara.setText(nilai.getSwara());
-//        holder.binding.tvTotalNilai.setText(nilai.getTotal());
-        
         holder.itemView.setOnClickListener(v -> onItemClickCallback.onItemClicked(listNilai.get(holder.getAdapterPosition())));
     }
 
