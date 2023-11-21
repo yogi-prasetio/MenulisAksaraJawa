@@ -142,11 +142,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     spEditor.putString("start", dateFormat.format(date));
                     spEditor.commit();
                 }
-
-                String nil = sharedPref.getString("nilai", "");
-                spEditor.putString("nilai", nil);
-                spEditor.commit();
-
                 Save();
             }
         });
@@ -165,6 +160,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 binding.btnNext.setVisibility(View.GONE);
             }
         } else if(role.equals("Guru")) {
+            binding.btnSave.setVisibility((View.GONE));
             if (index == 0) {
                 binding.btnBefore.setVisibility(View.GONE);
             } else if (index == listSize) {
@@ -242,7 +238,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            if(!start.equals("")) {
+            if(!sharedPref.getString("start", "").equals("")) {
                 Save();
             } else {
                 Intent intent = new Intent(PracticeActivity.this, CharacterListActivity.class);
@@ -389,7 +385,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 
         if (prediction.size() < 1 || prediction.get(0).score <= 3.0) {
             ab.setTitle("Salah");
-            ab.setMessage("huruf yang Anda tulis tidak tepat.");
+            ab.setMessage("aksara yang Anda tulis tidak tepat.");
             ab.setPositiveButton("Coba lagi", null);
             ab.show();
             result.clear();
@@ -409,7 +405,15 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     try {
                         if (result.getString("status").equals("1")) {
                             int nilai = Integer.parseInt(indikator);
-                            spEditor.putString("nilai", String.valueOf(nilai_proses + 1));
+
+                            int nilaiTmp;
+                            String tmp_nilai = sharedPref.getString("nilai", "");
+                            if(tmp_nilai.equals("")){
+                                nilaiTmp = 0;
+                            } else {
+                                nilaiTmp = Integer.parseInt(tmp_nilai);
+                            }
+                            spEditor.putString("nilai", String.valueOf(nilaiTmp + 1));
                             spEditor.commit();
 
                             if((index+1) > nilai) {
@@ -449,19 +453,19 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 //Toast.makeText(getApplicationContext(), "with algorithm", Toast.LENGTH_SHORT).show();
 //                if (result.contains("Outside")) {
 //                    ab.setTitle("Salah");
-//                    ab.setMessage("huruf yang Anda tulis tidak tepat.");
+//                    ab.setMessage("aksara yang Anda tulis tidak tepat.");
 //                    ab.setPositiveButton("Coba lagi", null);
 //                    ab.show();
 //                    result.clear();
 //                } else if (result.isEmpty()) {
 //                    ab.setTitle("Salah");
-//                    ab.setMessage("huruf yang Anda tulis tidak tepat.");
+//                    ab.setMessage("aksara yang Anda tulis tidak tepat.");
 //                    ab.setPositiveButton("Coba lagi", null);
 //                    ab.show();
 //                    result.clear();
 //                } else {
 //                    ab.setTitle("Benar");
-//                    ab.setMessage("huruf yang Anda tulis sudah tepat.");
+//                    ab.setMessage("aksara yang Anda tulis sudah tepat.");
 //                    ab.setPositiveButton("OK", null);
 //                    ab.show();
 //
@@ -471,7 +475,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 //            }else {//Check tulisan tanpa Algo
                 //Toast.makeText(getApplicationContext(), "no algorithm", Toast.LENGTH_SHORT).show();
                 ab.setTitle("Benar");
-                ab.setMessage("huruf yang Anda tulis sudah tepat.");
+                ab.setMessage("aksara yang Anda tulis sudah tepat.");
                 ab.setPositiveButton("OK", null);
                 ab.show();
 
@@ -759,14 +763,14 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             spEditor.putString("end", dateFormat.format(date));
             spEditor.commit();
 
-            String nilai = sharedPref.getString("nilai", "");
-            String star = sharedPref.getString("start", "");
-            String end = sharedPref.getString("end", "");
-
             confirm.setTitle("Konfirmasi Tes");
             confirm.setMessage("Apakah Anda ingin mengakhiri sesi ini?");
             confirm.setPositiveButton("Ya", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int which) {
+                    binding.canvas.setVisibility(View.GONE);
+                    binding.btnNext.setVisibility(View.GONE);
+                    binding.progressBar.setVisibility(View.VISIBLE);
+
                     class AddNilaiHistory extends AsyncTask<Void, Void, JSONObject> {
 
                         ProgressDialog loading;
@@ -774,6 +778,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         @Override
                         protected void onPreExecute() {
                             super.onPreExecute();
+                            binding.progressBar.setVisibility(View.VISIBLE);
                         }
 
                         @Override
@@ -788,12 +793,13 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                                     spEditor.remove("nilai");
                                     spEditor.commit();
 
+                                    binding.progressBar.setVisibility(View.GONE);
                                     Toast.makeText(getApplicationContext(), "Nilai Berhasil Disimpan!", Toast.LENGTH_LONG).show();
                                     Intent intent = new Intent(PracticeActivity.this, CharacterListActivity.class);
                                     intent.putExtra("jenis", type);
                                     startActivity(intent);
                                 } else {
-                                    Toast.makeText(getApplicationContext(), "Nilai Berhasil Disimpan!", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(getApplicationContext(), "Nilai Gagal Disimpan!", Toast.LENGTH_LONG).show();
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -804,8 +810,14 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                         protected JSONObject doInBackground(Void... v) {
                             ArrayList params = new ArrayList();
                             String value = sharedPref.getString("nilai", "");
+
+                            if(value.equals("")){
+                                value = "0";
+                            } else {
+                                value = sharedPref.getString("nilai", "");
+                            }
                             params.add(new BasicNameValuePair("id_nilai", id_nilai));
-                            params.add(new BasicNameValuePair("nilai", value.equals("") ? "0" : value));
+                            params.add(new BasicNameValuePair("nilai", value));
                             params.add(new BasicNameValuePair("start", sharedPref.getString("start", "")));
                             params.add(new BasicNameValuePair("end", sharedPref.getString("end", "")));
 
