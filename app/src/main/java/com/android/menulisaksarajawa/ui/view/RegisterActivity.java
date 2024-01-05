@@ -38,7 +38,7 @@ public class RegisterActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
-        String[] ClassItem = {"Pilih Kelas", "VIII A", "VIII B", "VIII C", "VIII D", "VIII E", "VIII F"};
+        String[] ClassItem = {"Pilih Kelas", "VIII A", "VIII B", "VIII C", "VIII D", "VIII E", "VIII F", "VIII G", "VIII H"};
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item, ClassItem);
         binding.spClass.setAdapter(adapter);

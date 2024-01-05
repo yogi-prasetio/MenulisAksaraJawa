@@ -87,6 +87,26 @@ public class NilaiActivity extends AppCompatActivity {
                 startActivity(move);
             }
         });
+        binding.btnKelasG.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
+                move.putExtra("kelas", "VIII%20G");
+                move.putExtra("title", "VIII G");
+                startActivity(move);
+            }
+        });
+        binding.btnKelasH.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View v) {
+                Intent move = new Intent(NilaiActivity.this, NilaiDetail.class);
+                move.putExtra("kelas", "VIII%20H");
+                move.putExtra("title", "VIII H");
+                startActivity(move);
+            }
+        });
     }
 
     @Override
