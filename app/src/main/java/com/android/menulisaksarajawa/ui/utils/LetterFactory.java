@@ -12,6 +12,7 @@ public class LetterFactory {
     public String getLetterAssets() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("letters/");
+//        stringBuilder.append("background.png");
         stringBuilder.append(this.letter);
         stringBuilder.append(".png");
         return stringBuilder.toString();
@@ -19,6 +20,14 @@ public class LetterFactory {
     public String getStrokeAssets() {
         StringBuilder stringBuilder = new StringBuilder();
         stringBuilder.append("strokes/");
+        stringBuilder.append(this.letter);
+        stringBuilder.append(".json");
+        return stringBuilder.toString();
+    }
+
+    public String getPolygonAssets() {
+        StringBuilder stringBuilder = new StringBuilder();
+        stringBuilder.append("polygon/");
         stringBuilder.append(this.letter);
         stringBuilder.append(".json");
         return stringBuilder.toString();

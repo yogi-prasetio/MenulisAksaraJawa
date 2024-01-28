@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.view.siswa.PracticeActivity">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/mega_mendung"
+        app:theme="@style/ThemeOverlay.MaterialComponents.Dark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/white" />
+
+    <TextView
+        android:id="@+id/tv_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:textSize="16sp"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/btn_before"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:src="@drawable/bg_next_mega"
+        android:rotation="180"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackground"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_text"
+        app:layout_constraintBottom_toTopOf="@id/tv_charInfo"
+        app:layout_constraintEnd_toStartOf="@id/myanimation"
+        tools:ignore="ContentDescription" />
+    <ImageView
+        android:id="@+id/myanimation"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_toEndOf="@id/btn_before"
+        android:layout_margin="4dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_below="@id/tv_text"
+        android:src="@drawable/background"
+        app:layout_constraintTop_toBottomOf="@id/tv_text"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription=" " />
+    <ImageButton
+        android:id="@+id/btn_next"
+        android:layout_width="85dp"
+        android:layout_height="85dp"
+        android:src="@drawable/bg_next_mega"
+        android:scaleType="fitCenter"
+        android:background="?android:attr/selectableItemBackground"
+        app:layout_constraintStart_toEndOf="@id/myanimation"
+        app:layout_constraintTop_toBottomOf="@id/tv_text"
+        app:layout_constraintBottom_toTopOf="@id/tv_charInfo"
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="ContentDescription" />
+
+    <TextView
+        android:id="@+id/tv_charInfo"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textAllCaps="true"
+        android:textColor="@color/mega_mendung"
+        android:textAlignment="center"
+        android:layout_below="@id/myanimation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/myanimation"
+        android:hint="A"/>
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/canvas"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_margin="8dp"
+        app:cardBackgroundColor="@color/lightmega"
+        app:cardCornerRadius="8dp"
+        app:cardElevation="8dp"
+        app:cardMaxElevation="8dp"
+        app:cardUseCompatPadding="true"
+        app:layout_constraintTop_toBottomOf="@id/tv_charInfo"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <android.gesture.GestureOverlayView
+            android:id="@+id/gestureOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gestureColor="@color/mega_mendung"
+            android:uncertainGestureColor="@color/mega_mendung"
+            android:fadeOffset="2500"
+            android:gestureStrokeWidth="20.0"
+            android:gestureStrokeType="multiple"
+            android:layout_centerInParent="true">
+
+            <ImageView
+                android:id="@+id/img_letter"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="24dp"/>
+        </android.gesture.GestureOverlayView>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/mega_mendung"
+            android:src="@drawable/ic_save"
+            android:tint="@color/white"
+            android:tintMode="add"
+            android:translationZ="90dp"
+            android:layout_margin="24dp"
+            android:layout_gravity="end|bottom"/>
+    </androidx.cardview.widget.CardView>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/lightmega"
+        android:indeterminateTint="@color/mega_mendung"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="CanvasView">
+        <attr name="paintWidth" format="float|reference" />
+        <attr name="pointWidth" format="float|reference" />
         <attr name="strokeColor" format="color|reference" />
         <attr name="pointColor" format="reference|color" />
         <attr name="instructionMode" format="boolean" />

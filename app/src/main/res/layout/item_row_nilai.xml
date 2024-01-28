@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="4dp"
+    app:cardBackgroundColor="@color/lightmega"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:cardMaxElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Sephirotul"
+            android:layout_margin="8dp"
+            android:textStyle="bold"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_nilai_angka"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:hint="0"
+            android:layout_toStartOf="@+id/tv_nilai_carakan"
+            android:layout_margin="8dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_nilai_carakan"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:hint="1"
+            android:layout_toStartOf="@+id/tv_nilai_pasangan"
+            android:layout_margin="8dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_nilai_pasangan"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:hint="2"
+            android:layout_toStartOf="@+id/tv_nilai_swara"
+            android:layout_margin="8dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_nilai_swara"
+            android:layout_width="36dp"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:hint="0"
+            android:layout_toStartOf="@+id/tv_total_nilai"
+            android:layout_margin="8dp"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_total_nilai"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="0"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginEnd="16dp"
+            android:textStyle="bold"
+            android:textSize="14sp"/>        
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

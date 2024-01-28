@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="4dp"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    app:cardBackgroundColor="@color/lightmega"
+    app:cardCornerRadius="4dp"
+    app:cardElevation="4dp"
+    app:cardMaxElevation="4dp"
+    app:cardUseCompatPadding="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <TextView
+            android:id="@+id/tv_rank"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16sp"
+            android:layout_centerVertical="true"
+            android:padding="8dp"
+            android:hint="1"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingStart="8dp"
+            android:hint="Nama Lengkap"
+            android:textSize="16sp"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            android:layout_toEndOf="@id/tv_rank"/>
+
+        <TextView
+            android:id="@+id/tv_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/tv_name"
+            android:paddingTop="8dp"
+            android:paddingEnd="16dp"
+            android:text="total"
+            android:textSize="10sp"
+            android:textColor="@color/black"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="textEnd"/>
+
+        <TextView
+            android:id="@+id/tv_score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/tv_name"
+            android:layout_below="@id/tv_label"
+            android:paddingEnd="16dp"
+            android:paddingBottom="8dp"
+            android:hint="8"
+            android:textSize="20dp"
+            android:textColor="@color/mega_mendung"
+            android:textStyle="bold"
+            android:layout_alignParentEnd="true"
+            android:textAlignment="textEnd"/>
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

@@ -3,38 +3,87 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/lightmega"
     tools:context=".ui.view.MainActivity">
 
-    <Button
-        android:id="@+id/btn_materi"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="8dp"
-        android:text="Materi" />
+        android:layout_height="120dp"
+        android:background="@drawable/bg_home">
+        <TextView
+            android:id="@+id/tv_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="16dp"
+            android:text="Sephi"
+            android:textSize="18sp"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_class"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/tv_name"
+            android:text="VIII "
+            android:textSize="16sp"
+            android:textColor="@color/white"
+            android:shadowColor="@color/black"/>
+        <ImageView
+            android:id="@+id/btn_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_marginEnd="16dp"
+            android:layout_marginTop="16dp"
+            android:src="@drawable/ic_info"/>
+    </RelativeLayout>
 
-    <Button
-        android:id="@+id/btn_belajar"
+    <LinearLayout
+        android:orientation="vertical"
+        android:gravity="center"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Belajar"/>
+        android:layout_height="match_parent">
+        <ImageButton
+            android:id="@+id/btn_materi"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_materi"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:background="?android:attr/selectableItemBackground" />
 
-    <Button
-        android:id="@+id/btn_latihan"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Latihan"/>
+        <ImageButton
+            android:id="@+id/btn_belajar"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_belajar"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:background="?android:attr/selectableItemBackground" />
 
-    <Button
-        android:id="@+id/btn_nilai"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:text="Nilai"/>
+        <ImageButton
+            android:id="@+id/btn_latihan"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_latihan"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:background="?android:attr/selectableItemBackground" />
+
+        <ImageButton
+            android:id="@+id/btn_nilai"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:src="@drawable/btn_nilai"
+            android:scaleType="centerInside"
+            android:padding="8dp"
+            android:background="?android:attr/selectableItemBackground" />
+    </LinearLayout>
 
 </LinearLayout>

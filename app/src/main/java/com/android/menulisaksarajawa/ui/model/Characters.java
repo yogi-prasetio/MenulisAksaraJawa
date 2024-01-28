@@ -6,10 +6,10 @@ public class Characters {
     private Integer image;
     private Integer audio;
 
-    public Characters(Integer aksara, String romaji, Integer image, Integer audio) {
+    public Characters(Integer aksara, Integer image, String romaji, Integer audio) {
         this.aksara = aksara;
-        this.romaji = romaji;
         this.image = image;
+        this.romaji = romaji;
         this.audio = audio;
     }
 

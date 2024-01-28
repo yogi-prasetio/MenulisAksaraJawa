@@ -4,27 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.SplashActivity">
+    tools:context=".ui.view.SplashActivity">
 
-    <TextView
+    <ImageView
         android:id="@+id/title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Menulis"
-        android:textAlignment="center"
-        android:fontFamily="cursive"
-        android:textSize="16sp"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash_screen"
         android:layout_centerInParent="true"/>
-
-    <TextView
-        android:id="@+id/object"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/title"
-        android:text="Aksara jawa"
-        android:textAlignment="center"
-        android:fontFamily="casual"
-        android:textSize="24sp"
-        android:layout_centerInParent="true"/>
-
 </RelativeLayout>
