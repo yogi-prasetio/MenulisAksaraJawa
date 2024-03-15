@@ -90,4 +90,12 @@ public class Aksara{
         characters.add(new Characters(R.drawable.o, R.drawable.anim_o, "o", R.raw.o));
         return characters;
     }
+
+    public List<Characters> getExercise() {
+        List<Characters> words = new ArrayList<Characters>();
+
+        words.add(new Characters(null, null, "Bung Karno", null));
+        words.add(new Characters(null, null, "Agus Salim", null));
+        return words;
+    }
 }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityCharacterListBinding;
@@ -30,6 +31,7 @@ import com.android.menulisaksarajawa.ui.model.Aksara;
 import com.android.menulisaksarajawa.ui.model.Characters;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.android.menulisaksarajawa.ui.view.adapter.ListAksaraAdapter;
+import com.android.menulisaksarajawa.ui.view.adapter.ListKataAdapter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -43,6 +45,7 @@ import java.util.Arrays;
 public class CharacterListActivity extends AppCompatActivity {
     private ActivityCharacterListBinding binding;
     private ListAksaraAdapter adapter;
+    private ListKataAdapter adapter_word;
     private ArrayList<Characters> list = new ArrayList();
     private String type, jenis, types, role;
     private String[] angka, carakan, pasangan, swara;
@@ -71,7 +74,13 @@ public class CharacterListActivity extends AppCompatActivity {
         if(type.equals("learn")) {
             binding.toolbar.setTitle("Belajar Menulis Aksara Jawa");
         } else if(type.equals("test")) {
-            binding.toolbar.setTitle("Latihan Menulis Aksara Jawa");
+            if(jenis.equals("Kata")) {
+                binding.toolbar.setTitle("Latihan Menulis Kata Aksara Jawa");
+                binding.rvAksara.setVisibility(View.GONE);
+            } else {
+                binding.rvKata.setVisibility(View.GONE);
+                binding.toolbar.setTitle("Latihan Menulis Aksara Jawa");
+            }
         } else {
             binding.toolbar.setTitle("Daftar Aksara "+jenis);
         }
@@ -121,8 +130,14 @@ public class CharacterListActivity extends AppCompatActivity {
                 list.addAll(aksara.getAksarSwara());
                 swara = new String[]{"a", "i", "u", "e", "o"};
                 break;
+            case "Kata":;
+                Toast.makeText(getApplicationContext(), "Menu Kata", Toast.LENGTH_SHORT).show();
+                binding.rvKata.setLayoutManager(new LinearLayoutManager(this));
+                list.addAll(aksara.getExercise());
+                break;
         }
         binding.rvAksara.setHasFixedSize(true);
+        binding.rvKata.setHasFixedSize(true);
     }
 
     private void setRecycleView(){
@@ -166,7 +181,9 @@ public class CharacterListActivity extends AppCompatActivity {
                                             break;
                                     }
                                     Log.e("NILAI", String.valueOf(nilai[0]));
-                                    adapter.setNilai(nilai[0], type);
+                                    if(!jenis.equals("Kata")) {
+                                        adapter.setNilai(nilai[0], type);
+                                    }
                                     setView();
                                 } else {
                                     Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
@@ -196,51 +213,56 @@ public class CharacterListActivity extends AppCompatActivity {
             setView();
         }
 
-        adapter = new ListAksaraAdapter(list);
-        binding.rvAksara.setAdapter(adapter);
-        adapter.setNilai(nilai[0], type);
+        if(jenis.equals("Kata")){
+            adapter_word = new ListKataAdapter(list);
+            binding.rvKata.setAdapter(adapter_word);
 
-        adapter.setOnItemClickCallback(new ListAksaraAdapter.OnItemClickCallback() {
-            public void onItemClicked(Characters data){
-                switch (jenis) {
-                    case "Angka":
-                        index = Arrays.asList(angka).indexOf(data.getRomaji());
-                        break;
-                    case "Carakan":
-                        index = Arrays.asList(carakan).indexOf(data.getRomaji());
-                        break;
-                    case "Pasangan":
-                        index = Arrays.asList(pasangan).indexOf(data.getRomaji());
-                        break;
-                    case "Swara":
-                        index = Arrays.asList(swara).indexOf(data.getRomaji());
-                        break;
-                }
-                Log.e("INDEX", String.valueOf(index));
-
-                if(type.equals("learn")){
-                    Intent move = new Intent(CharacterListActivity.this, LearnActivity.class);
+            adapter_word.setOnItemClickCallback(new ListKataAdapter.OnItemClickCallback() {
+                public void onItemClicked(Characters data) {
+                    Intent move = new Intent(CharacterListActivity.this, PracticeActivity.class);
                     move.putExtra("image", data.getImage());
                     move.putExtra("aksara", data.getAksara());
                     move.putExtra("romaji", data.getRomaji());
                     move.putExtra("audio", data.getAudio());
-                    move.putExtra("character", String.valueOf(data));
                     move.putExtra("type", jenis);
                     startActivity(move);
-                } else if(type.equals("test")){
-                    Log.e("CEK NILAI", String.valueOf(nilai[0]));
-                    if(role.equals("Guru")) {
-                        Intent move = new Intent(CharacterListActivity.this, PracticeActivity.class);
+                }
+            });
+        } else {
+            adapter = new ListAksaraAdapter(list);
+            binding.rvAksara.setAdapter(adapter);
+            adapter.setNilai(nilai[0], type);
+
+            adapter.setOnItemClickCallback(new ListAksaraAdapter.OnItemClickCallback() {
+                public void onItemClicked(Characters data) {
+                    switch (jenis) {
+                        case "Angka":
+                            index = Arrays.asList(angka).indexOf(data.getRomaji());
+                            break;
+                        case "Carakan":
+                            index = Arrays.asList(carakan).indexOf(data.getRomaji());
+                            break;
+                        case "Pasangan":
+                            index = Arrays.asList(pasangan).indexOf(data.getRomaji());
+                            break;
+                        case "Swara":
+                            index = Arrays.asList(swara).indexOf(data.getRomaji());
+                            break;
+                    }
+                    Log.e("INDEX", String.valueOf(index));
+
+                    if (type.equals("learn")) {
+                        Intent move = new Intent(CharacterListActivity.this, LearnActivity.class);
                         move.putExtra("image", data.getImage());
                         move.putExtra("aksara", data.getAksara());
                         move.putExtra("romaji", data.getRomaji());
                         move.putExtra("audio", data.getAudio());
+                        move.putExtra("character", String.valueOf(data));
                         move.putExtra("type", jenis);
                         startActivity(move);
-                    } else {
-                        if (nilai[0] < index) {
-                            Toast.makeText(CharacterListActivity.this, "Maaf, Anda belum menyelesaikan huruf yang sebelumnya!", Toast.LENGTH_SHORT).show();
-                        } else {
+                    } else if (type.equals("test")) {
+                        Log.e("CEK NILAI", String.valueOf(nilai[0]));
+                        if (role.equals("Guru")) {
                             Intent move = new Intent(CharacterListActivity.this, PracticeActivity.class);
                             move.putExtra("image", data.getImage());
                             move.putExtra("aksara", data.getAksara());
@@ -248,46 +270,58 @@ public class CharacterListActivity extends AppCompatActivity {
                             move.putExtra("audio", data.getAudio());
                             move.putExtra("type", jenis);
                             startActivity(move);
+                        } else {
+                            if (nilai[0] < index) {
+                                Toast.makeText(CharacterListActivity.this, "Maaf, Anda belum menyelesaikan huruf yang sebelumnya!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Intent move = new Intent(CharacterListActivity.this, PracticeActivity.class);
+                                move.putExtra("image", data.getImage());
+                                move.putExtra("aksara", data.getAksara());
+                                move.putExtra("romaji", data.getRomaji());
+                                move.putExtra("audio", data.getAudio());
+                                move.putExtra("type", jenis);
+                                startActivity(move);
+                            }
                         }
-                    }
-                } else {
-                    MediaPlayer audio = MediaPlayer.create(CharacterListActivity.this, data.getAudio());
+                    } else {
+                        MediaPlayer audio = MediaPlayer.create(CharacterListActivity.this, data.getAudio());
 
-                    mDialog.setContentView(R.layout.char_detail_dialog);
-                    mDialog.setCancelable(false);
-                    ImageView img = mDialog.findViewById(R.id.imgChar_detail);
-                    TextView aksara = mDialog.findViewById(R.id.aksara);
-                    aksara.setText(data.getRomaji());
-                    Glide.with(getApplicationContext())
-                            .load(data.getImage())
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .into(img);
-                    mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
-                    mDialog.show();
+                        mDialog.setContentView(R.layout.char_detail_dialog);
+                        mDialog.setCancelable(false);
+                        ImageView img = mDialog.findViewById(R.id.imgChar_detail);
+                        TextView aksara = mDialog.findViewById(R.id.aksara);
+                        aksara.setText(data.getRomaji());
+                        Glide.with(getApplicationContext())
+                                .load(data.getImage())
+                                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                                .into(img);
+                        mDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                        mDialog.show();
 
-                    ImageButton btnClose = mDialog.findViewById(R.id.btn_close);
-                    ImageButton btnAudio = mDialog.findViewById(R.id.btn_audio);
+                        ImageButton btnClose = mDialog.findViewById(R.id.btn_close);
+                        ImageButton btnAudio = mDialog.findViewById(R.id.btn_audio);
 
-                    if (jenis.equals("Pasangan")){
-                        btnAudio.setVisibility(View.GONE);
-                    }
-
-                    btnClose.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            mDialog.dismiss();
+                        if (jenis.equals("Pasangan")) {
+                            btnAudio.setVisibility(View.GONE);
                         }
-                    });
-                    btnAudio.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            audio.start();
-                        }
-                    });
+
+                        btnClose.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                mDialog.dismiss();
+                            }
+                        });
+                        btnAudio.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                audio.start();
+                            }
+                        });
 //                    btnAudio.setOnClickListener { audio.start() };
+                    }
                 }
-            }
-        });
+            });
+        }
     }
 
     private boolean checkNetwork() {

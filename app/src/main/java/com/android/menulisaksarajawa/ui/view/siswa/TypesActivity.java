@@ -1,6 +1,8 @@
 package com.android.menulisaksarajawa.ui.view.siswa;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,9 +23,18 @@ public class TypesActivity extends AppCompatActivity {
         View view = binding.getRoot();
         setContentView(view);
 
+        SharedPreferences sharedPref = getApplicationContext().getSharedPreferences("WriteTypes", Context.MODE_PRIVATE);
+        String type = sharedPref.getString("write", "");
+
         setSupportActionBar(binding.toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
+
+        if(type.equals("test")){
+            binding.btnKata.setVisibility(View.VISIBLE);
+        } else {
+            binding.btnKata.setVisibility(View.GONE);
+        }
         binding.btnAngka.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -56,6 +67,15 @@ public class TypesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
                 move.putExtra("jenis", "Swara");
+                startActivity(move);
+            }
+        });
+
+        binding.btnKata.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent move = new Intent(TypesActivity.this, CharacterListActivity.class);
+                move.putExtra("jenis", "Kata");
                 startActivity(move);
             }
         });

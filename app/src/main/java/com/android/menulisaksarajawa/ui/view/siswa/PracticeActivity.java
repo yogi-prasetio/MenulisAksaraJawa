@@ -148,7 +148,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
 
         setType();
         if(role.equals("Siswa")) {
-            getNilai();
+            if(!type.equals("Kata")) {
+                getNilai();
+            }
         }
 
         listSize = listAksara.size()-1;
@@ -227,7 +229,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.test_menu, menu);
         this.menu = menu;
-        if(role.equals("Guru")) {
+        if(role.equals("Guru") || type.equals("Kata")) {
             menu.removeItem(R.id.indikator_nilai);
         } else {
             this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
@@ -551,6 +553,10 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_swara);
                 gLibrary.load();
                 id_jenis = "SWA";
+                break;
+            default:
+                gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
+                gLibrary.load();
                 break;
         }
     }
