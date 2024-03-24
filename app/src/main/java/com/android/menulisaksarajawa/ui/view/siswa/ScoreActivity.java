@@ -1,22 +1,32 @@
 package com.android.menulisaksarajawa.ui.view.siswa;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.android.menulisaksarajawa.R;
 import com.android.menulisaksarajawa.databinding.ActivityScoreBinding;
 import com.android.menulisaksarajawa.ui.database.Config;
 import com.android.menulisaksarajawa.ui.database.JSONParser;
+import com.android.menulisaksarajawa.ui.model.NilaiHistory;
 import com.android.menulisaksarajawa.ui.utils.PrefManager;
 import com.android.menulisaksarajawa.ui.view.GuideActivity;
 import com.android.menulisaksarajawa.ui.view.MainActivity;
@@ -28,6 +38,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+
 public class ScoreActivity extends AppCompatActivity {
 
     private ActivityScoreBinding binding;
@@ -36,6 +48,11 @@ public class ScoreActivity extends AppCompatActivity {
 
     private String carakan, pasangan, swara, angka, id_user, kelas, nama;
     private String id_carakan, id_pasangan, id_swara, id_angka;
+
+    private  MenuItem noteMenu;
+    private  Menu menu;
+    private Dialog noteDialog;
+    private EditText edNotes;
     @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +64,7 @@ public class ScoreActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
 
+        noteDialog = new Dialog(this);
         prefManager = new PrefManager(this);
         if(prefManager.getSPRole().equals("Siswa")){
             id_user = prefManager.getSPId();
@@ -59,6 +77,7 @@ public class ScoreActivity extends AppCompatActivity {
         }
 
         getNilai();
+        getNotes();
 
         binding.nilaiCarakan.setOnClickListener(new View.OnClickListener(){
             @Override
@@ -119,6 +138,19 @@ public class ScoreActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.note_menu, menu);
+        this.menu = menu;
+        if(prefManager.getSPRole().equals("Siswa")) {
+            menu.removeItem(R.id.btn_add_notes);
+        } else {
+            this.noteMenu = menu.findItem(R.id.btn_add_notes);
+        }
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             if(prefManager.getSPRole().equals("Siswa")) {
@@ -129,6 +161,25 @@ public class ScoreActivity extends AppCompatActivity {
                 move.putExtra("kelas", kelas);
                 startActivity(move);
             }
+        } else if (item.getItemId() == R.id.btn_add_notes) {
+            noteDialog.setContentView(R.layout.notes_dialog);
+            Button btnSubmit = noteDialog.findViewById(R.id.btn_submit);
+            edNotes = noteDialog.findViewById(R.id.ed_notes);
+            noteDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            noteDialog.show();
+
+            btnSubmit.setOnClickListener(new View.OnClickListener(){
+
+                @Override
+                public void onClick(View view) {
+                    String notes = edNotes.getText().toString();
+                    if (notes.isEmpty()) {
+                        edNotes.setError("Catatan tidak boleh kosong");
+                    } else {
+                        addNotes();
+                    }
+                }
+            });
         }
         return super.onOptionsItemSelected(item);
     }
@@ -211,6 +262,109 @@ public class ScoreActivity extends AppCompatActivity {
             na.execute();
         }
     }
+
+    private void getNotes(){
+        if (!checkNetwork()){
+            Toast.makeText(this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
+        } else {
+            class GetNotes extends AsyncTask<Void, Void, JSONObject> {
+                ProgressDialog loading;
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    loading = ProgressDialog.show(ScoreActivity.this, "Loading...", "Tunggu sebentar...", false, false);
+                }
+
+                @Override
+                protected void onPostExecute(JSONObject result) {
+                    super.onPostExecute(result);
+                    try {
+                        if (result.getString("status").equals("1")) {
+                            JSONArray data = result.getJSONArray("data");
+
+                            if(data.length() > 0) {
+                                String notes = "";
+                                for(int i=0; i<data.length(); i++) {
+                                    notes += i+1 + ". " +data.getJSONObject(i).getString("notes") + "\n";
+                                }
+                                binding.notes.setText(notes);
+                            } else {
+                                binding.cardNotes.setVisibility(View.GONE);
+                            }
+                        } else {
+                            Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+                        loading.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                protected JSONObject doInBackground(Void... v) {
+                    ArrayList params = new ArrayList();
+                    params.add(id_user);
+
+                    JSONObject json = jsonParser.makeHttpRequest(Config.URL_GET_NOTES_BY_USER, "GET", params);
+                    return json;
+                }
+            }
+
+            GetNotes na = new GetNotes();
+            na.execute();
+        }
+    }
+
+    private void addNotes(){
+        if (!checkNetwork()){
+            Toast.makeText(this, "Tidak ada koneksi internet!", Toast.LENGTH_LONG).show();
+        } else {
+            class AddNotes extends AsyncTask<Void, Void, JSONObject> {
+                ProgressDialog loading;
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    loading = ProgressDialog.show(ScoreActivity.this, "Loading...", "Tunggu sebentar...", false, false);
+                }
+
+                @Override
+                protected void onPostExecute(JSONObject result) {
+                    super.onPostExecute(result);
+                    try {
+                        if (result.getString("status").equals("1")) {
+                            noteDialog.dismiss();
+
+                            Intent intent = getIntent();
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NO_ANIMATION);
+                            finish();
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
+                        }
+                        loading.dismiss();
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                protected JSONObject doInBackground(Void... v) {
+                    ArrayList params = new ArrayList();
+
+                    params.add(new BasicNameValuePair("id_user", id_user));
+                    params.add(new BasicNameValuePair("notes", edNotes.getText().toString()));
+
+                    return jsonParser.makeHttpRequest(Config.URL_ADD_NOTES, "POST", params);
+                }
+            }
+
+            AddNotes na = new AddNotes();
+            na.execute();
+        }
+    }
+
     private boolean checkNetwork() {
         ConnectivityManager network = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         return network.getActiveNetworkInfo() != null;

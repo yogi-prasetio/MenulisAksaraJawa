@@ -12,6 +12,8 @@ public class Config {
     public static final String URL_RESET_NILAI="https://undanganforyou.my.id/aksarajawa/nilai/reset";
     public static final String URL_ADD_NILAI_HISTORY="https://undanganforyou.my.id/aksarajawa/nilai/addHistory";
     public static final String URL_GET_NILAI_HISTORY="https://undanganforyou.my.id/aksarajawa/nilai/history/";
+    public static final String URL_GET_NOTES_BY_USER="https://undanganforyou.my.id/aksarajawa/notes/";
+    public static final String URL_ADD_NOTES="https://undanganforyou.my.id/aksarajawa/notes/add/";
 
     public static final String URL_GET_AKSARA="https://undanganforyou.my.id/aksarajawa/aksara/";
 
