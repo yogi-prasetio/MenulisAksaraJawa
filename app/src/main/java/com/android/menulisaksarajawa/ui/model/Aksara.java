@@ -94,8 +94,8 @@ public class Aksara{
     public List<Characters> getExercise() {
         List<Characters> words = new ArrayList<Characters>();
 
-        words.add(new Characters(null, null, "Bung Karno", null));
-        words.add(new Characters(null, null, "Agus Salim", null));
+        words.add(new Characters(null, null, "JAMAN", null));
+        words.add(new Characters(null, null, "PUNA", null));
         return words;
     }
 }

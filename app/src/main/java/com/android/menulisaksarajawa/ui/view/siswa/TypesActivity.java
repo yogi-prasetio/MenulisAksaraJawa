@@ -31,7 +31,7 @@ public class TypesActivity extends AppCompatActivity {
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
 
         if(type.equals("test")){
-//            binding.btnKata.setVisibility(View.VISIBLE);
+            binding.btnKata.setVisibility(View.VISIBLE);
         } else {
             binding.btnKata.setVisibility(View.GONE);
         }

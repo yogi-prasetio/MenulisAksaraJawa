@@ -47,8 +47,8 @@ public class NilaiDetail extends AppCompatActivity {
     private List<Nilai> list = new ArrayList<>();
     private JSONParser jsonParser = new JSONParser();
     private String kelas;
-    private String start_angka, start_carakan, start_pasangan, start_swara;
-    private String last_angka, last_carakan, last_pasangan, last_swara, title;
+    private String start_angka, start_carakan, start_pasangan, start_swara, start_kata;
+    private String last_angka, last_carakan, last_pasangan, last_swara, last_kata, title;
     private Dialog mDialog;
 
     @Override
@@ -128,7 +128,7 @@ public class NilaiDetail extends AppCompatActivity {
                         JSONArray data = result.getJSONArray("data");
                         JSONArray dataNilai = null;
 
-                        String id_user = "", name = "", angka = "0", carakan = "0", pasangan = "0", swara = "0", jenis;
+                        String id_user = "", name = "", angka = "0", carakan = "0", pasangan = "0", swara = "0", kata = "0", jenis;
                         int total = 0;
                         for (int i = 0; i < data.length(); i++) {
                             dataNilai = data.getJSONArray(i);
@@ -157,10 +157,15 @@ public class NilaiDetail extends AppCompatActivity {
                                         start_swara = dataNilai.getJSONObject(j).getString("createdAt");
                                         last_swara = dataNilai.getJSONObject(j).getString("modifiedAt");
                                         break;
+                                    case "Kata":
+                                        kata = dataNilai.getJSONObject(j).getString("nilai");
+                                        start_kata = dataNilai.getJSONObject(j).getString("createdAt");
+                                        last_kata = dataNilai.getJSONObject(j).getString("modifiedAt");
+                                        break;
                                 }
-                                total = (Integer.parseInt(angka)) + (Integer.parseInt(carakan)) + (Integer.parseInt(pasangan)) + (Integer.parseInt(swara));
+                                total = (Integer.parseInt(angka)) + (Integer.parseInt(carakan)) + (Integer.parseInt(pasangan)) + (Integer.parseInt(swara)) + (Integer.parseInt(kata));
                             }
-                            list.add(new Nilai(id_user, name, angka, carakan, pasangan, swara, String.valueOf(total), start_angka, start_carakan, start_pasangan, start_swara, last_angka, last_carakan, last_pasangan, last_swara));
+                            list.add(new Nilai(id_user, name, angka, carakan, pasangan, swara, kata, String.valueOf(total), start_angka, start_carakan, start_pasangan, start_swara, start_kata, last_angka, last_carakan, last_pasangan, last_swara, last_kata));
                             Log.i("NILAI USER", angka + " : " + carakan + " : " + total);
                         }
 

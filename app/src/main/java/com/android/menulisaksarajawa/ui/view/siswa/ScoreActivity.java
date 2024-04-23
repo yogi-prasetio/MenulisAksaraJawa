@@ -46,8 +46,8 @@ public class ScoreActivity extends AppCompatActivity {
     PrefManager prefManager;
     JSONParser jsonParser=new JSONParser();
 
-    private String carakan, pasangan, swara, angka, id_user, kelas, nama;
-    private String id_carakan, id_pasangan, id_swara, id_angka;
+    private String carakan, pasangan, swara, angka, kata, id_user, kelas, nama;
+    private String id_carakan, id_pasangan, id_swara, id_angka, id_kata;
 
     private  MenuItem noteMenu;
     private  Menu menu;
@@ -135,6 +135,20 @@ public class ScoreActivity extends AppCompatActivity {
                 startActivity(move);
             }
         });
+        binding.nilaiKata.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                Intent move = new Intent(ScoreActivity.this, NilaiHistoryActivity.class);
+                move.putExtra("title", getIntent().getStringExtra("title"));
+                move.putExtra("nama", nama);
+                move.putExtra("kelas", kelas);
+                move.putExtra("id_user", id_user);
+                move.putExtra("id_nilai", id_kata);
+                move.putExtra("id_jenis", "KTA");
+                move.putExtra("jenis", "Kata");
+                startActivity(move);
+            }
+        });
     }
 
     @Override
@@ -208,26 +222,31 @@ public class ScoreActivity extends AppCompatActivity {
                             id_carakan = data.getJSONObject(1).getString("id_nilai");
                             id_pasangan = data.getJSONObject(2).getString("id_nilai");
                             id_swara = data.getJSONObject(3).getString("id_nilai");
+                            id_kata = data.getJSONObject(4).getString("id_nilai");
 
                             angka = data.getJSONObject(0).getString("nilai");
                             carakan = data.getJSONObject(1).getString("nilai");
                             pasangan = data.getJSONObject(2).getString("nilai");
                             swara = data.getJSONObject(3).getString("nilai");
+                            kata = data.getJSONObject(4).getString("nilai");
 
                             String start_angka = data.getJSONObject(0).getString("createdAt");
                             String start_carakan = data.getJSONObject(1).getString("createdAt");
                             String start_pasangan = data.getJSONObject(2).getString("createdAt");
                             String start_swara = data.getJSONObject(3).getString("createdAt");
+                            String start_kata = data.getJSONObject(4).getString("createdAt");
 
                             String last_angka = data.getJSONObject(0).getString("modifiedAt");
                             String last_carakan = data.getJSONObject(1).getString("modifiedAt");
                             String last_pasangan = data.getJSONObject(2).getString("modifiedAt");
                             String last_swara = data.getJSONObject(3).getString("modifiedAt");
+                            String last_kata = data.getJSONObject(4).getString("modifiedAt");
 
                             binding.tvScoreAngka.setText(angka + "/10");
                             binding.tvScoreCarakan.setText(carakan + "/20");
                             binding.tvScorePasangan.setText(pasangan + "/20");
                             binding.tvScoreSwara.setText(swara + "/5");
+                            binding.tvScoreKata.setText(kata + "/2");
 
 //                            binding.startAngka.setText(start_angka.equals("null") ? "Mulai : -" : "Mulai : " + start_angka);
 //                            binding.startCarakan.setText(start_carakan.equals("null") ? "Mulai : -" : "Mulai : " + start_carakan);

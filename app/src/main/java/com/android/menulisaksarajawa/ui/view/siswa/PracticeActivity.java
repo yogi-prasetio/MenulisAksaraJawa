@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ActivityInfo;
 import android.content.res.AssetFileDescriptor;
+import android.content.res.Configuration;
 import android.gesture.Gesture;
 import android.gesture.GestureLibraries;
 import android.gesture.GestureLibrary;
@@ -80,7 +82,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
     private GestureOverlayView gesture;
 
     private String romaji, type, userId, indikator;
-    private int aksara, image, audio, index = 1, listSize = 0, nilai_proses;
+    private int aksara, image, audio, index = 1, listSize = 0, nilai_proses, orientation;
     private  MenuItem indicatorMenu;
     private  Menu menu;
 
@@ -96,6 +98,7 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         super.onCreate(savedInstanceState);
         binding = ActivityPracticeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.progressBar.setVisibility(View.GONE);
 
         sharedPref = getApplicationContext().getSharedPreferences("Test", Context.MODE_PRIVATE);
         spEditor = sharedPref.edit();
@@ -123,15 +126,20 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         romaji = getIntent().getStringExtra("romaji");
         audio = getIntent().getIntExtra("audio", 0);
 
-        InputStream assets = null;
-        try {
-            assets = getAssets().open("letters/"+romaji+".png");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        //SET SCREEN ORIENTATION
+//        orientation = this.getRequestedOrientation();
+        orientation = this.getResources().getConfiguration().orientation;
+        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+            InputStream assets = null;
+            try {
+                assets = getAssets().open("letters/"+romaji+".png");
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            Bitmap img = BitmapFactory.decodeStream(assets);
+            binding.myanimation.setImageBitmap(img);
+            binding.tvCharInfo.setText(romaji);
         }
-        Bitmap img = BitmapFactory.decodeStream(assets);
-        binding.myanimation.setImageBitmap(img);
-        binding.tvCharInfo.setText(romaji);
 
         binding.btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,21 +155,27 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         });
 
         setType();
-        if(role.equals("Siswa")) {
-            if(!type.equals("Kata")) {
-                getNilai();
-            }
-        }
 
         listSize = listAksara.size()-1;
         result = new ArrayList<>();
+
+        if(type.equals("Kata")){
+            binding.btnBefore.setVisibility(View.GONE);
+            binding.btnNext.setVisibility(View.GONE);
+        }
 
         if(role.equals("Siswa")) {
             binding.btnNext.setVisibility(View.GONE);
             if (index == listSize) {
                 binding.btnNext.setVisibility(View.GONE);
             }
+
+            if(type.equals("Kata")){
+                binding.btnBefore.setVisibility(View.GONE);
+                binding.btnNext.setVisibility(View.GONE);
+            }
         } else if(role.equals("Guru")) {
+
             binding.btnSave.setVisibility((View.GONE));
             if (index == 0) {
                 binding.btnBefore.setVisibility(View.GONE);
@@ -172,15 +186,29 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 binding.btnNext.setVisibility(View.VISIBLE);
                 binding.btnBefore.setVisibility(View.VISIBLE);
             }
+
+            if(type.equals("Kata")){
+                binding.btnBefore.setVisibility(View.GONE);
+                binding.btnNext.setVisibility(View.GONE);
+            }
         }
 
         setSupportActionBar(binding.toolbar);
-        getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
+        if(type.equals("Kata")){
+            getSupportActionBar().setTitle("Menulis Kata " +romaji.toUpperCase());
+        } else {
+            getSupportActionBar().setTitle("Menulis Aksara " +romaji.toUpperCase());
+        }
         getSupportActionBar().setElevation(0F);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_back_circle);
         setLetterChar(romaji);
 
+        if(role.equals("Siswa")) {
+//            if(!type.equals("Kata")) {
+                getNilai();
+//            }
+        }
         gesture = binding.gestureOverlay;
         gesture.addOnGestureListener(this);
         gesture.addOnGesturePerformedListener(new GestureOverlayView.OnGesturePerformedListener() {
@@ -229,10 +257,12 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.test_menu, menu);
         this.menu = menu;
-        if(role.equals("Guru") || type.equals("Kata")) {
+
+        if(role.equals("Guru")) {
             menu.removeItem(R.id.indikator_nilai);
         } else {
             this.indicatorMenu = menu.findItem(R.id.indikator_nilai);
+            indicatorMenu = menu.findItem(R.id.indikator_nilai);
         }
         return true;
     }
@@ -384,14 +414,17 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
             spEditor.putString("start", dateFormat.format(date));
             spEditor.commit();
         }
-
+//
+//        Toast.makeText(getApplicationContext(), String.valueOf(prediction.get(0).score), Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), prediction.get(0).name, Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getApplicationContext(), "CHAR "+romaji.toLowerCase(), Toast.LENGTH_SHORT).show();
         if (prediction.size() < 1 || prediction.get(0).score <= 3.0) {
             ab.setTitle("Salah");
             ab.setMessage("aksara yang Anda tulis tidak tepat.");
             ab.setPositiveButton("Coba lagi", null);
             ab.show();
             result.clear();
-        } else if (prediction.get(0).name.equals(romaji)) {
+        } else if (prediction.get(0).name.equals(romaji) || prediction.get(0).name.equals(romaji.toLowerCase())) {
 
             class UpdateNilai extends AsyncTask<Void, Void, JSONObject> {
                 @Override
@@ -423,9 +456,28 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                                 indicatorMenu = menu.findItem(R.id.indikator_nilai);
                                 indicatorMenu.setTitle((nilai+1)+"/"+listAksara.size());
                             }
-                            binding.btnNext.setVisibility(View.VISIBLE);
                             binding.progressBar.setVisibility(View.GONE);
-                            binding.canvas.setVisibility(View.VISIBLE);
+
+                            if(!type.equals("Kata")) {
+                                binding.btnNext.setVisibility(View.VISIBLE);
+                                binding.canvas.setVisibility(View.VISIBLE);
+                            } else {
+                                if (index == listSize) {
+                                    binding.canvas.setVisibility(View.VISIBLE);
+                                    binding.btnNext.setVisibility(View.GONE);
+                                } else {
+                                    Characters data = listAksara.get(index + 1);
+                                    finish();
+                                    overridePendingTransition(500, 500);
+                                    Intent intent = new Intent(PracticeActivity.this, PracticeActivity.class);
+                                    intent.putExtra("aksara", data.getAksara());
+                                    intent.putExtra("romaji", data.getRomaji());
+                                    intent.putExtra("audio", data.getAudio());
+                                    intent.putExtra("type", type);
+                                    startActivity(intent);
+                                    overridePendingTransition(500, 500);
+                                }
+                            }
                         } else {
                             Toast.makeText(getApplicationContext(), result.getString("message"), Toast.LENGTH_LONG).show();
                         }
@@ -482,8 +534,10 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 ab.show();
 
                 if(role.equals("Siswa")) {
-                    UpdateNilai na = new UpdateNilai();
-                    na.execute();
+//                    if(!type.equals("Kata")) {
+                        UpdateNilai na = new UpdateNilai();
+                        na.execute();
+//                    }
                 }
 //            }
 
@@ -554,6 +608,14 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                 gLibrary.load();
                 id_jenis = "SWA";
                 break;
+            case "Kata":
+                listAksara.addAll(aksara.getExercise());
+                String[] kata = {"JAMAN", "PUNA"};
+                index = Arrays.asList(kata).indexOf(romaji);
+                gLibrary = GestureLibraries.fromRawResource(this, R.raw.gesture_kata);
+                gLibrary.load();
+                id_jenis = "KTA";
+                break;
             default:
                 gLibrary = GestureLibraries.fromRawResource(this, R.raw.gestures_angka);
                 gLibrary.load();
@@ -581,7 +643,6 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                     if (result.getString("status").equals("1")) {
                         JSONArray data = result.getJSONArray("data");
 
-                        indicatorMenu = menu.findItem(R.id.indikator_nilai);
                         switch (type) {
                             case "Angka":
                                 id_nilai = data.getJSONObject(0).getString("id_nilai");
@@ -603,6 +664,14 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                                 nilai = data.getJSONObject(3).getString("nilai");
                                 indicatorMenu.setTitle(nilai+"/5");
                                 break;
+                            case "Kata":
+                                id_nilai = data.getJSONObject(4).getString("id_nilai");
+                                nilai = data.getJSONObject(4).getString("nilai");
+                                indicatorMenu.setTitle(nilai+"/2");
+//                                orientation.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+                                menu.removeItem(R.id.btn_info);
+                                break;
                         }
                         indikator = this.nilai;
                         int idx = index + 1;
@@ -613,7 +682,9 @@ public class PracticeActivity extends AppCompatActivity implements GestureOverla
                             Log.e("INDEX", nil+" = "+idx);
                             binding.btnNext.setVisibility(View.GONE);
                         } else {
-                            binding.btnNext.setVisibility(View.VISIBLE);
+                            if(!type.equals("Kata")) {
+                                binding.btnNext.setVisibility(View.VISIBLE);
+                            }
                         }
                         binding.progressBar.setVisibility(View.GONE);
                         binding.canvas.setVisibility(View.VISIBLE);

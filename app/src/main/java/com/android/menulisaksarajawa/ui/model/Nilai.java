@@ -8,6 +8,7 @@ public class Nilai {
     private String carakan;
     private String pasangan;
     private String swara;
+    private String kata;
 
     private String start_angka;
     private String last_angka;
@@ -17,26 +18,31 @@ public class Nilai {
     private String last_pasangan;
     private String start_swara;
     private String last_swara;
+    private String start_kata;
+    private String last_kata;
 
     private String total;
     
-    public Nilai(String id_user, String name, String angka, String carakan, String pasangan, String swara, String total, String last_angka, String start_carakan, String start_pasangan, String start_swara, String start_angka, String last_carakan, String last_pasangan, String last_swara){
+    public Nilai(String id_user, String name, String angka, String carakan, String pasangan, String swara, String kata, String total, String last_angka, String start_carakan, String start_pasangan, String start_swara, String start_angka, String start_kata, String last_carakan, String last_pasangan, String last_swara, String last_kata){
         this.id_user = id_user;
         this.name = name;
         this.angka = angka;
         this.carakan = carakan;
         this.pasangan = pasangan;
         this.swara = swara;
+        this.kata = kata;
         this.total = total;
 
         this.start_angka = start_angka;
         this.start_carakan = start_carakan;
         this.start_pasangan = start_pasangan;
         this.start_swara = start_swara;
+        this.start_kata = start_kata;
         this.last_angka = last_angka;
         this.last_carakan = last_carakan;
         this.last_pasangan = last_pasangan;
         this.last_swara = last_swara;
+        this.last_kata = last_kata;
     }
 
     public String getId_user() {
@@ -85,6 +91,13 @@ public class Nilai {
 
     public void setSwara(String swara) {
         this.swara = swara;
+    }
+    public String getKata() {
+        return kata;
+    }
+
+    public void setKata(String kata) {
+        this.kata = kata;
     }
 
     public String getTotal() {

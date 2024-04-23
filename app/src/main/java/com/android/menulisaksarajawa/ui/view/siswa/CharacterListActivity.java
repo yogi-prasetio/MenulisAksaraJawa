@@ -131,7 +131,6 @@ public class CharacterListActivity extends AppCompatActivity {
                 swara = new String[]{"a", "i", "u", "e", "o"};
                 break;
             case "Kata":;
-                Toast.makeText(getApplicationContext(), "Menu Kata", Toast.LENGTH_SHORT).show();
                 binding.rvKata.setLayoutManager(new LinearLayoutManager(this));
                 list.addAll(aksara.getExercise());
                 break;
